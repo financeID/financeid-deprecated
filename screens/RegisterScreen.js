@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import * as Yup from 'yup';
-
+import * as firebase from 'firebase';
 import Colors from '../utils/colors';
 import SafeView from '../components/SafeView';
 import Form from '../components/Forms/Form';
@@ -11,6 +11,7 @@ import IconButton from '../components/IconButton';
 import FormErrorMessage from '../components/Forms/FormErrorMessage';
 import { registerWithEmail } from '../components/Firebase/firebase';
 import useStatusBar from '../hooks/useStatusBar';
+import { TextInput } from 'react-native-gesture-handler';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string()
@@ -61,9 +62,15 @@ export default function RegisterScreen({ navigation }) {
   }
 
   async function handleOnSignUp(values, actions) {
-    const { email, password } = values;
+    const { name, email, password } = values;
+
     try {
-      await registerWithEmail(email, password);
+      await registerWithEmail(email, password).then((res) => {
+        return firebase.database().ref('users/' + res.user.uid).set({
+          firstName: name,
+          email: email,
+        })
+      })
     } catch (error) {
       setRegisterError(error.message);
     }
@@ -84,8 +91,9 @@ export default function RegisterScreen({ navigation }) {
         <FormField
           name="name"
           leftIcon="account"
+          autoCapitalize="words"
           placeholder="Enter name"
-          autoFocus={true}
+          autoFocus
         />
         <FormField
           name="email"
