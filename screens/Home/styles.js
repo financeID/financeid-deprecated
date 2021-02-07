@@ -7,8 +7,8 @@ export const Container = styled.View`
 `;
 
 export const Header = styled.Text`
-margin-top: 25px;
-color: #404040;
+  margin-top: 25px;
+  color: #404040;
   font-size: 23px;
   font-weight: bold;
 `;
@@ -51,4 +51,32 @@ export const DataSubText = styled.Text`
 export const DataView = styled.View`
   flex-direction: row;
   align-items: center;
+`;
+
+export const BoxContainer = styled.View`
+  margin-top: 15px;
+  height: 115px;
+`;
+
+export const BoxTag = styled.View`
+  background-color: #f8f8ff;
+  border-radius: 5px;
+  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2);
+  elevation: 7;
+  margin: 10px 15px 0px 6px;
+  padding: 15px;
+  width: 140px;
+  height: 90px;
+`;
+
+export const BoxTagText = styled.Text`
+  font-size: 18px;
+  font-weight: 700;
+  color: #404040;
+`;
+
+export const BoxTagPriceText = styled.Text`
+  font-size: 14px;
+  font-weight: bold;
+  color: #979797;
 `;

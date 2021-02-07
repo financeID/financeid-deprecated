@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Image } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 import * as firebase from 'firebase';
 import useStatusBar from '../../hooks/useStatusBar';
 import { auth, logout } from '../../components/Firebase/firebase';
@@ -7,9 +7,9 @@ import { getStatusBarHeight } from 'react-native-status-bar-height';
 
 import { ProgressCircle } from 'react-native-svg-charts';
 
-import { Text, G } from 'react-native-svg';
+import { Text as TextSvg, G } from 'react-native-svg';
 
-import { Container, Header, ControlContainer, ProgressView, CircleContainerText, DataContainer, DataText, DataSubText, DataView } from './styles';
+import { Container, Header, ControlContainer, ProgressView, CircleContainerText, DataContainer, DataText, DataSubText, DataView, BoxContainer, BoxTag, BoxTagText, BoxTagPriceText } from './styles';
 
 import BagIcon from "../../assets/bag.svg";
 import UpArrowIcon from "../../assets/up-arrow.svg";
@@ -38,17 +38,17 @@ export default function HomeScreen() {
 
     const TextProgressIncome = () => (
         <G>
-            <Text x="0" y="7" fill="#588A36" textAnchor="middle" fontSize={20} fontWeight="bold">
+            <TextSvg x="0" y="7" fill="#588A36" textAnchor="middle" fontSize={20} fontWeight="bold">
                 80%
-            </Text>
+            </TextSvg>
         </G>
     );
 
     const TextProgressExpenses = () => (
         <G>
-            <Text x="0" y="7" fill="#BB3E5D" textAnchor="middle" fontSize={20} fontWeight="bold">
+            <TextSvg x="0" y="7" fill="#BB3E5D" textAnchor="middle" fontSize={20} fontWeight="bold">
                 50%
-            </Text>
+            </TextSvg>
         </G>
     );
 
@@ -122,6 +122,30 @@ export default function HomeScreen() {
 
 
             <Header>Para onde está indo {"\n"}seu dinheiro?</Header>
+
+            <BoxContainer>
+                <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                    <View>
+                        <BoxTag>
+                            <BoxTagText>Receitas</BoxTagText>
+                            <BoxTagPriceText>R$2.400,00</BoxTagPriceText>
+                        </BoxTag>
+                    </View>
+                    <View>
+                        <BoxTag>
+                            <BoxTagText>Automóvel</BoxTagText>
+                            <BoxTagPriceText>R$1.230,20</BoxTagPriceText>
+                        </BoxTag>
+                    </View>
+
+                    <View>
+                        <BoxTag>
+                            <BoxTagText>Automóvel</BoxTagText>
+                            <BoxTagPriceText>R$1.230,20</BoxTagPriceText>
+                        </BoxTag>
+                    </View>
+                </ScrollView>
+            </BoxContainer>
         </Container>
     );
 }
