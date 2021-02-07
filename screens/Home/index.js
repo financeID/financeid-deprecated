@@ -5,7 +5,7 @@ import useStatusBar from '../../hooks/useStatusBar';
 import { auth, logout } from '../../components/Firebase/firebase';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 
-import { ProgressCircle } from 'react-native-svg-charts';
+import { ProgressCircle, StackedBarChart } from 'react-native-svg-charts';
 
 import { Text as TextSvg, G } from 'react-native-svg';
 
@@ -127,25 +127,51 @@ export default function HomeScreen() {
                 <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                     <View>
                         <BoxTag>
-                            <BoxTagText>Receitas</BoxTagText>
-                            <BoxTagPriceText>R$2.400,00</BoxTagPriceText>
+                            <BoxTagText numberOfLines={1}>Receitas</BoxTagText>
+                            <BoxTagPriceText numberOfLines={1}>R$2.400,00</BoxTagPriceText>
+                            <StackedBarChart
+                                style={{ height: 4 }}
+                                keys={['incomes', 'outcomes']}
+                                colors={['#588A36', '#dddddd']}
+                                data={[{ month: new Date(2015, 0, 1), incomes: 3840, outcomes: 1920 }]}
+                                showGrid={false}
+                                horizontal={true}
+                            />
                         </BoxTag>
                     </View>
                     <View>
                         <BoxTag>
-                            <BoxTagText>Automóvel</BoxTagText>
-                            <BoxTagPriceText>R$1.230,20</BoxTagPriceText>
+                            <BoxTagText numberOfLines={1}>Automóvel</BoxTagText>
+                            <BoxTagPriceText numberOfLines={1}>R$1.230,20</BoxTagPriceText>
+                            <StackedBarChart
+                                style={{ height: 4 }}
+                                keys={['incomes', 'outcomes']}
+                                colors={['#588A36', '#dddddd']}
+                                data={[{ month: new Date(2015, 0, 1), incomes: 3840, outcomes: 10020 }]}
+                                showGrid={false}
+                                horizontal={true}
+                            />
                         </BoxTag>
                     </View>
 
                     <View>
                         <BoxTag>
-                            <BoxTagText>Automóvel</BoxTagText>
-                            <BoxTagPriceText>R$1.230,20</BoxTagPriceText>
+                            <BoxTagText numberOfLines={1}>Automóvel</BoxTagText>
+                            <BoxTagPriceText numberOfLines={1}>R$1.230,20</BoxTagPriceText>
+                            <StackedBarChart
+                                style={{ height: 4 }}
+                                keys={['incomes', 'outcomes']}
+                                colors={['#588A36', '#dddddd']}
+                                data={[{ month: new Date(2015, 0, 1), incomes: 8440, outcomes: 1920 }]}
+                                showGrid={false}
+                                horizontal={true}
+                            />
                         </BoxTag>
                     </View>
                 </ScrollView>
             </BoxContainer>
+
+            <Header>Despesas em aberto</Header>
         </Container>
     );
 }

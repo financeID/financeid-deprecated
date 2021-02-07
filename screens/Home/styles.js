@@ -54,7 +54,7 @@ export const DataView = styled.View`
 `;
 
 export const BoxContainer = styled.View`
-  margin-top: 15px;
+  margin-top: 5px;
   height: 115px;
 `;
 
@@ -77,6 +77,7 @@ export const BoxTagText = styled.Text`
 
 export const BoxTagPriceText = styled.Text`
   font-size: 14px;
+  margin-bottom: 10px;
   font-weight: bold;
   color: #979797;
 `;
