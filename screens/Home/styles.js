@@ -1,5 +1,5 @@
-import { Platform } from 'react-native';
-import styled, { css } from 'styled-components/native';
+import {Platform} from 'react-native';
+import styled, {css} from 'styled-components/native';
 
 export const Container = styled.View`
   flex: 1;
@@ -14,15 +14,14 @@ export const Header = styled.Text`
 `;
 
 export const ControlContainer = styled.View`
-    flex-direction: row;
-    margin-top: 15px;
-`
-
-export const ProgressView = styled.View`
-    margin-right: 15px;
-    align-items: center;
+  flex-direction: row;
+  margin-top: 15px;
 `;
 
+export const ProgressView = styled.View`
+  margin-right: 15px;
+  align-items: center;
+`;
 
 export const CircleContainerText = styled.Text`
   font-size: 15px;
@@ -31,8 +30,8 @@ export const CircleContainerText = styled.Text`
 `;
 
 export const DataContainer = styled.View`
-    flex: 1;
-    align-items: flex-end;
+  flex: 1;
+  align-items: flex-end;
 `;
 
 export const DataText = styled.Text`
@@ -42,10 +41,17 @@ export const DataText = styled.Text`
 `;
 
 export const DataSubText = styled.Text`
-    ${Platform.select({ ios: css`padding-bottom: 9px`, android: css`padding-bottom: 3px` })};
-    font-size: 12px;
-    color: #979797;
-    font-weight: bold;
+  ${Platform.select({
+    ios: css`
+      padding-bottom: 9px;
+    `,
+    android: css`
+      padding-bottom: 3px;
+    `,
+  })};
+  font-size: 12px;
+  color: #979797;
+  font-weight: bold;
 `;
 
 export const DataView = styled.View`
