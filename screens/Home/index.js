@@ -1,5 +1,7 @@
-import React from 'react';
-import {View, ScrollView} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {View, ScrollView, Text} from 'react-native';
+import * as firebase from 'firebase';
+import {auth} from '../../components/Firebase/firebase';
 import useStatusBar from '../../hooks/useStatusBar';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 
@@ -29,6 +31,34 @@ import DownArrowIcon from '../../assets/down-arrow.svg';
 
 export default function HomeScreen() {
   useStatusBar('dark-content');
+
+  const [transactions, setTransactions] = useState([]);
+
+  const {uid} = auth.currentUser;
+
+  const snapshotToArray = (snapshot) => {
+    var returnArr = [];
+
+    snapshot.forEach(function (childSnapshot) {
+      var item = childSnapshot.val();
+      item.key = childSnapshot.key;
+
+      returnArr.push(item);
+    });
+
+    return returnArr;
+  };
+
+  useEffect(() => {
+    const data = firebase.database().ref('users/' + uid + '/transactions');
+
+    data
+      .orderByChild('type')
+      .equalTo('output')
+      .on('value', (snapshot) => {
+        setTransactions(snapshotToArray(snapshot));
+      });
+  }, []);
 
   const TextProgressIncome = () => (
     <G>
@@ -177,6 +207,9 @@ export default function HomeScreen() {
       </BoxContainer>
 
       <Header>Despesas em aberto</Header>
+      {transactions.map((item) => {
+        return <Text key={item.key}>{item.name}</Text>;
+      })}
     </Container>
   );
 }
