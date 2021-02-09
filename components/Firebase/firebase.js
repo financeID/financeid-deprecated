@@ -19,4 +19,4 @@ export const registerWithEmail = (email, password) =>
 
 export const logout = () => auth.signOut();
 
-export const passwordReset = email => auth.sendPasswordResetEmail(email);
+export const passwordReset = (email) => auth.sendPasswordResetEmail(email);

@@ -1,11 +1,14 @@
-import React from 'react';
-import {View, ScrollView} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {View, ScrollView, Text} from 'react-native';
+import * as firebase from 'firebase';
+import {auth} from '../../components/Firebase/firebase';
 import useStatusBar from '../../hooks/useStatusBar';
+import snapshotToArray from '../../utils/snapshotToArray';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
+import {StackedBarChart} from 'react-native-svg-charts';
 
-import {ProgressCircle, StackedBarChart} from 'react-native-svg-charts';
-
-import {Text as TextSvg, G} from 'react-native-svg';
+import ProgressIncome from '../../components/ProgressIncome';
+import ProgressOutcome from '../../components/ProgressOutcome';
 
 import {
   Container,
@@ -30,35 +33,44 @@ import DownArrowIcon from '../../assets/down-arrow.svg';
 export default function HomeScreen() {
   useStatusBar('dark-content');
 
-  const TextProgressIncome = () => (
-    <G>
-      <TextSvg
-        x="0"
-        y="7"
-        fill="#588A36"
-        textAnchor="middle"
-        fontSize={20}
-        fontWeight="bold"
-      >
-        80%
-      </TextSvg>
-    </G>
+  const [transactions, setTransactions] = useState([]);
+
+  const {uid} = auth.currentUser;
+
+  const balance = transactions.reduce(
+    (accumulator, transaction) => {
+      switch (transaction.type) {
+        case 'income':
+          accumulator.income += Number(transaction.price);
+          accumulator.total += Number(transaction.price);
+          break;
+        case 'outcome':
+          accumulator.outcome += Number(transaction.price);
+          accumulator.total -= Number(transaction.price);
+          break;
+        default:
+          break;
+      }
+
+      return accumulator;
+    },
+    {
+      income: 0,
+      outcome: 0,
+      total: 0,
+    },
   );
 
-  const TextProgressExpenses = () => (
-    <G>
-      <TextSvg
-        x="0"
-        y="7"
-        fill="#BB3E5D"
-        textAnchor="middle"
-        fontSize={20}
-        fontWeight="bold"
-      >
-        50%
-      </TextSvg>
-    </G>
-  );
+  useEffect(() => {
+    const data = firebase.database().ref('users/' + uid + '/transactions');
+
+    data
+      //.orderByChild('type')
+      //.equalTo('output')
+      .on('value', (snapshot) => {
+        setTransactions(snapshotToArray(snapshot));
+      });
+  }, []);
 
   return (
     <Container style={{paddingTop: getStatusBarHeight()}}>
@@ -66,28 +78,12 @@ export default function HomeScreen() {
 
       <ControlContainer>
         <ProgressView>
-          <ProgressCircle
-            style={{height: 100, width: 90}}
-            strokeWidth={3}
-            progress={0.8}
-            progressColor={'#588A36'}
-          >
-            <TextProgressIncome />
-          </ProgressCircle>
-
+          <ProgressIncome percent={balance.total / balance.income} />
           <CircleContainerText>Receitas</CircleContainerText>
         </ProgressView>
 
         <ProgressView>
-          <ProgressCircle
-            style={{height: 100, width: 90}}
-            strokeWidth={3}
-            progress={0.5}
-            progressColor={'#BB3E5D'}
-          >
-            <TextProgressExpenses />
-          </ProgressCircle>
-
+          <ProgressOutcome />
           <CircleContainerText>Despesas</CircleContainerText>
         </ProgressView>
 
@@ -97,7 +93,7 @@ export default function HomeScreen() {
               <BagIcon height={20} width={20} style={{paddingLeft: 35}} />
               <View>
                 <DataText>Economias</DataText>
-                <DataSubText>R$2.500,20</DataSubText>
+                <DataSubText>R${balance.total}</DataSubText>
               </View>
             </DataView>
 
@@ -105,7 +101,7 @@ export default function HomeScreen() {
               <UpArrowIcon height={20} width={20} style={{paddingLeft: 35}} />
               <View>
                 <DataText>Receitas</DataText>
-                <DataSubText>R$5.150,20</DataSubText>
+                <DataSubText>R${balance.income}</DataSubText>
               </View>
             </DataView>
 
@@ -113,7 +109,7 @@ export default function HomeScreen() {
               <DownArrowIcon height={20} width={20} style={{paddingLeft: 35}} />
               <View>
                 <DataText>Despesas</DataText>
-                <DataSubText>R$2.650,20</DataSubText>
+                <DataSubText>R${balance.outcome}</DataSubText>
               </View>
             </DataView>
           </View>
@@ -176,7 +172,16 @@ export default function HomeScreen() {
         </ScrollView>
       </BoxContainer>
 
+      <Text>{Math.round((balance.total / balance.income) * 100)}%</Text>
+      <Text>{Math.round((balance.outcome / balance.income) * 100)}%</Text>
       <Header>Despesas em aberto</Header>
+      {transactions.map(({name, price, type}, key) => {
+        return (
+          <Text key={key}>
+            {name} | R${price} | {type}
+          </Text>
+        );
+      })}
     </Container>
   );
 }
