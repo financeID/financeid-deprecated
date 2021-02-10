@@ -4,6 +4,7 @@ import * as firebase from 'firebase';
 import {auth} from '../../components/Firebase/firebase';
 import useStatusBar from '../../hooks/useStatusBar';
 import snapshotToArray from '../../utils/snapshotToArray';
+import formatValue from '../../utils/formatValue';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {StackedBarChart} from 'react-native-svg-charts';
 
@@ -78,12 +79,12 @@ export default function HomeScreen() {
 
       <ControlContainer>
         <ProgressView>
-          <ProgressIncome percent={balance.total / balance.income} />
+          <ProgressIncome percentage={balance.total / balance.income} />
           <CircleContainerText>Receitas</CircleContainerText>
         </ProgressView>
 
         <ProgressView>
-          <ProgressOutcome />
+          <ProgressOutcome percentage={balance.outcome / balance.income} />
           <CircleContainerText>Despesas</CircleContainerText>
         </ProgressView>
 
@@ -93,7 +94,7 @@ export default function HomeScreen() {
               <BagIcon height={20} width={20} style={{paddingLeft: 35}} />
               <View>
                 <DataText>Economias</DataText>
-                <DataSubText>R${balance.total}</DataSubText>
+                <DataSubText>{formatValue(balance.total)}</DataSubText>
               </View>
             </DataView>
 
@@ -101,7 +102,7 @@ export default function HomeScreen() {
               <UpArrowIcon height={20} width={20} style={{paddingLeft: 35}} />
               <View>
                 <DataText>Receitas</DataText>
-                <DataSubText>R${balance.income}</DataSubText>
+                <DataSubText>{formatValue(balance.income)}</DataSubText>
               </View>
             </DataView>
 
@@ -109,7 +110,7 @@ export default function HomeScreen() {
               <DownArrowIcon height={20} width={20} style={{paddingLeft: 35}} />
               <View>
                 <DataText>Despesas</DataText>
-                <DataSubText>R${balance.outcome}</DataSubText>
+                <DataSubText>{formatValue(balance.outcome)}</DataSubText>
               </View>
             </DataView>
           </View>

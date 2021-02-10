@@ -2,13 +2,15 @@ import React from 'react';
 import {ProgressCircle} from 'react-native-svg-charts';
 import {Text as TextSvg, G} from 'react-native-svg';
 
-export default function ProgressIncome({percent}) {
-  const por = Math.round(percent * 100);
+export default function ProgressIncome({percentage}) {
+  const isFinite = Number.isFinite(percentage) === false ? 0 : percentage;
+  const roundPercentage = Math.round(isFinite * 100) + '%';
+
   return (
     <ProgressCircle
       style={{height: 100, width: 90}}
       strokeWidth={3}
-      progress={percent}
+      progress={isFinite}
       progressColor={'#588A36'}
     >
       <G>
@@ -20,7 +22,7 @@ export default function ProgressIncome({percent}) {
           fontSize={20}
           fontWeight="bold"
         >
-          {por}
+          {roundPercentage}
         </TextSvg>
       </G>
     </ProgressCircle>
