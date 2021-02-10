@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { StyleSheet } from 'react-native';
+import React, {useState} from 'react';
+import {StyleSheet} from 'react-native';
 import * as Yup from 'yup';
 
 import Colors from '../utils/colors';
@@ -8,7 +8,7 @@ import Form from '../components/Forms/Form';
 import FormField from '../components/Forms/FormField';
 import FormButton from '../components/Forms/FormButton';
 import IconButton from '../components/IconButton';
-import { passwordReset } from '../components/Firebase/firebase';
+import {passwordReset} from '../components/Firebase/firebase';
 import FormErrorMessage from '../components/Forms/FormErrorMessage';
 import useStatusBar from '../hooks/useStatusBar';
 
@@ -16,16 +16,16 @@ const validationSchema = Yup.object().shape({
   email: Yup.string()
     .label('Email')
     .email('Enter a valid email')
-    .required('Please enter a registered email')
+    .required('Please enter a registered email'),
 });
 
-export default function ForgotPasswordScreen({ navigation }) {
+export default function ForgotPasswordScreen({navigation}) {
   useStatusBar('light-content');
 
   const [customError, setCustomError] = useState('');
 
   async function handlePasswordReset(values) {
-    const { email } = values;
+    const {email} = values;
 
     try {
       await passwordReset(email);
@@ -38,9 +38,9 @@ export default function ForgotPasswordScreen({ navigation }) {
   return (
     <SafeView style={styles.container}>
       <Form
-        initialValues={{ email: '' }}
+        initialValues={{email: ''}}
         validationSchema={validationSchema}
-        onSubmit={values => handlePasswordReset(values)}
+        onSubmit={(values) => handlePasswordReset(values)}
       >
         <FormField
           name="email"
@@ -68,11 +68,11 @@ export default function ForgotPasswordScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     padding: 15,
-    backgroundColor: Colors.mediumGrey
+    backgroundColor: Colors.mediumGrey,
   },
   backButton: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginVertical: 10
-  }
+    marginVertical: 10,
+  },
 });
