@@ -4,7 +4,8 @@ import {Text as TextSvg, G} from 'react-native-svg';
 
 export default function ProgressIncome({percentage}) {
   const isFinite = Number.isFinite(percentage) === false ? 0 : percentage;
-  const roundPercentage = Math.round(isFinite * 100) + '%';
+  const fixNumber = isFinite * 100 < 0 ? 0 : isFinite;
+  const roundPercentage = Math.round(fixNumber * 100) + '%';
 
   return (
     <ProgressCircle
