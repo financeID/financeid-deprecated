@@ -1,6 +1,7 @@
-const formatValue = (value) =>
-  Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'}).format(
-    value || 0,
-  );
+const formatValue = (value) => {
+  var number = value.toFixed(2).split('.');
+  number[0] = 'R$ ' + number[0].split(/(?=(?:...)*$)/).join('.');
+  return number.join(',');
+};
 
 export default formatValue;

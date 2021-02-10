@@ -74,115 +74,131 @@ export default function HomeScreen() {
   }, []);
 
   return (
-    <Container style={{paddingTop: getStatusBarHeight()}}>
-      <Header>Controle de {'\n'}Janeiro</Header>
+    <ScrollView>
+      <Container style={{paddingTop: getStatusBarHeight()}}>
+        <Header>Controle de {'\n'}Janeiro</Header>
 
-      <ControlContainer>
-        <ProgressView>
-          <ProgressIncome percentage={balance.total / balance.income} />
-          <CircleContainerText>Receitas</CircleContainerText>
-        </ProgressView>
+        <ControlContainer>
+          <ProgressView>
+            <ProgressIncome percentage={balance.total / balance.income} />
+            <CircleContainerText>Receitas</CircleContainerText>
+          </ProgressView>
 
-        <ProgressView>
-          <ProgressOutcome percentage={balance.outcome / balance.income} />
-          <CircleContainerText>Despesas</CircleContainerText>
-        </ProgressView>
+          <ProgressView>
+            <ProgressOutcome percentage={balance.outcome / balance.income} />
+            <CircleContainerText>Despesas</CircleContainerText>
+          </ProgressView>
 
-        <DataContainer>
-          <View>
-            <DataView>
-              <BagIcon height={20} width={20} style={{paddingLeft: 35}} />
-              <View>
-                <DataText>Economias</DataText>
-                <DataSubText>{formatValue(balance.total)}</DataSubText>
-              </View>
-            </DataView>
+          <DataContainer>
+            <View>
+              <DataView>
+                <BagIcon height={20} width={20} style={{paddingLeft: 35}} />
+                <View>
+                  <DataText>Economias</DataText>
+                  <DataSubText>{formatValue(balance.total)}</DataSubText>
+                </View>
+              </DataView>
 
-            <DataView>
-              <UpArrowIcon height={20} width={20} style={{paddingLeft: 35}} />
-              <View>
-                <DataText>Receitas</DataText>
-                <DataSubText>{formatValue(balance.income)}</DataSubText>
-              </View>
-            </DataView>
+              <DataView>
+                <UpArrowIcon height={20} width={20} style={{paddingLeft: 35}} />
+                <View>
+                  <DataText>Receitas</DataText>
+                  <DataSubText>{formatValue(balance.income)}</DataSubText>
+                </View>
+              </DataView>
 
-            <DataView>
-              <DownArrowIcon height={20} width={20} style={{paddingLeft: 35}} />
-              <View>
-                <DataText>Despesas</DataText>
-                <DataSubText>{formatValue(balance.outcome)}</DataSubText>
-              </View>
-            </DataView>
-          </View>
-        </DataContainer>
-      </ControlContainer>
+              <DataView>
+                <DownArrowIcon
+                  height={20}
+                  width={20}
+                  style={{paddingLeft: 35}}
+                />
+                <View>
+                  <DataText>Despesas</DataText>
+                  <DataSubText>{formatValue(balance.outcome)}</DataSubText>
+                </View>
+              </DataView>
+            </View>
+          </DataContainer>
+        </ControlContainer>
 
-      <Header>Para onde está indo {'\n'}seu dinheiro?</Header>
+        <Header>Para onde está indo {'\n'}seu dinheiro?</Header>
 
-      <BoxContainer>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          <View>
-            <BoxTag>
-              <BoxTagText numberOfLines={1}>Receitas</BoxTagText>
-              <BoxTagPriceText numberOfLines={1}>R$2.400,00</BoxTagPriceText>
-              <StackedBarChart
-                style={{height: 4}}
-                keys={['incomes', 'outcomes']}
-                colors={['#588A36', '#dddddd']}
-                data={[
-                  {month: new Date(2015, 0, 1), incomes: 3840, outcomes: 1920},
-                ]}
-                showGrid={false}
-                horizontal={true}
-              />
-            </BoxTag>
-          </View>
-          <View>
-            <BoxTag>
-              <BoxTagText numberOfLines={1}>Automóvel</BoxTagText>
-              <BoxTagPriceText numberOfLines={1}>R$1.230,20</BoxTagPriceText>
-              <StackedBarChart
-                style={{height: 4}}
-                keys={['incomes', 'outcomes']}
-                colors={['#588A36', '#dddddd']}
-                data={[
-                  {month: new Date(2015, 0, 1), incomes: 3840, outcomes: 10020},
-                ]}
-                showGrid={false}
-                horizontal={true}
-              />
-            </BoxTag>
-          </View>
+        <BoxContainer>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            <View>
+              <BoxTag>
+                <BoxTagText numberOfLines={1}>Receitas</BoxTagText>
+                <BoxTagPriceText numberOfLines={1}>R$2.400,00</BoxTagPriceText>
+                <StackedBarChart
+                  style={{height: 4}}
+                  keys={['incomes', 'outcomes']}
+                  colors={['#588A36', '#dddddd']}
+                  data={[
+                    {
+                      month: new Date(2015, 0, 1),
+                      incomes: 3840,
+                      outcomes: 1920,
+                    },
+                  ]}
+                  showGrid={false}
+                  horizontal={true}
+                />
+              </BoxTag>
+            </View>
+            <View>
+              <BoxTag>
+                <BoxTagText numberOfLines={1}>Automóvel</BoxTagText>
+                <BoxTagPriceText numberOfLines={1}>R$1.230,20</BoxTagPriceText>
+                <StackedBarChart
+                  style={{height: 4}}
+                  keys={['incomes', 'outcomes']}
+                  colors={['#588A36', '#dddddd']}
+                  data={[
+                    {
+                      month: new Date(2015, 0, 1),
+                      incomes: 3840,
+                      outcomes: 10020,
+                    },
+                  ]}
+                  showGrid={false}
+                  horizontal={true}
+                />
+              </BoxTag>
+            </View>
 
-          <View>
-            <BoxTag>
-              <BoxTagText numberOfLines={1}>Automóvel</BoxTagText>
-              <BoxTagPriceText numberOfLines={1}>R$1.230,20</BoxTagPriceText>
-              <StackedBarChart
-                style={{height: 4}}
-                keys={['incomes', 'outcomes']}
-                colors={['#588A36', '#dddddd']}
-                data={[
-                  {month: new Date(2015, 0, 1), incomes: 8440, outcomes: 1920},
-                ]}
-                showGrid={false}
-                horizontal={true}
-              />
-            </BoxTag>
-          </View>
-        </ScrollView>
-      </BoxContainer>
+            <View>
+              <BoxTag>
+                <BoxTagText numberOfLines={1}>Automóvel</BoxTagText>
+                <BoxTagPriceText numberOfLines={1}>R$1.230,20</BoxTagPriceText>
+                <StackedBarChart
+                  style={{height: 4}}
+                  keys={['incomes', 'outcomes']}
+                  colors={['#588A36', '#dddddd']}
+                  data={[
+                    {
+                      month: new Date(2015, 0, 1),
+                      incomes: 8440,
+                      outcomes: 1920,
+                    },
+                  ]}
+                  showGrid={false}
+                  horizontal={true}
+                />
+              </BoxTag>
+            </View>
+          </ScrollView>
+        </BoxContainer>
 
-      <Text>{Math.round((balance.total / balance.income) * 100)}%</Text>
-      <Text>{Math.round((balance.outcome / balance.income) * 100)}%</Text>
-      <Header>Despesas em aberto</Header>
-      {transactions.map(({name, price, type, date}, key) => {
-        return (
-          <Text key={key}>
-            {name} | R${price} | {type} | {date}
-          </Text>
-        );
-      })}
-    </Container>
+        <Header>Despesas em aberto</Header>
+        {transactions.map(({name, price, type, date}, key) => {
+          return (
+            <Text key={key}>
+              {name} | R${price} | {type} | {date}
+            </Text>
+          );
+        })}
+      </Container>
+    </ScrollView>
   );
 }
