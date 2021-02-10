@@ -66,9 +66,9 @@ export default function HomeScreen() {
     const data = firebase.database().ref('users/' + uid + '/transactions');
 
     data
-      .orderByChild('date')
-      .equalTo('2021-2')
-      .on('child_changed', (snapshot) => {
+      //.orderByChild('date')
+      //.equalTo('2')
+      .on('value', (snapshot) => {
         setTransactions(snapshotToArray(snapshot));
       });
   }, []);
