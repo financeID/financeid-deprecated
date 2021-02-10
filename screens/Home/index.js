@@ -66,9 +66,9 @@ export default function HomeScreen() {
     const data = firebase.database().ref('users/' + uid + '/transactions');
 
     data
-      //.orderByChild('type')
-      //.equalTo('output')
-      .on('value', (snapshot) => {
+      .orderByChild('date')
+      .equalTo('2021-2')
+      .on('child_changed', (snapshot) => {
         setTransactions(snapshotToArray(snapshot));
       });
   }, []);
@@ -176,10 +176,10 @@ export default function HomeScreen() {
       <Text>{Math.round((balance.total / balance.income) * 100)}%</Text>
       <Text>{Math.round((balance.outcome / balance.income) * 100)}%</Text>
       <Header>Despesas em aberto</Header>
-      {transactions.map(({name, price, type}, key) => {
+      {transactions.map(({name, price, type, date}, key) => {
         return (
           <Text key={key}>
-            {name} | R${price} | {type}
+            {name} | R${price} | {type} | {date}
           </Text>
         );
       })}
