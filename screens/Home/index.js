@@ -122,7 +122,7 @@ export default function HomeScreen() {
           </DataContainer>
         </ControlContainer>
 
-        <Header>Para onde está indo {'\n'}seu dinheiro?</Header>
+        <Header>Para onde está indo {'\n'}seu dinheiro esse mês?</Header>
 
         <BoxContainer>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
