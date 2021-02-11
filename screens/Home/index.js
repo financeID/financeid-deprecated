@@ -63,11 +63,11 @@ export default function HomeScreen() {
   );
 
   useEffect(() => {
-    const data = firebase.database().ref('users/' + uid + '/transactions');
+    const data = firebase.database().ref(`/users/${uid}/transactions`);
 
     data
-      //.orderByChild('date')
-      //.equalTo('2')
+      .orderByChild('month')
+      .equalTo(2)
       .on('value', (snapshot) => {
         setTransactions(snapshotToArray(snapshot));
       });
@@ -191,12 +191,18 @@ export default function HomeScreen() {
         </BoxContainer>
 
         <Header>Despesas em aberto</Header>
-        {transactions.map(({name, price, type, date}, key) => {
+        {transactions.map(({name, price, type, month}, key) => {
           return (
             <Text key={key}>
-              {name} | R${price} | {type} | {date}
+              {name} | R${price} | {type} | {month}
             </Text>
           );
+        })}
+
+        <Text>_____________</Text>
+
+        {transactions.map(({name}, key) => {
+          return <Text key={key}>{name}</Text>;
         })}
       </Container>
     </ScrollView>
