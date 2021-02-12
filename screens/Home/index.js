@@ -3,6 +3,7 @@ import {View, ScrollView, Text} from 'react-native';
 import * as firebase from 'firebase';
 import {auth} from '../../components/Firebase/firebase';
 import useStatusBar from '../../hooks/useStatusBar';
+import RNPickerSelect from 'react-native-picker-select';
 import snapshotToArray from '../../utils/snapshotToArray';
 import formatValue from '../../utils/formatValue';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
@@ -35,19 +36,21 @@ export default function HomeScreen() {
   useStatusBar('dark-content');
 
   const [transactions, setTransactions] = useState([]);
+  const [month, setMonth] = useState(2);
 
   const {uid} = auth.currentUser;
 
   useEffect(() => {
+    console.log(month);
     const data = firebase.database().ref(`/users/${uid}/transactions`);
 
     data
       .orderByChild('month')
-      .equalTo(2)
+      .equalTo(month)
       .on('value', (snapshot) => {
         setTransactions(snapshotToArray(snapshot));
       });
-  }, []);
+  }, [month]);
 
   const balance = transactions.reduce(
     (accumulator, transaction) => {
@@ -82,17 +85,28 @@ export default function HomeScreen() {
         tagGroup.push(accumulator[tag]);
       }
 
-      if (type === 'outcome') {
-        accumulator[tag].price += Number(price);
-      }
+      accumulator[tag].price += Number(price);
     }
 
     return accumulator;
   }, {});
+
   return (
     <ScrollView>
       <Container style={{paddingTop: getStatusBarHeight()}}>
         <Header>Controle de {'\n'}Janeiro</Header>
+
+        <RNPickerSelect
+          onValueChange={(value) => setMonth(value)}
+          items={[
+            {label: 'Janeiro', value: 1},
+            {label: 'Fevereiro', value: 2},
+            {label: 'Março', value: 3},
+            {label: 'Java', value: 'Java'},
+            {label: 'C++', value: 'C++'},
+            {label: 'C', value: 'C'},
+          ]}
+        />
 
         <ControlContainer>
           <ProgressView>
