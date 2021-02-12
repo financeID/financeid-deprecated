@@ -83,7 +83,7 @@ export const BoxTagText = styled.Text`
 
 export const BoxTagPriceText = styled.Text`
   font-size: 14px;
-  margin-bottom: 10px;
+  margin-bottom: 9px;
   font-weight: bold;
   color: #979797;
 `;
