@@ -38,6 +38,17 @@ export default function HomeScreen() {
 
   const {uid} = auth.currentUser;
 
+  useEffect(() => {
+    const data = firebase.database().ref(`/users/${uid}/transactions`);
+
+    data
+      .orderByChild('month')
+      .equalTo(2)
+      .on('value', (snapshot) => {
+        setTransactions(snapshotToArray(snapshot));
+      });
+  }, []);
+
   const balance = transactions.reduce(
     (accumulator, transaction) => {
       switch (transaction.type) {
@@ -62,17 +73,22 @@ export default function HomeScreen() {
     },
   );
 
-  useEffect(() => {
-    const data = firebase.database().ref(`/users/${uid}/transactions`);
+  const tagGroup = [];
 
-    data
-      .orderByChild('month')
-      .equalTo(2)
-      .on('value', (snapshot) => {
-        setTransactions(snapshotToArray(snapshot));
-      });
-  }, []);
+  transactions.reduce((accumulator, {type, tag, price}) => {
+    if (type === 'outcome') {
+      if (!accumulator[tag]) {
+        accumulator[tag] = {tag: tag, price: 0, type: type};
+        tagGroup.push(accumulator[tag]);
+      }
 
+      if (type === 'outcome') {
+        accumulator[tag].price += Number(price);
+      }
+    }
+
+    return accumulator;
+  }, {});
   return (
     <ScrollView>
       <Container style={{paddingTop: getStatusBarHeight()}}>
@@ -126,67 +142,31 @@ export default function HomeScreen() {
 
         <BoxContainer>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            <View>
-              <BoxTag>
-                <BoxTagText numberOfLines={1}>Receitas</BoxTagText>
-                <BoxTagPriceText numberOfLines={1}>R$2.400,00</BoxTagPriceText>
-                <StackedBarChart
-                  style={{height: 4}}
-                  keys={['incomes', 'outcomes']}
-                  colors={['#588A36', '#dddddd']}
-                  data={[
-                    {
-                      month: new Date(2015, 0, 1),
-                      incomes: 3840,
-                      outcomes: 1920,
-                    },
-                  ]}
-                  showGrid={false}
-                  horizontal={true}
-                />
-              </BoxTag>
-            </View>
-            <View>
-              <BoxTag>
-                <BoxTagText numberOfLines={1}>Automóvel</BoxTagText>
-                <BoxTagPriceText numberOfLines={1}>R$1.230,20</BoxTagPriceText>
-                <StackedBarChart
-                  style={{height: 4}}
-                  keys={['incomes', 'outcomes']}
-                  colors={['#588A36', '#dddddd']}
-                  data={[
-                    {
-                      month: new Date(2015, 0, 1),
-                      incomes: 3840,
-                      outcomes: 10020,
-                    },
-                  ]}
-                  showGrid={false}
-                  horizontal={true}
-                />
-              </BoxTag>
-            </View>
-
-            <View>
-              <BoxTag>
-                <BoxTagText numberOfLines={1}>Automóvel</BoxTagText>
-                <BoxTagPriceText numberOfLines={1}>R$1.230,20</BoxTagPriceText>
-                <StackedBarChart
-                  style={{height: 4}}
-                  keys={['incomes', 'outcomes']}
-                  colors={['#588A36', '#dddddd']}
-                  data={[
-                    {
-                      month: new Date(2015, 0, 1),
-                      incomes: 8440,
-                      outcomes: 1920,
-                    },
-                  ]}
-                  showGrid={false}
-                  horizontal={true}
-                />
-              </BoxTag>
-            </View>
+            {tagGroup.map(({tag, price}) => {
+              return (
+                <View key={price}>
+                  <BoxTag>
+                    <BoxTagText numberOfLines={1}>{tag}</BoxTagText>
+                    <BoxTagPriceText numberOfLines={1}>
+                      {formatValue(price)}
+                    </BoxTagPriceText>
+                    <StackedBarChart
+                      style={{height: 4}}
+                      keys={['outcomes', 'incomes']}
+                      colors={['#588A36', '#dddddd']}
+                      data={[
+                        {
+                          incomes: balance.income,
+                          outcomes: price,
+                        },
+                      ]}
+                      showGrid={false}
+                      horizontal={true}
+                    />
+                  </BoxTag>
+                </View>
+              );
+            })}
           </ScrollView>
         </BoxContainer>
 
@@ -200,10 +180,6 @@ export default function HomeScreen() {
         })}
 
         <Text>_____________</Text>
-
-        {transactions.map(({name}, key) => {
-          return <Text key={key}>{name}</Text>;
-        })}
       </Container>
     </ScrollView>
   );
