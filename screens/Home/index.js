@@ -43,7 +43,6 @@ export default function HomeScreen() {
   const {uid} = auth.currentUser;
 
   useEffect(() => {
-    console.log(month);
     const data = firebase.database().ref(`/users/${uid}/transactions`);
 
     data
@@ -96,13 +95,13 @@ export default function HomeScreen() {
   const pickerSelectStyles = StyleSheet.create({
     inputIOS: {
       color: 'transparent',
-      width: 30,
-      height: 30,
+      width: 60,
+      height: 50,
     },
     inputAndroid: {
       color: 'transparent',
-      width: 30,
-      height: 30,
+      width: 60,
+      height: 50,
     },
   });
 
@@ -111,13 +110,25 @@ export default function HomeScreen() {
       <Container style={{paddingTop: getStatusBarHeight()}}>
         <HeaderContainer>
           <Header>
-            Controle de {'\n'}
+            Controle kkde {'\n'}
             {month}
           </Header>
 
           <Picker>
             <RNPickerSelect
-              style={{...pickerSelectStyles}}
+              style={{
+                ...pickerSelectStyles,
+                iconContainer: {
+                  width: 60,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  height: 50,
+                  margin: 0,
+                },
+                placeholder: {
+                  fontSize: 0,
+                },
+              }}
               placeholder={{}}
               useNativeAndroidPickerStyle={false}
               onValueChange={(value) => setMonth(value)}

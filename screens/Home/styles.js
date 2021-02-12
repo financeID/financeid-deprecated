@@ -95,6 +95,6 @@ export const HeaderContainer = styled.View`
 `;
 
 export const Picker = styled.View`
-  width: 30px;
-  height: 30px;
+  width: 60px;
+  height: 50px;
 `;

@@ -12,7 +12,7 @@
     "icon": "./assets/flame.png",
     "splash": {
       "resizeMode": "cover",
-      "backgroundColor": "#F57C00"
+      "backgroundColor": "#FFFFFF"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
