@@ -157,10 +157,12 @@ export default function HomeScreen() {
 
       <BoxContainer>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          {tagGroup.map(({tag, price}) => {
+          {tagGroup.map(({tag, price}, i) => {
             return (
               <View key={price}>
-                <BoxTag>
+                <BoxTag
+                  style={i === tagGroup.length - 1 ? {marginRight: 23} : {}}
+                >
                   <BoxTagText numberOfLines={1}>{tag}</BoxTagText>
                   <BoxTagPriceText numberOfLines={1}>
                     {formatValue(price)}
