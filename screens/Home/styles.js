@@ -87,3 +87,14 @@ export const BoxTagPriceText = styled.Text`
   font-weight: bold;
   color: #979797;
 `;
+
+export const HeaderContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+export const Picker = styled.View`
+  width: 30px;
+  height: 30px;
+`;

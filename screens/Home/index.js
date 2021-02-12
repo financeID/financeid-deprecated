@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, ScrollView, Text} from 'react-native';
+import {View, ScrollView, StyleSheet} from 'react-native';
 import * as firebase from 'firebase';
 import {auth} from '../../components/Firebase/firebase';
 import useStatusBar from '../../hooks/useStatusBar';
@@ -8,12 +8,13 @@ import snapshotToArray from '../../utils/snapshotToArray';
 import formatValue from '../../utils/formatValue';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {StackedBarChart} from 'react-native-svg-charts';
-
+import {Ionicons} from '@expo/vector-icons';
 import ProgressIncome from '../../components/ProgressIncome';
 import ProgressOutcome from '../../components/ProgressOutcome';
 
 import {
   Container,
+  HeaderContainer,
   Header,
   ControlContainer,
   ProgressView,
@@ -26,6 +27,7 @@ import {
   BoxTag,
   BoxTagText,
   BoxTagPriceText,
+  Picker,
 } from './styles';
 
 import BagIcon from '../../assets/bag.svg';
@@ -91,22 +93,48 @@ export default function HomeScreen() {
     return accumulator;
   }, {});
 
+  const pickerSelectStyles = StyleSheet.create({
+    inputIOS: {
+      color: 'transparent',
+      width: 30,
+      height: 30,
+    },
+    inputAndroid: {
+      color: 'transparent',
+      width: 30,
+      height: 30,
+    },
+  });
+
   return (
     <ScrollView>
       <Container style={{paddingTop: getStatusBarHeight()}}>
-        <Header>Controle de {'\n'}Janeiro</Header>
+        <HeaderContainer>
+          <Header>
+            Controle de {'\n'}
+            {month}
+          </Header>
 
-        <RNPickerSelect
-          onValueChange={(value) => setMonth(value)}
-          items={[
-            {label: 'Janeiro', value: 1},
-            {label: 'Fevereiro', value: 2},
-            {label: 'Março', value: 3},
-            {label: 'Java', value: 'Java'},
-            {label: 'C++', value: 'C++'},
-            {label: 'C', value: 'C'},
-          ]}
-        />
+          <Picker>
+            <RNPickerSelect
+              style={{...pickerSelectStyles}}
+              placeholder={{}}
+              useNativeAndroidPickerStyle={false}
+              onValueChange={(value) => setMonth(value)}
+              items={[
+                {label: 'Janeiro', value: 1},
+                {label: 'Fevereiro', value: 2},
+                {label: 'Março', value: 3},
+                {label: 'Java', value: 'Java'},
+                {label: 'C++', value: 'C++'},
+                {label: 'C', value: 'C'},
+              ]}
+              Icon={() => {
+                return <Ionicons name="filter" size={24} color="black" />;
+              }}
+            />
+          </Picker>
+        </HeaderContainer>
 
         <ControlContainer>
           <ProgressView>
@@ -186,19 +214,6 @@ export default function HomeScreen() {
           })}
         </ScrollView>
       </BoxContainer>
-
-      <Container>
-        <Header>Despesas em aberto</Header>
-        {transactions.map(({name, price, type, month}, key) => {
-          return (
-            <Text key={key}>
-              {name} | R${price} | {type} | {month}
-            </Text>
-          );
-        })}
-
-        <Text>_____________</Text>
-      </Container>
     </ScrollView>
   );
 }
