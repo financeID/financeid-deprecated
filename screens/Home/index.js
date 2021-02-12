@@ -38,7 +38,7 @@ export default function HomeScreen() {
   useStatusBar('dark-content');
 
   const [transactions, setTransactions] = useState([]);
-  const [month, setMonth] = useState(2);
+  const [month, setMonth] = useState(new Date().getMonth() + 1);
 
   const {uid} = auth.currentUser;
 
@@ -110,7 +110,7 @@ export default function HomeScreen() {
       <Container style={{paddingTop: getStatusBarHeight()}}>
         <HeaderContainer>
           <Header>
-            Controle kkde {'\n'}
+            Controle de {'\n'}
             {month}
           </Header>
 
@@ -129,9 +129,11 @@ export default function HomeScreen() {
                   fontSize: 0,
                 },
               }}
+              value={month}
               placeholder={{}}
               useNativeAndroidPickerStyle={false}
               onValueChange={(value) => setMonth(value)}
+              InputAccessoryView={() => null}
               items={[
                 {label: 'Janeiro', value: 1},
                 {label: 'Fevereiro', value: 2},
@@ -206,6 +208,7 @@ export default function HomeScreen() {
                   <BoxTagPriceText numberOfLines={1}>
                     {formatValue(price)}
                   </BoxTagPriceText>
+
                   <StackedBarChart
                     style={{height: 4}}
                     keys={['outcomes', 'incomes']}
