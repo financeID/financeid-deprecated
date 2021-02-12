@@ -69,10 +69,13 @@ export const BoxTag = styled.View`
   border-radius: 5px;
   box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2);
   elevation: 7;
-  margin: 10px 15px 0px 6px;
-  padding: 15px;
+  margin: 10px 0 0 23px;
+  &:last-child {
+    margin-left: 23px;
+  }
+  padding: 12px;
   width: 140px;
-  height: 90px;
+  height: 80px;
 `;
 
 export const BoxTagText = styled.Text`

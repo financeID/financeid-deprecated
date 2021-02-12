@@ -153,37 +153,39 @@ export default function HomeScreen() {
         </ControlContainer>
 
         <Header>Para onde está indo {'\n'}seu dinheiro esse mês?</Header>
+      </Container>
 
-        <BoxContainer>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            {tagGroup.map(({tag, price}) => {
-              return (
-                <View key={price}>
-                  <BoxTag>
-                    <BoxTagText numberOfLines={1}>{tag}</BoxTagText>
-                    <BoxTagPriceText numberOfLines={1}>
-                      {formatValue(price)}
-                    </BoxTagPriceText>
-                    <StackedBarChart
-                      style={{height: 4}}
-                      keys={['outcomes', 'incomes']}
-                      colors={['#588A36', '#dddddd']}
-                      data={[
-                        {
-                          incomes: balance.income,
-                          outcomes: price,
-                        },
-                      ]}
-                      showGrid={false}
-                      horizontal={true}
-                    />
-                  </BoxTag>
-                </View>
-              );
-            })}
-          </ScrollView>
-        </BoxContainer>
+      <BoxContainer>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          {tagGroup.map(({tag, price}) => {
+            return (
+              <View key={price}>
+                <BoxTag>
+                  <BoxTagText numberOfLines={1}>{tag}</BoxTagText>
+                  <BoxTagPriceText numberOfLines={1}>
+                    {formatValue(price)}
+                  </BoxTagPriceText>
+                  <StackedBarChart
+                    style={{height: 4}}
+                    keys={['outcomes', 'incomes']}
+                    colors={['#588A36', '#dddddd']}
+                    data={[
+                      {
+                        incomes: balance.income,
+                        outcomes: price,
+                      },
+                    ]}
+                    showGrid={false}
+                    horizontal={true}
+                  />
+                </BoxTag>
+              </View>
+            );
+          })}
+        </ScrollView>
+      </BoxContainer>
 
+      <Container>
         <Header>Despesas em aberto</Header>
         {transactions.map(({name, price, type, month}, key) => {
           return (
