@@ -9,7 +9,7 @@
     ],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/flame.png",
+    "icon": "./assets/icon.png",
     "splash": {
       "resizeMode": "cover",
       "backgroundColor": "#FFFFFF"
