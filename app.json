@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Expo Firebase Starter",
-    "slug": "expo-firebase",
+    "name": "FinanceID",
+    "slug": "financeid-app",
     "privacy": "public",
     "platforms": [
       "ios",
@@ -38,6 +38,8 @@
         "wasm",
         "svg"
       ]
-    }
+    },
+    "description": "",
+    "githubUrl": "https://github.com/financeid"
   }
 }
