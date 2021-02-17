@@ -1,5 +1,5 @@
 import React from 'react';
-import { AuthUserProvider } from './AuthUserProvider';
+import {AuthUserProvider} from './AuthUserProvider';
 import Routes from './Routes';
 
 /**

@@ -1,17 +1,18 @@
 import React, {useState, useEffect} from 'react';
-import {View, ScrollView, StyleSheet} from 'react-native';
+import {View, ScrollView} from 'react-native';
 import * as firebase from 'firebase';
 import {auth} from '../../components/Firebase/firebase';
 import useStatusBar from '../../hooks/useStatusBar';
-import RNPickerSelect from 'react-native-picker-select';
 import snapshotToArray from '../../utils/snapshotToArray';
 import formatValue from '../../utils/formatValue';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {StackedBarChart} from 'react-native-svg-charts';
-import {Ionicons} from '@expo/vector-icons';
+
 import ProgressIncome from '../../components/ProgressIncome';
 import ProgressOutcome from '../../components/ProgressOutcome';
-import ActionButton from 'react-native-action-button';
+import FixedButton from '../../components/FixedButton';
+import ModalTransactions from '../../components/ModalTransactions';
+import PickerMonth from '../../components/PickerMonth';
 
 import {
   Container,
@@ -28,7 +29,6 @@ import {
   BoxTag,
   BoxTagText,
   BoxTagPriceText,
-  Picker,
 } from './styles';
 
 import BagIcon from '../../assets/bag.svg';
@@ -40,6 +40,7 @@ export default function HomeScreen() {
 
   const [transactions, setTransactions] = useState([]);
   const [month, setMonth] = useState(new Date().getMonth() + 1);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const {uid} = auth.currentUser;
 
@@ -93,27 +94,6 @@ export default function HomeScreen() {
     return accumulator;
   }, {});
 
-  const pickerSelectStyles = StyleSheet.create({
-    inputIOS: {
-      color: 'transparent',
-      width: 60,
-      height: 50,
-    },
-    inputAndroid: {
-      color: 'transparent',
-      width: 60,
-      height: 50,
-    },
-  });
-
-  const styles = StyleSheet.create({
-    actionButtonIcon: {
-      fontSize: 20,
-      height: 22,
-      color: 'white',
-    },
-  });
-
   return (
     <>
       <ScrollView>
@@ -124,39 +104,7 @@ export default function HomeScreen() {
               {month === 1 ? 'Janeiro' : 'Fevereiro'}
             </Header>
 
-            <Picker>
-              <RNPickerSelect
-                style={{
-                  ...pickerSelectStyles,
-                  iconContainer: {
-                    width: 60,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    height: 50,
-                    margin: 0,
-                  },
-                  placeholder: {
-                    fontSize: 0,
-                  },
-                }}
-                value={month}
-                placeholder={{}}
-                useNativeAndroidPickerStyle={false}
-                onValueChange={(value) => setMonth(value)}
-                InputAccessoryView={() => null}
-                items={[
-                  {label: 'Janeiro', value: 1},
-                  {label: 'Fevereiro', value: 2},
-                  {label: 'Março', value: 3},
-                  {label: 'Java', value: 'Java'},
-                  {label: 'C++', value: 'C++'},
-                  {label: 'C', value: 'C'},
-                ]}
-                Icon={() => {
-                  return <Ionicons name="filter" size={24} color="black" />;
-                }}
-              />
-            </Picker>
+            <PickerMonth month={month} setMonth={setMonth} />
           </HeaderContainer>
 
           <ControlContainer>
@@ -211,7 +159,11 @@ export default function HomeScreen() {
         </Container>
 
         <BoxContainer>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          <ScrollView
+            horizontal
+            onContentSizeChange={0}
+            showsHorizontalScrollIndicator={false}
+          >
             {tagGroup.map(({tag, price}, i) => {
               return (
                 <View key={price}>
@@ -243,22 +195,16 @@ export default function HomeScreen() {
           </ScrollView>
         </BoxContainer>
       </ScrollView>
-      <ActionButton buttonColor="#000000">
-        <ActionButton.Item
-          buttonColor="#588A36"
-          title="Adicionar receita"
-          onPress={() => {}}
-        >
-          <Ionicons name="arrow-up" style={styles.actionButtonIcon} />
-        </ActionButton.Item>
-        <ActionButton.Item
-          buttonColor="#BB3E5D"
-          title="Adicionar gasto"
-          onPress={() => {}}
-        >
-          <Ionicons name="arrow-down" style={styles.actionButtonIcon} />
-        </ActionButton.Item>
-      </ActionButton>
+
+      <FixedButton
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+      />
+
+      <ModalTransactions
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+      />
     </>
   );
 }
