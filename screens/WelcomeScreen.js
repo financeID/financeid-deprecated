@@ -1,11 +1,11 @@
 import React from 'react';
-import { View, StyleSheet, Text, Image } from 'react-native';
+import {View, StyleSheet, Text, Image} from 'react-native';
 
 import AppButton from '../components/AppButton';
 import Colors from '../utils/colors';
 import useStatusBar from '../hooks/useStatusBar';
 
-export default function WelcomeScreen({ navigation }) {
+export default function WelcomeScreen({navigation}) {
   useStatusBar('light-content');
 
   return (
@@ -31,26 +31,26 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
     alignItems: 'center',
-    backgroundColor: Colors.mediumGrey
+    backgroundColor: Colors.mediumGrey,
   },
   logoContainer: {
     position: 'absolute',
     top: 60,
-    alignItems: 'center'
+    alignItems: 'center',
   },
   logo: {
     width: 125,
-    height: 125
+    height: 125,
   },
   subtitle: {
     fontSize: 24,
     fontWeight: '600',
     paddingVertical: 20,
-    color: Colors.primary
+    color: Colors.primary,
   },
   buttonContainer: {
     padding: 20,
     paddingBottom: 60,
-    width: '100%'
-  }
+    width: '100%',
+  },
 });
