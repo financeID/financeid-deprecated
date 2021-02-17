@@ -1,18 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Button, Text } from 'react-native';
-import useStatusBar from '../hooks/useStatusBar';
+import React from 'react';
+import {View, StyleSheet, Button} from 'react-native';
+import {logout} from '../components/Firebase/firebase';
 
 export default function ProfileScreen() {
-    useStatusBar('dark-content');
-    return (
-        <View style={styles.container}>
-            <Text>ProfileScreen</Text>
-        </View>
-    );
+  async function handleSignOut() {
+    try {
+      await logout();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  return (
+    <View style={styles.container}>
+      <Button title="Sair da conta" onPress={handleSignOut} />
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1
-    }
+  container: {
+    flex: 1,
+  },
 });
