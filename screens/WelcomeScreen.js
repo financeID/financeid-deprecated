@@ -1,18 +1,17 @@
 import React from 'react';
-import {View, StyleSheet, Text, Image} from 'react-native';
+import {View, StyleSheet, Text} from 'react-native';
 
 import AppButton from '../components/AppButton';
 import Colors from '../utils/colors';
 import useStatusBar from '../hooks/useStatusBar';
 
 export default function WelcomeScreen({navigation}) {
-  useStatusBar('light-content');
+  useStatusBar('dark-content');
 
   return (
     <View style={styles.container}>
       <View style={styles.logoContainer}>
-        <Image source={require('../assets/flame.png')} style={styles.logo} />
-        <Text style={styles.subtitle}>Expo Firebase Starter</Text>
+        <Text style={styles.subtitle}>FinanceID</Text>
       </View>
       <View style={styles.buttonContainer}>
         <AppButton title="Login" onPress={() => navigation.navigate('Login')} />
@@ -31,7 +30,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
     alignItems: 'center',
-    backgroundColor: Colors.mediumGrey,
+    backgroundColor: Colors.white,
   },
   logoContainer: {
     position: 'absolute',
@@ -50,7 +49,6 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     padding: 20,
-    paddingBottom: 60,
     width: '100%',
   },
 });

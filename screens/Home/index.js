@@ -7,7 +7,7 @@ import snapshotToArray from '../../utils/snapshotToArray';
 import formatValue from '../../utils/formatValue';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {StackedBarChart} from 'react-native-svg-charts';
-
+import Colors from '../../utils/colors';
 import ProgressIncome from '../../components/ProgressIncome';
 import ProgressOutcome from '../../components/ProgressOutcome';
 import FixedButton from '../../components/FixedButton';
@@ -40,7 +40,7 @@ export default function HomeScreen() {
 
   const [transactions, setTransactions] = useState([]);
   const [month, setMonth] = useState(new Date().getMonth() + 1);
-  const [modalVisible, setModalVisible] = useState(false);
+  const [modalVisible, setModalVisible] = useState(true);
 
   const {uid} = auth.currentUser;
 
@@ -178,7 +178,7 @@ export default function HomeScreen() {
                     <StackedBarChart
                       style={{height: 4}}
                       keys={['outcomes', 'incomes']}
-                      colors={['#588A36', '#dddddd']}
+                      colors={[Colors.outcome, '#dddddd']}
                       data={[
                         {
                           incomes: balance.income,

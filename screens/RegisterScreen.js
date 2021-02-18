@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { StyleSheet } from 'react-native';
+import React, {useState} from 'react';
+import {StyleSheet} from 'react-native';
 import * as Yup from 'yup';
 import * as firebase from 'firebase';
 import Colors from '../utils/colors';
@@ -9,14 +9,11 @@ import FormField from '../components/Forms/FormField';
 import FormButton from '../components/Forms/FormButton';
 import IconButton from '../components/IconButton';
 import FormErrorMessage from '../components/Forms/FormErrorMessage';
-import { registerWithEmail } from '../components/Firebase/firebase';
+import {registerWithEmail} from '../components/Firebase/firebase';
 import useStatusBar from '../hooks/useStatusBar';
-import { TextInput } from 'react-native-gesture-handler';
 
 const validationSchema = Yup.object().shape({
-  name: Yup.string()
-    .required()
-    .label('Name'),
+  name: Yup.string().required().label('Name'),
   email: Yup.string()
     .required('Please enter a valid email')
     .email()
@@ -27,17 +24,17 @@ const validationSchema = Yup.object().shape({
     .label('Password'),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref('password')], 'Confirm Password must match Password')
-    .required('Confirm Password is required')
+    .required('Confirm Password is required'),
 });
 
-export default function RegisterScreen({ navigation }) {
+export default function RegisterScreen({navigation}) {
   useStatusBar('light-content');
 
   const [passwordVisibility, setPasswordVisibility] = useState(true);
   const [rightIcon, setRightIcon] = useState('eye');
   const [confirmPasswordIcon, setConfirmPasswordIcon] = useState('eye');
   const [confirmPasswordVisibility, setConfirmPasswordVisibility] = useState(
-    true
+    true,
   );
   const [registerError, setRegisterError] = useState('');
 
@@ -61,16 +58,19 @@ export default function RegisterScreen({ navigation }) {
     }
   }
 
-  async function handleOnSignUp(values, actions) {
-    const { name, email, password } = values;
+  async function handleOnSignUp(values) {
+    const {name, email, password} = values;
 
     try {
       await registerWithEmail(email, password).then((res) => {
-        return firebase.database().ref('users/' + res.user.uid).set({
-          firstName: name,
-          email: email,
-        })
-      })
+        return firebase
+          .database()
+          .ref('users/' + res.user.uid)
+          .set({
+            firstName: name,
+            email: email,
+          });
+      });
     } catch (error) {
       setRegisterError(error.message);
     }
@@ -83,10 +83,10 @@ export default function RegisterScreen({ navigation }) {
           name: '',
           email: '',
           password: '',
-          confirmPassword: ''
+          confirmPassword: '',
         }}
         validationSchema={validationSchema}
-        onSubmit={values => handleOnSignUp(values)}
+        onSubmit={(values) => handleOnSignUp(values)}
       >
         <FormField
           name="name"
@@ -142,11 +142,11 @@ export default function RegisterScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     padding: 15,
-    backgroundColor: Colors.mediumGrey
+    backgroundColor: Colors.white,
   },
   backButton: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginVertical: 10
-  }
+    marginVertical: 10,
+  },
 });

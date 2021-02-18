@@ -1,5 +1,6 @@
 import {Platform} from 'react-native';
 import styled, {css} from 'styled-components/native';
+import Colors from '../../utils/colors';
 
 export const Container = styled.View`
   flex: 1;
@@ -8,7 +9,7 @@ export const Container = styled.View`
 
 export const Header = styled.Text`
   margin-top: 25px;
-  color: #404040;
+  color: ${Colors.primary};
   font-size: 23px;
   font-weight: bold;
 `;
@@ -26,7 +27,7 @@ export const ProgressView = styled.View`
 export const CircleContainerText = styled.Text`
   font-size: 15px;
   font-weight: bold;
-  color: #979797;
+  color: ${Colors.mediumGrey};
 `;
 
 export const DataContainer = styled.View`
@@ -36,7 +37,7 @@ export const DataContainer = styled.View`
 
 export const DataText = styled.Text`
   font-size: 16px;
-  color: #404040;
+  color: ${Colors.primary};
   font-weight: bold;
 `;
 
@@ -50,7 +51,7 @@ export const DataSubText = styled.Text`
     `,
   })};
   font-size: 12px;
-  color: #979797;
+  color: ${Colors.mediumGrey};
   font-weight: bold;
 `;
 
@@ -78,14 +79,14 @@ export const BoxTag = styled.View`
 export const BoxTagText = styled.Text`
   font-size: 18px;
   font-weight: 700;
-  color: #404040;
+  color: ${Colors.primary};
 `;
 
 export const BoxTagPriceText = styled.Text`
   font-size: 14px;
   margin-bottom: 9px;
   font-weight: bold;
-  color: #979797;
+  color: ${Colors.mediumGrey};
 `;
 
 export const HeaderContainer = styled.View`

@@ -1,6 +1,7 @@
 import React from 'react';
 import {ProgressCircle} from 'react-native-svg-charts';
 import {Text as TextSvg, G} from 'react-native-svg';
+import Colors from '../utils/colors';
 
 export default function ProgressIncome({percentage}) {
   const isFinite = Number.isFinite(percentage) === false ? 0 : percentage;
@@ -12,13 +13,13 @@ export default function ProgressIncome({percentage}) {
       style={{height: 100, width: 90}}
       strokeWidth={3}
       progress={isFinite}
-      progressColor={'#588A36'}
+      progressColor={Colors.income}
     >
       <G>
         <TextSvg
           x="0"
           y="7"
-          fill="#588A36"
+          fill={Colors.income}
           textAnchor="middle"
           fontSize={20}
           fontWeight="bold"

@@ -2,20 +2,21 @@ import React from 'react';
 import {StyleSheet} from 'react-native';
 import ActionButton from 'react-native-action-button';
 import {Ionicons} from '@expo/vector-icons';
+import Colors from '../../utils/colors';
 
 export default function AddButton({modalVisible, setModalVisible}) {
   const styles = StyleSheet.create({
     actionButtonIcon: {
       fontSize: 20,
       height: 22,
-      color: 'white',
+      color: Colors.white,
     },
   });
 
   return (
-    <ActionButton buttonColor="#000000">
+    <ActionButton buttonColor={Colors.black}>
       <ActionButton.Item
-        buttonColor="#588A36"
+        buttonColor={Colors.income}
         title="Adicionar receita"
         onPress={() => {
           setModalVisible(!modalVisible);
