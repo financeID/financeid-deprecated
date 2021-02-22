@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, ScrollView} from 'react-native';
+import {View, ScrollView, Text} from 'react-native';
 import * as firebase from 'firebase';
 import {auth} from '../../components/Firebase/firebase';
 import useStatusBar from '../../hooks/useStatusBar';
@@ -35,16 +35,19 @@ import BagIcon from '../../assets/bag.svg';
 import UpArrowIcon from '../../assets/up-arrow.svg';
 import DownArrowIcon from '../../assets/down-arrow.svg';
 
-export default function HomeScreen() {
+export default function HomeScreen({navigation}) {
   useStatusBar('dark-content');
 
   const [transactions, setTransactions] = useState([]);
   const [month, setMonth] = useState(new Date().getMonth() + 1);
-  const [modalVisible, setModalVisible] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const {uid} = auth.currentUser;
 
   useEffect(() => {
+    setLoading(true);
+
     const data = firebase.database().ref(`/users/${uid}/transactions`);
 
     data
@@ -52,6 +55,7 @@ export default function HomeScreen() {
       .equalTo(month)
       .on('value', (snapshot) => {
         setTransactions(snapshotToArray(snapshot));
+        setLoading(false);
       });
   }, [month]);
 
@@ -96,109 +100,118 @@ export default function HomeScreen() {
 
   return (
     <>
-      <ScrollView>
-        <Container style={{paddingTop: getStatusBarHeight()}}>
-          <HeaderContainer>
-            <Header>
-              Controle de {'\n'}
-              {month === 1 ? 'Janeiro' : 'Fevereiro'}
-            </Header>
+      {loading == false ? (
+        <ScrollView>
+          <Container style={{paddingTop: getStatusBarHeight()}}>
+            <HeaderContainer>
+              <Header>
+                Controle de {'\n'}
+                {month === 1 ? 'Janeiro' : 'Fevereiro'}
+              </Header>
 
-            <PickerMonth month={month} setMonth={setMonth} />
-          </HeaderContainer>
+              <PickerMonth month={month} setMonth={setMonth} />
+            </HeaderContainer>
 
-          <ControlContainer>
-            <ProgressView>
-              <ProgressIncome percentage={balance.total / balance.income} />
-              <CircleContainerText>Receitas</CircleContainerText>
-            </ProgressView>
+            <ControlContainer>
+              <ProgressView>
+                <ProgressIncome percentage={balance.total / balance.income} />
+                <CircleContainerText>Receitas</CircleContainerText>
+              </ProgressView>
 
-            <ProgressView>
-              <ProgressOutcome percentage={balance.outcome / balance.income} />
-              <CircleContainerText>Despesas</CircleContainerText>
-            </ProgressView>
+              <ProgressView>
+                <ProgressOutcome
+                  percentage={balance.outcome / balance.income}
+                />
+                <CircleContainerText>Despesas</CircleContainerText>
+              </ProgressView>
 
-            <DataContainer>
-              <View>
-                <DataView>
-                  <BagIcon height={20} width={20} style={{paddingLeft: 35}} />
-                  <View>
-                    <DataText>Economias</DataText>
-                    <DataSubText>{formatValue(balance.total)}</DataSubText>
-                  </View>
-                </DataView>
+              <DataContainer>
+                <View>
+                  <DataView>
+                    <BagIcon height={20} width={20} style={{paddingLeft: 35}} />
+                    <View>
+                      <DataText>Economias</DataText>
+                      <DataSubText>{formatValue(balance.total)}</DataSubText>
+                    </View>
+                  </DataView>
 
-                <DataView>
-                  <UpArrowIcon
-                    height={20}
-                    width={20}
-                    style={{paddingLeft: 35}}
-                  />
-                  <View>
-                    <DataText>Receitas</DataText>
-                    <DataSubText>{formatValue(balance.income)}</DataSubText>
-                  </View>
-                </DataView>
-
-                <DataView>
-                  <DownArrowIcon
-                    height={20}
-                    width={20}
-                    style={{paddingLeft: 35}}
-                  />
-                  <View>
-                    <DataText>Despesas</DataText>
-                    <DataSubText>{formatValue(balance.outcome)}</DataSubText>
-                  </View>
-                </DataView>
-              </View>
-            </DataContainer>
-          </ControlContainer>
-
-          <Header>Para onde está indo {'\n'}seu dinheiro esse mês?</Header>
-        </Container>
-
-        <BoxContainer>
-          <ScrollView
-            horizontal
-            onContentSizeChange={0}
-            showsHorizontalScrollIndicator={false}
-          >
-            {tagGroup.map(({tag, price}, i) => {
-              return (
-                <View key={price}>
-                  <BoxTag
-                    style={i === tagGroup.length - 1 ? {marginRight: 23} : {}}
-                  >
-                    <BoxTagText numberOfLines={1}>{tag}</BoxTagText>
-                    <BoxTagPriceText numberOfLines={1}>
-                      {formatValue(price)}
-                    </BoxTagPriceText>
-
-                    <StackedBarChart
-                      style={{height: 4}}
-                      keys={['outcomes', 'incomes']}
-                      colors={[Colors.outcome, '#dddddd']}
-                      data={[
-                        {
-                          incomes: balance.income,
-                          outcomes: price,
-                        },
-                      ]}
-                      showGrid={false}
-                      horizontal={true}
+                  <DataView>
+                    <UpArrowIcon
+                      height={20}
+                      width={20}
+                      style={{paddingLeft: 35}}
                     />
-                  </BoxTag>
+                    <View>
+                      <DataText>Receitas</DataText>
+                      <DataSubText>{formatValue(balance.income)}</DataSubText>
+                    </View>
+                  </DataView>
+
+                  <DataView>
+                    <DownArrowIcon
+                      height={20}
+                      width={20}
+                      style={{paddingLeft: 35}}
+                    />
+                    <View>
+                      <DataText>Despesas</DataText>
+                      <DataSubText>{formatValue(balance.outcome)}</DataSubText>
+                    </View>
+                  </DataView>
                 </View>
-              );
-            })}
-          </ScrollView>
-        </BoxContainer>
-      </ScrollView>
+              </DataContainer>
+            </ControlContainer>
+
+            <Header>Para onde está indo {'\n'}seu dinheiro esse mês?</Header>
+          </Container>
+
+          <BoxContainer>
+            <ScrollView
+              horizontal
+              onContentSizeChange={0}
+              showsHorizontalScrollIndicator={false}
+            >
+              {tagGroup.map(({tag, price}, i) => {
+                return (
+                  <View key={price}>
+                    <BoxTag
+                      style={i === tagGroup.length - 1 ? {marginRight: 23} : {}}
+                    >
+                      <BoxTagText numberOfLines={1}>{tag}</BoxTagText>
+                      <BoxTagPriceText numberOfLines={1}>
+                        {formatValue(price)}
+                      </BoxTagPriceText>
+
+                      <StackedBarChart
+                        style={{height: 4}}
+                        keys={['outcomes', 'incomes']}
+                        colors={[Colors.outcome, '#dddddd']}
+                        data={[
+                          {
+                            incomes: balance.income,
+                            outcomes: price,
+                          },
+                        ]}
+                        showGrid={false}
+                        horizontal={true}
+                      />
+                    </BoxTag>
+                  </View>
+                );
+              })}
+            </ScrollView>
+          </BoxContainer>
+        </ScrollView>
+      ) : (
+        <View style={{justifyContent: 'center', alignItems: 'center', flex: 1}}>
+          <Text>Carregando</Text>
+        </View>
+      )}
 
       <FixedButton
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
+        navigation={navigation}
       />
 
       <ModalTransactions

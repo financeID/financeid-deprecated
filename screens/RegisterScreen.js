@@ -131,7 +131,7 @@ export default function RegisterScreen({navigation}) {
       <IconButton
         style={styles.backButton}
         iconName="keyboard-backspace"
-        color={Colors.white}
+        color={Colors.mediumGrey}
         size={30}
         onPress={() => navigation.goBack()}
       />

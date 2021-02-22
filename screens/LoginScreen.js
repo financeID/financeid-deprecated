@@ -88,7 +88,7 @@ export default function LoginScreen({navigation}) {
       <IconButton
         style={styles.backButton}
         iconName="keyboard-backspace"
-        color="#fff"
+        color={Colors.mediumGrey}
         size={30}
         onPress={() => navigation.goBack()}
       />
@@ -99,7 +99,7 @@ export default function LoginScreen({navigation}) {
 const styles = StyleSheet.create({
   container: {
     padding: 15,
-    backgroundColor: Colors.mediumGrey,
+    backgroundColor: Colors.white,
   },
   footerButtonContainer: {
     marginVertical: 15,
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   forgotPasswordButtonText: {
-    color: Colors.white,
+    color: Colors.mediumGrey,
     fontSize: 18,
     fontWeight: '600',
   },

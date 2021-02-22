@@ -4,52 +4,24 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 import HomeScreen from '../screens/Home';
 import TransactionScreen from '../screens/TransactionScreen';
-import ReportsScreen from '../screens/ReportsScreen';
-import ProfileScreen from '../screens/ProfileScreen';
+import TestScreen from '../screens/Test';
 
 const HomeStack = createStackNavigator();
+const Tab = createBottomTabNavigator();
 
-function HomeStackScreen() {
+function TransactionStackScreen() {
   return (
     <HomeStack.Navigator>
       <HomeStack.Screen
-        options={{
-          headerShown: false,
-        }}
-        name="Home"
-        component={HomeScreen}
+        name="Transações"
+        options={{headerShown: true, headerTitleAlign: 'center'}}
+        component={TransactionScreen}
       />
     </HomeStack.Navigator>
   );
 }
 
-function TransactionStackScreen() {
-  return (
-    <HomeStack.Navigator>
-      <HomeStack.Screen name="Transações" component={TransactionScreen} />
-    </HomeStack.Navigator>
-  );
-}
-
-function ReportsStackScreen() {
-  return (
-    <HomeStack.Navigator>
-      <HomeStack.Screen name="Relatórios" component={ReportsScreen} />
-    </HomeStack.Navigator>
-  );
-}
-
-function ProfileStackScreen() {
-  return (
-    <HomeStack.Navigator>
-      <HomeStack.Screen name="Perfil" component={ProfileScreen} />
-    </HomeStack.Navigator>
-  );
-}
-
-const Tab = createBottomTabNavigator();
-
-export default function AppStack() {
+function HomeStackScreen() {
   return (
     <Tab.Navigator
       tabBarOptions={{
@@ -68,40 +40,25 @@ export default function AppStack() {
         },
       }}
     >
-      <Tab.Screen
+      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Transações" component={TransactionStackScreen} />
+    </Tab.Navigator>
+  );
+}
+
+export default function AppStack() {
+  return (
+    <HomeStack.Navigator>
+      <HomeStack.Screen
+        options={{headerShown: false}}
         name="Home"
         component={HomeStackScreen}
-        options={{
-          title: 'Home',
-          /*tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="home" color={color} size={size} />
-          ),*/
-        }}
       />
-
-      <Tab.Screen
-        name="Transactions"
-        component={TransactionStackScreen}
-        options={{
-          title: 'Transações',
-        }}
+      <HomeStack.Screen
+        options={{title: 'Adicionar receita', headerBackTitle: ''}}
+        name="addIncome"
+        component={TestScreen}
       />
-
-      <Tab.Screen
-        name="Reports"
-        component={ReportsStackScreen}
-        options={{
-          title: 'Relatórios',
-        }}
-      />
-
-      <Tab.Screen
-        name="Perfil"
-        component={ProfileStackScreen}
-        options={{
-          title: 'Perfil',
-        }}
-      />
-    </Tab.Navigator>
+    </HomeStack.Navigator>
   );
 }

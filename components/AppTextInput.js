@@ -1,5 +1,11 @@
 import React from 'react';
-import {View, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  Text,
+} from 'react-native';
 import {MaterialCommunityIcons} from '@expo/vector-icons';
 
 import Colors from '../utils/colors';
@@ -8,6 +14,7 @@ export default function AppTextInput({
   leftIcon,
   width = '100%',
   rightIcon,
+  descTitle,
   handlePasswordVisibility,
   ...otherProps
 }) {
@@ -21,11 +28,14 @@ export default function AppTextInput({
           style={styles.icon}
         />
       )}
-      <TextInput
-        style={styles.input}
-        placeholderTextColor={Colors.mediumGrey}
-        {...otherProps}
-      />
+      <View style={{flex: 1}}>
+        {descTitle && <Text style={styles.descTitle}>{descTitle}</Text>}
+        <TextInput
+          style={styles.input}
+          placeholderTextColor={Colors.mediumGrey}
+          {...otherProps}
+        />
+      </View>
       {rightIcon && (
         <TouchableOpacity onPress={handlePasswordVisibility}>
           <MaterialCommunityIcons
@@ -42,21 +52,34 @@ export default function AppTextInput({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#F1F1F1F1',
-    borderRadius: 5,
+    borderBottomWidth: 1,
+    borderBottomColor: '#EBEBEB',
     flexDirection: 'row',
-    marginVertical: 10,
+    marginVertical: 0,
   },
   icon: {
-    padding: 15,
+    paddingTop: 20,
+    paddingBottom: 15,
+    paddingLeft: 15,
+  },
+  descTitle: {
+    paddingTop: 15,
+    paddingLeft: 15,
+    bottom: -5,
+    fontWeight: 'bold',
+    color: '#8895A5',
+    textTransform: 'uppercase',
   },
   input: {
-    flex: 1,
+    padding: 15,
     width: '100%',
-    fontSize: 18,
+    fontSize: 20,
+    lineHeight: 28,
     color: Colors.black,
   },
   rightIconStyles: {
-    padding: 15,
+    paddingTop: 15,
+    paddingBottom: 15,
+    paddingRight: 15,
   },
 });

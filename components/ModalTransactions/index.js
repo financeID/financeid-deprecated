@@ -7,12 +7,12 @@ import Form from '../../components/Forms/Form';
 import FormField from '../../components/Forms/FormField';
 import FormButton from '../../components/Forms/FormButton';
 
-import {Container, Header, ContainerForm, ContainerButton} from './styles';
-
-const validationSchema = Yup.object().shape({});
-const {uid} = auth.currentUser;
+import {Container, Header} from './styles';
 
 export default function ModalTransactions({modalVisible, setModalVisible}) {
+  const validationSchema = Yup.object().shape({});
+  const {uid} = auth.currentUser;
+
   async function handleTransactions(values) {
     const {description, value, date, tag, type} = values;
 
@@ -39,57 +39,45 @@ export default function ModalTransactions({modalVisible, setModalVisible}) {
       <Container>
         <Header>Cadastrar receita</Header>
 
-        <ContainerForm>
-          <Form
-            initialValues={{
-              description: '',
-              value: '',
-              date: '',
-              tag: '',
-            }}
-            validationSchema={validationSchema}
-            onSubmit={(values) => handleTransactions(values)}
-          >
-            <FormField
-              name="description"
-              leftIcon="pencil"
-              autoCapitalize="words"
-              placeholder="Descrição"
-              autoFocus
-            />
-            <FormField
-              name="value"
-              leftIcon="cash"
-              placeholder="Quanto foi?"
-              autoCapitalize="none"
-            />
-            <FormField
-              name="date"
-              leftIcon="calendar"
-              placeholder="Data"
-              autoCapitalize="none"
-            />
-            <FormField
-              name="tag"
-              leftIcon="calendar"
-              placeholder="Tag"
-              autoCapitalize="none"
-            />
-            <FormField
-              name="type"
-              leftIcon="calendar"
-              placeholder="Tipo"
-              autoCapitalize="none"
-            />
-            <ContainerButton>
-              <FormButton title={'Salvar'} />
-            </ContainerButton>
-            <Button
-              title="fechar"
-              onPress={() => setModalVisible(!modalVisible)}
-            />
-          </Form>
-        </ContainerForm>
+        <Form
+          initialValues={{
+            description: '',
+            value: '',
+            date: '',
+            tag: '',
+          }}
+          validationSchema={validationSchema}
+          onSubmit={(values) => handleTransactions(values)}
+        >
+          <FormField
+            descTitle="Descrição"
+            name="description"
+            autoCapitalize="words"
+            placeholder="Descrição"
+            autoFocus
+          />
+          <FormField
+            descTitle="Valor"
+            name="value"
+            placeholder="Quanto foi?"
+            autoCapitalize="none"
+          />
+          <FormField name="date" placeholder="Data" autoCapitalize="none" />
+          <FormField name="tag" placeholder="Tag" autoCapitalize="none" />
+          <FormField
+            name="type"
+            leftIcon="calendar"
+            placeholder="Tipo"
+            autoCapitalize="none"
+          />
+
+          <FormButton title={'Salvar'} />
+
+          <Button
+            title="fechar"
+            onPress={() => setModalVisible(!modalVisible)}
+          />
+        </Form>
       </Container>
     </Modal>
   );
