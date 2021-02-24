@@ -11,7 +11,6 @@ import Colors from '../../utils/colors';
 import ProgressIncome from '../../components/ProgressIncome';
 import ProgressOutcome from '../../components/ProgressOutcome';
 import FixedButton from '../../components/FixedButton';
-import ModalTransactions from '../../components/ModalTransactions';
 import PickerMonth from '../../components/PickerMonth';
 
 import {
@@ -40,7 +39,6 @@ export default function HomeScreen({navigation}) {
 
   const [transactions, setTransactions] = useState([]);
   const [month, setMonth] = useState(new Date().getMonth() + 1);
-  const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const {uid} = auth.currentUser;
@@ -208,16 +206,7 @@ export default function HomeScreen({navigation}) {
         </View>
       )}
 
-      <FixedButton
-        modalVisible={modalVisible}
-        setModalVisible={setModalVisible}
-        navigation={navigation}
-      />
-
-      <ModalTransactions
-        modalVisible={modalVisible}
-        setModalVisible={setModalVisible}
-      />
+      <FixedButton navigation={navigation} />
     </>
   );
 }

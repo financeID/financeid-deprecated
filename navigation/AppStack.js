@@ -4,7 +4,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 import HomeScreen from '../screens/Home';
 import TransactionScreen from '../screens/TransactionScreen';
-import TestScreen from '../screens/Test';
+import AddTransactions from '../screens/AddTransactions';
 
 const HomeStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -57,7 +57,7 @@ export default function AppStack() {
       <HomeStack.Screen
         options={{title: 'Adicionar receita', headerBackTitle: ''}}
         name="addIncome"
-        component={TestScreen}
+        component={AddTransactions}
       />
     </HomeStack.Navigator>
   );
