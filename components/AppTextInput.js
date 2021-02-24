@@ -74,6 +74,7 @@ const styles = StyleSheet.create({
     padding: 15,
     width: '100%',
     fontSize: 20,
+    lineHeight: 25,
     color: Colors.black,
   },
   rightIconStyles: {

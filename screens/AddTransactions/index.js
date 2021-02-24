@@ -1,5 +1,5 @@
 import React from 'react';
-import {ScrollView} from 'react-native';
+import {Platform, ScrollView} from 'react-native';
 import {KeyboardAccessoryView} from '@flyerhq/react-native-keyboard-accessory-view';
 import * as Yup from 'yup';
 import * as firebase from 'firebase';
@@ -60,20 +60,17 @@ export default function AddTransactions({navigation}) {
             onSubmit={(values) => handleTransactions(values)}
           >
             <FormField
-              descTitle="Descrição"
               name="description"
               autoCapitalize="words"
               placeholder="Descrição"
-              autoFocus
             />
             <FormField
-              descTitle="Valor"
               name="value"
-              placeholder="Quanto foi?"
+              keyboardType={'numeric'}
+              placeholder="Valor"
               autoCapitalize="none"
             />
             <FormField name="date" placeholder="Data" autoCapitalize="none" />
-            <FormField name="tag" placeholder="Tag" autoCapitalize="none" />
             <FormField name="tag" placeholder="Tag" autoCapitalize="none" />
             <FormField
               name="type"
@@ -88,7 +85,13 @@ export default function AddTransactions({navigation}) {
       </Container>
 
       <ContainerKeyboard>
-        <KeyboardAccessoryView renderScrollable={renderScrollable}>
+        <KeyboardAccessoryView
+          renderScrollable={renderScrollable}
+          contentOffsetKeyboardOpened={35}
+          style={{
+            backgroundColor: Platform.OS === 'ios' ? '#e7e6e6' : 'transparent',
+          }}
+        >
           <ViewButton>
             <ButtonSave>
               <ButtonText>Salvar</ButtonText>

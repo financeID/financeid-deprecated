@@ -1,16 +1,14 @@
-import {Platform} from 'react-native';
 import styled from 'styled-components/native';
 import Colors from '../../utils/colors';
 
 export const Container = styled.View`
   flex: 1;
   padding: 0 14px;
-  padding-bottom: 35px;
   background-color: ${Colors.white};
 `;
 
 export const ContainerKeyboard = styled.View`
-  background-color: ${Platform.OS === 'ios' ? '#e7e6e6' : 'transparent'};
+  background-color: ${Colors.white};
 `;
 
 export const ViewButton = styled.View`
