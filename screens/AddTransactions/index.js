@@ -1,34 +1,42 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Platform, ScrollView} from 'react-native';
 import {KeyboardAccessoryView} from '@flyerhq/react-native-keyboard-accessory-view';
+import SegmentedControl from '@react-native-segmented-control/segmented-control';
 import * as Yup from 'yup';
 import * as firebase from 'firebase';
 import {auth} from '../../components/Firebase/firebase';
 import Form from '../../components/Forms/Form';
 import FormField from '../../components/Forms/FormField';
-//import FormButton from '../../components/Forms/FormButton';
+import FormButtonTransactions from '../../components/Forms/FormButtonTransactions';
 
-import {
-  Container,
-  ButtonSave,
-  ButtonText,
-  ContainerKeyboard,
-  ViewButton,
-} from './styles';
+import {Container, ContainerKeyboard, ViewButton} from './styles';
+
+const validationSchema = Yup.object().shape({
+  description: Yup.string()
+    .required('Digite uma descrição para o item')
+    .min(3, 'A descrição deve conter ao menos 3 caracteres')
+    .label('Description'),
+  value: Yup.number()
+    .required('Digite o valor da transação')
+    .positive()
+    .label('Value'),
+});
 
 export default function AddTransactions({navigation}) {
-  const validationSchema = Yup.object().shape({});
   const {uid} = auth.currentUser;
+  const [type, setType] = useState(0);
+
+  const onType = type === 0 ? 'Salvar entrada' : 'Salvar saída';
 
   async function handleTransactions(values) {
-    const {description, value, date, tag, type} = values;
+    const {description, value, date, tag} = values;
     const data = firebase.database().ref(`/users/${uid}/transactions/`).push();
 
     data
       .set({
-        month: Number(date),
-        name: description,
-        price: Number(value),
+        description: description,
+        value: Number(value),
+        date: date,
         tag: tag,
         type: type,
       })
@@ -43,44 +51,57 @@ export default function AddTransactions({navigation}) {
   );
 
   return (
-    <>
+    <Form
+      initialValues={{
+        description: '',
+        value: '',
+        date: '',
+        tag: '',
+        type: '',
+      }}
+      validationSchema={validationSchema}
+      onSubmit={(values) => handleTransactions(values)}
+    >
       <Container>
         <ScrollView
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
         >
-          <Form
-            initialValues={{
-              description: '',
-              value: '',
-              date: '',
-              tag: '',
+          <SegmentedControl
+            style={{marginTop: 25, marginBottom: 10}}
+            values={['Entrada', 'Saída']}
+            name="type"
+            selectedIndex={type}
+            onChange={(event) => {
+              setType(event.nativeEvent.selectedSegmentIndex);
             }}
-            validationSchema={validationSchema}
-            onSubmit={(values) => handleTransactions(values)}
-          >
-            <FormField
-              name="description"
-              autoCapitalize="words"
-              placeholder="Descrição"
-            />
-            <FormField
-              name="value"
-              keyboardType={'numeric'}
-              placeholder="Valor"
-              autoCapitalize="none"
-            />
-            <FormField name="date" placeholder="Data" autoCapitalize="none" />
-            <FormField name="tag" placeholder="Tag" autoCapitalize="none" />
-            <FormField
-              name="type"
-              leftIcon="calendar"
-              placeholder="Tipo"
-              autoCapitalize="none"
-            />
+          />
 
-            {/*<FormButton title={'Salvar'} />*/}
-          </Form>
+          <FormField
+            name="description"
+            leftIcon="text-short"
+            autoCapitalize="words"
+            placeholder="Descrição"
+          />
+          <FormField
+            name="value"
+            leftIcon="currency-usd"
+            keyboardType={'numeric'}
+            placeholder="Valor"
+            autoCapitalize="none"
+          />
+          <FormField
+            name="date"
+            leftIcon="calendar-blank-outline"
+            placeholder="Data"
+            autoCapitalize="none"
+          />
+          <FormField
+            name="tag"
+            leftIcon="tag-outline"
+            placeholder="Tag"
+            autoCapitalize="none"
+          />
         </ScrollView>
       </Container>
 
@@ -93,12 +114,10 @@ export default function AddTransactions({navigation}) {
           }}
         >
           <ViewButton>
-            <ButtonSave>
-              <ButtonText>Salvar</ButtonText>
-            </ButtonSave>
+            <FormButtonTransactions title={onType} />
           </ViewButton>
         </KeyboardAccessoryView>
       </ContainerKeyboard>
-    </>
+    </Form>
   );
 }

@@ -18,14 +18,7 @@ export const ViewButton = styled.View`
   height: 45px;
 `;
 
-export const ButtonSave = styled.TouchableOpacity`
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  flex: 1;
-`;
-
-export const ButtonText = styled.Text`
-  color: #5c5b5c;
-  font-size: 18px;
+export const ValueInput = styled.TextInput`
+  font-size: 40px;
+  padding: 10px 10px;
 `;

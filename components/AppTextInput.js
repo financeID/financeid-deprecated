@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Platform,
   View,
   StyleSheet,
   TextInput,
@@ -73,12 +74,12 @@ const styles = StyleSheet.create({
   input: {
     padding: 15,
     width: '100%',
-    fontSize: 20,
-    lineHeight: 25,
+    fontSize: Platform.OS === 'ios' ? 19 : 16,
+    lineHeight: Platform.OS === 'ios' ? 26 : 25,
     color: Colors.black,
   },
   rightIconStyles: {
-    paddingTop: 15,
+    paddingTop: 20,
     paddingBottom: 15,
     paddingRight: 15,
   },
