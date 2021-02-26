@@ -1,4 +1,4 @@
-const snapshotToArray = (snapshot) => {
+const snapshotToArray = (snapshot, date) => {
   var returnArr = [];
 
   snapshot.forEach(function (childSnapshot) {
@@ -8,7 +8,11 @@ const snapshotToArray = (snapshot) => {
     returnArr.push(item);
   });
 
-  return returnArr;
+  const filterObj = returnArr.filter((x) => x.date === Number(date));
+
+  console.log(filterObj);
+
+  return filterObj;
 };
 
 export default snapshotToArray;

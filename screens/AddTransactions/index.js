@@ -51,7 +51,7 @@ export default function AddTransactions({navigation}) {
       .set({
         description: description.trim(),
         price: valueTransformed,
-        date: date,
+        date: Number(date),
         tag: tag,
         type: typeTransformed,
       })

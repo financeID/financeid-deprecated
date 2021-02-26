@@ -39,7 +39,6 @@ export default function HomeScreen({navigation}) {
 
   const [transactions, setTransactions] = useState([]);
   const [date, setDate] = useState(new Date().getMonth() + 1);
-  const [month, setMonth] = useState('');
   const [loading, setLoading] = useState(false);
 
   const {uid} = auth.currentUser;
@@ -49,14 +48,12 @@ export default function HomeScreen({navigation}) {
 
     const data = firebase.database().ref(`/users/${uid}/transactions`);
 
-    data
-      .orderByChild('date')
-      .equalTo(month)
-      .on('value', (snapshot) => {
-        setTransactions(snapshotToArray(snapshot));
-        setLoading(false);
-      });
-  }, [month, date]);
+    data.on('value', (snapshot) => {
+      console.log(snapshot);
+      setTransactions(snapshotToArray(snapshot, date));
+      setLoading(false);
+    });
+  }, [date]);
 
   const balance = transactions.reduce(
     (accumulator, transaction) => {
@@ -108,7 +105,7 @@ export default function HomeScreen({navigation}) {
                 {date === 1 ? 'Janeiro' : 'Fevereiro'}
               </Header>
 
-              <PickerMonth month={date} setDate={setDate} setMonth={setMonth} />
+              <PickerMonth date={date} setDate={setDate} />
             </HeaderContainer>
 
             <ControlContainer>
