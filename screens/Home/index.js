@@ -49,7 +49,7 @@ export default function HomeScreen({navigation}) {
     const data = firebase.database().ref(`/users/${uid}/transactions`);
 
     data
-      .orderByChild('month')
+      .orderByChild('date')
       .equalTo(month)
       .on('value', (snapshot) => {
         setTransactions(snapshotToArray(snapshot));
@@ -60,13 +60,13 @@ export default function HomeScreen({navigation}) {
   const balance = transactions.reduce(
     (accumulator, transaction) => {
       switch (transaction.type) {
-        case 'income':
-          accumulator.income += Number(transaction.price);
-          accumulator.total += Number(transaction.price);
+        case 0:
+          accumulator.income += Number(transaction.value);
+          accumulator.total += Number(transaction.value);
           break;
-        case 'outcome':
-          accumulator.outcome += Number(transaction.price);
-          accumulator.total -= Number(transaction.price);
+        case 1:
+          accumulator.outcome += Number(transaction.value);
+          accumulator.total -= Number(transaction.value);
           break;
         default:
           break;
@@ -83,14 +83,14 @@ export default function HomeScreen({navigation}) {
 
   const tagGroup = [];
 
-  transactions.reduce((accumulator, {type, tag, price}) => {
-    if (type === 'outcome') {
+  transactions.reduce((accumulator, {type, tag, value}) => {
+    if (type === 1) {
       if (!accumulator[tag]) {
-        accumulator[tag] = {tag: tag, price: 0, type: type};
+        accumulator[tag] = {tag: tag, value: 0, type: type};
         tagGroup.push(accumulator[tag]);
       }
 
-      accumulator[tag].price += Number(price);
+      accumulator[tag].value += Number(value);
     }
 
     return accumulator;
@@ -169,15 +169,15 @@ export default function HomeScreen({navigation}) {
               onContentSizeChange={0}
               showsHorizontalScrollIndicator={false}
             >
-              {tagGroup.map(({tag, price}, i) => {
+              {tagGroup.map(({tag, value}, i) => {
                 return (
-                  <View key={price}>
+                  <View key={value}>
                     <BoxTag
                       style={i === tagGroup.length - 1 ? {marginRight: 23} : {}}
                     >
                       <BoxTagText numberOfLines={1}>{tag}</BoxTagText>
                       <BoxTagPriceText numberOfLines={1}>
-                        {formatValue(price)}
+                        {formatValue(value)}
                       </BoxTagPriceText>
 
                       <StackedBarChart
@@ -187,7 +187,7 @@ export default function HomeScreen({navigation}) {
                         data={[
                           {
                             incomes: balance.income,
-                            outcomes: price,
+                            outcomes: value,
                           },
                         ]}
                         showGrid={false}

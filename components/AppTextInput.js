@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     padding: 15,
     width: '100%',
     fontSize: Platform.OS === 'ios' ? 19 : 16,
-    lineHeight: Platform.OS === 'ios' ? 26 : 25,
+    lineHeight: 26,
     color: Colors.black,
   },
   rightIconStyles: {
