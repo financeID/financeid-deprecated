@@ -38,7 +38,8 @@ export default function HomeScreen({navigation}) {
   useStatusBar('dark-content');
 
   const [transactions, setTransactions] = useState([]);
-  const [month, setMonth] = useState(new Date().getMonth() + 1);
+  const [date, setDate] = useState(new Date().getMonth() + 1);
+  const [month, setMonth] = useState('');
   const [loading, setLoading] = useState(false);
 
   const {uid} = auth.currentUser;
@@ -55,18 +56,18 @@ export default function HomeScreen({navigation}) {
         setTransactions(snapshotToArray(snapshot));
         setLoading(false);
       });
-  }, [month]);
+  }, [month, date]);
 
   const balance = transactions.reduce(
     (accumulator, transaction) => {
       switch (transaction.type) {
-        case 0:
-          accumulator.income += Number(transaction.value);
-          accumulator.total += Number(transaction.value);
+        case 'income':
+          accumulator.income += Number(transaction.price);
+          accumulator.total += Number(transaction.price);
           break;
-        case 1:
-          accumulator.outcome += Number(transaction.value);
-          accumulator.total -= Number(transaction.value);
+        case 'outcome':
+          accumulator.outcome += Number(transaction.price);
+          accumulator.total -= Number(transaction.price);
           break;
         default:
           break;
@@ -83,14 +84,14 @@ export default function HomeScreen({navigation}) {
 
   const tagGroup = [];
 
-  transactions.reduce((accumulator, {type, tag, value}) => {
-    if (type === 1) {
+  transactions.reduce((accumulator, {type, tag, price}) => {
+    if (type === 'outcome') {
       if (!accumulator[tag]) {
-        accumulator[tag] = {tag: tag, value: 0, type: type};
+        accumulator[tag] = {tag: tag, price: 0, type: type};
         tagGroup.push(accumulator[tag]);
       }
 
-      accumulator[tag].value += Number(value);
+      accumulator[tag].price += Number(price);
     }
 
     return accumulator;
@@ -104,10 +105,10 @@ export default function HomeScreen({navigation}) {
             <HeaderContainer>
               <Header>
                 Controle de {'\n'}
-                {month === 1 ? 'Janeiro' : 'Fevereiro'}
+                {date === 1 ? 'Janeiro' : 'Fevereiro'}
               </Header>
 
-              <PickerMonth month={month} setMonth={setMonth} />
+              <PickerMonth month={date} setDate={setDate} setMonth={setMonth} />
             </HeaderContainer>
 
             <ControlContainer>
@@ -169,15 +170,15 @@ export default function HomeScreen({navigation}) {
               onContentSizeChange={0}
               showsHorizontalScrollIndicator={false}
             >
-              {tagGroup.map(({tag, value}, i) => {
+              {tagGroup.map(({tag, price}, i) => {
                 return (
-                  <View key={value}>
+                  <View key={price}>
                     <BoxTag
                       style={i === tagGroup.length - 1 ? {marginRight: 23} : {}}
                     >
                       <BoxTagText numberOfLines={1}>{tag}</BoxTagText>
                       <BoxTagPriceText numberOfLines={1}>
-                        {formatValue(value)}
+                        {formatValue(price)}
                       </BoxTagPriceText>
 
                       <StackedBarChart
@@ -187,7 +188,7 @@ export default function HomeScreen({navigation}) {
                         data={[
                           {
                             incomes: balance.income,
-                            outcomes: value,
+                            outcomes: price,
                           },
                         ]}
                         showGrid={false}

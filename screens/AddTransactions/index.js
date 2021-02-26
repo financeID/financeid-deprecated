@@ -40,22 +40,23 @@ export default function AddTransactions({navigation}) {
 
   const onType = type === 0 ? 'Adicionar entrada' : 'Adicionar saída';
 
-  async function handleTransactions(values) {
+  const handleTransactions = (values) => {
     const {description, value, date, tag} = values;
     const data = firebase.database().ref(`/users/${uid}/transactions/`).push();
 
     const valueTransformed = Math.round(value * 100) / 100;
+    const typeTransformed = type === 0 ? 'income' : 'outcome';
 
     data
       .set({
         description: description.trim(),
-        value: valueTransformed,
-        date: Number(date),
+        price: valueTransformed,
+        date: date,
         tag: tag,
-        type: type,
+        type: typeTransformed,
       })
-      .then(() => navigation.goBack());
-  }
+      .then(() => navigation.navigate('Home'));
+  };
 
   const renderScrollable = (GestureResponderHandlers) => (
     <ScrollView
