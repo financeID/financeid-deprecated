@@ -1,16 +1,16 @@
-import React, {useState} from 'react';
-import {Platform, ScrollView} from 'react-native';
-import {parse, isDate, format} from 'date-fns';
-import {KeyboardAccessoryView} from '@flyerhq/react-native-keyboard-accessory-view';
+import React, { useState } from 'react';
+import { Platform, ScrollView } from 'react-native';
+import { format } from 'date-fns';
+import { KeyboardAccessoryView } from '@flyerhq/react-native-keyboard-accessory-view';
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
 import * as Yup from 'yup';
 import * as firebase from 'firebase';
-import {auth} from '../../components/Firebase/firebase';
+import { auth } from '../../components/Firebase/firebase';
 import Form from '../../components/Forms/Form';
 import FormField from '../../components/Forms/FormField';
 import FormButtonTransactions from '../../components/Forms/FormButtonTransactions';
 
-import {Container, ContainerKeyboard, ViewButton} from './styles';
+import { Container, ContainerKeyboard, ViewButton } from './styles';
 
 const validationSchema = Yup.object().shape({
   description: Yup.string()
@@ -20,7 +20,7 @@ const validationSchema = Yup.object().shape({
     .label('Description'),
   value: Yup.number()
     .typeError('O valor deve ser um número')
-    .required('Digite o valor da transação')
+    .required('Digite o valor da item')
     .positive()
     .label('Value'),
   date: Yup.string()
@@ -34,14 +34,14 @@ const validationSchema = Yup.object().shape({
     .label('Tag'),
 });
 
-export default function AddTransactions({navigation}) {
-  const {uid} = auth.currentUser;
+export default function AddTransactions({ navigation }) {
+  const { uid } = auth.currentUser;
   const [type, setType] = useState(0);
 
   const onType = type === 0 ? 'Adicionar entrada' : 'Adicionar saída';
 
-  const handleTransactions = (values) => {
-    const {description, value, date, tag} = values;
+  const handleTransactions = values => {
+    const { description, value, date, tag } = values;
     const data = firebase.database().ref(`/users/${uid}/transactions/`).push();
 
     const valueTransformed = Math.round(value * 100) / 100;
@@ -50,15 +50,15 @@ export default function AddTransactions({navigation}) {
     data
       .set({
         description: description.trim(),
-        price: valueTransformed,
+        price: valueTransformed.trim(),
         date: Number(date),
-        tag: tag,
+        tag: tag.trim(),
         type: typeTransformed,
       })
       .then(() => navigation.navigate('Home'));
   };
 
-  const renderScrollable = (GestureResponderHandlers) => (
+  const renderScrollable = GestureResponderHandlers => (
     <ScrollView
       keyboardDismissMode="interactive"
       {...GestureResponderHandlers}
@@ -75,15 +75,15 @@ export default function AddTransactions({navigation}) {
         type: '',
       }}
       validationSchema={validationSchema}
-      onSubmit={(values) => handleTransactions(values)}
+      onSubmit={values => handleTransactions(values)}
     >
       <Container>
         <SegmentedControl
-          style={{marginTop: 15, marginBottom: 10}}
+          style={{ marginTop: 15, marginBottom: 10 }}
           values={['Entrada', 'Saída']}
           name="type"
           selectedIndex={type}
-          onChange={(event) => {
+          onChange={event => {
             setType(event.nativeEvent.selectedSegmentIndex);
           }}
         />
@@ -94,8 +94,8 @@ export default function AddTransactions({navigation}) {
           <FormField
             placeholder="Descrição"
             name="description"
-            leftIcon="text-short" 
-            autoCapitalize="words"
+            leftIcon="text-short"
+            autoCapitalize="sentences"
           />
           <FormField
             placeholder="Valor"
@@ -105,10 +105,10 @@ export default function AddTransactions({navigation}) {
             autoCapitalize="none"
           />
           <FormField
+            type={'datetime'}
             name="date"
             rightIcon="calendar-blank-outline"
             placeholder="Data"
-            autoCapitalize="none"
           />
           <FormField
             name="tag"

@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   Text,
 } from 'react-native';
-import {MaterialCommunityIcons} from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import Colors from '../utils/colors';
 
@@ -21,34 +21,34 @@ export default function AppTextInput({
 }) {
   return (
     <>
-    {descTitle && <Text style={styles.descTitle}>{descTitle}</Text>}
-    <View style={[styles.container, {width}]}>
-      {leftIcon && (
-        <MaterialCommunityIcons
-          name={leftIcon}
-          size={20}
-          color={Colors.mediumGrey}
-          style={styles.icon}
-        />
-      )}
-      <View style={{flex: 1}}>
-        <TextInput
-          style={styles.input}
-          placeholderTextColor={Colors.mediumGrey}
-          {...otherProps}
-        />
-      </View>
-      {rightIcon && (
-        <TouchableOpacity onPress={handlePasswordVisibility}>
+      {descTitle && <Text style={styles.descTitle}>{descTitle}</Text>}
+      <View style={[styles.container, { width }]}>
+        {leftIcon && (
           <MaterialCommunityIcons
-            name={rightIcon}
+            name={leftIcon}
             size={20}
             color={Colors.mediumGrey}
-            style={styles.rightIconStyles}
+            style={styles.icon}
           />
-        </TouchableOpacity>
-      )}
-    </View>
+        )}
+        <View style={{ flex: 1 }}>
+          <TextInput
+            style={styles.input}
+            placeholderTextColor={Colors.mediumGrey}
+            {...otherProps}
+          />
+        </View>
+        {rightIcon && (
+          <TouchableOpacity onPress={handlePasswordVisibility}>
+            <MaterialCommunityIcons
+              name={rightIcon}
+              size={20}
+              color={Colors.mediumGrey}
+              style={styles.rightIconStyles}
+            />
+          </TouchableOpacity>
+        )}
+      </View>
     </>
   );
 }

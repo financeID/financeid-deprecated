@@ -1,12 +1,12 @@
-import React, {useState, useEffect} from 'react';
-import {View, ScrollView, Text} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, ScrollView, Text } from 'react-native';
 import * as firebase from 'firebase';
-import {auth} from '../../components/Firebase/firebase';
+import { auth } from '../../components/Firebase/firebase';
 import useStatusBar from '../../hooks/useStatusBar';
 import snapshotToArray from '../../utils/snapshotToArray';
 import formatValue from '../../utils/formatValue';
-import {getStatusBarHeight} from 'react-native-status-bar-height';
-import {StackedBarChart} from 'react-native-svg-charts';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
+import { StackedBarChart } from 'react-native-svg-charts';
 import Colors from '../../utils/colors';
 import ProgressIncome from '../../components/ProgressIncome';
 import ProgressOutcome from '../../components/ProgressOutcome';
@@ -34,26 +34,25 @@ import BagIcon from '../../assets/bag.svg';
 import UpArrowIcon from '../../assets/up-arrow.svg';
 import DownArrowIcon from '../../assets/down-arrow.svg';
 
-export default function HomeScreen({navigation}) {
+export default function HomeScreen({ navigation }) {
   useStatusBar('dark-content');
 
   const [transactions, setTransactions] = useState([]);
   const [date, setDate] = useState(new Date().getMonth() + 1);
   const [loading, setLoading] = useState(false);
 
-  const {uid} = auth.currentUser;
+  const { uid } = auth.currentUser;
 
   useEffect(() => {
     setLoading(true);
 
     const data = firebase.database().ref(`/users/${uid}/transactions`);
 
-    data.on('value', (snapshot) => {
-      console.log(snapshot);
+    data.on('value', snapshot => {
       setTransactions(snapshotToArray(snapshot, date));
       setLoading(false);
     });
-  }, [date]);
+  }, [date, uid]);
 
   const balance = transactions.reduce(
     (accumulator, transaction) => {
@@ -81,10 +80,10 @@ export default function HomeScreen({navigation}) {
 
   const tagGroup = [];
 
-  transactions.reduce((accumulator, {type, tag, price}) => {
+  transactions.reduce((accumulator, { type, tag, price }) => {
     if (type === 'outcome') {
       if (!accumulator[tag]) {
-        accumulator[tag] = {tag: tag, price: 0, type: type};
+        accumulator[tag] = { tag: tag, price: 0, type: type };
         tagGroup.push(accumulator[tag]);
       }
 
@@ -98,7 +97,7 @@ export default function HomeScreen({navigation}) {
     <>
       {loading == false ? (
         <ScrollView>
-          <Container style={{paddingTop: getStatusBarHeight()}}>
+          <Container style={{ paddingTop: getStatusBarHeight() }}>
             <HeaderContainer>
               <Header>
                 Controle de {'\n'}
@@ -124,7 +123,11 @@ export default function HomeScreen({navigation}) {
               <DataContainer>
                 <View>
                   <DataView>
-                    <BagIcon height={20} width={20} style={{paddingLeft: 35}} />
+                    <BagIcon
+                      height={20}
+                      width={20}
+                      style={{ paddingLeft: 35 }}
+                    />
                     <View>
                       <DataText>Economias</DataText>
                       <DataSubText>{formatValue(balance.total)}</DataSubText>
@@ -135,7 +138,7 @@ export default function HomeScreen({navigation}) {
                     <UpArrowIcon
                       height={20}
                       width={20}
-                      style={{paddingLeft: 35}}
+                      style={{ paddingLeft: 35 }}
                     />
                     <View>
                       <DataText>Receitas</DataText>
@@ -147,7 +150,7 @@ export default function HomeScreen({navigation}) {
                     <DownArrowIcon
                       height={20}
                       width={20}
-                      style={{paddingLeft: 35}}
+                      style={{ paddingLeft: 35 }}
                     />
                     <View>
                       <DataText>Despesas</DataText>
@@ -167,11 +170,13 @@ export default function HomeScreen({navigation}) {
               onContentSizeChange={0}
               showsHorizontalScrollIndicator={false}
             >
-              {tagGroup.map(({tag, price}, i) => {
+              {tagGroup.map(({ tag, price }, i) => {
                 return (
                   <View key={price}>
                     <BoxTag
-                      style={i === tagGroup.length - 1 ? {marginRight: 23} : {}}
+                      style={
+                        i === tagGroup.length - 1 ? { marginRight: 23 } : {}
+                      }
                     >
                       <BoxTagText numberOfLines={1}>{tag}</BoxTagText>
                       <BoxTagPriceText numberOfLines={1}>
@@ -179,7 +184,7 @@ export default function HomeScreen({navigation}) {
                       </BoxTagPriceText>
 
                       <StackedBarChart
-                        style={{height: 4}}
+                        style={{ height: 4 }}
                         keys={['outcomes', 'incomes']}
                         colors={[Colors.outcome, '#dddddd']}
                         data={[
@@ -199,7 +204,9 @@ export default function HomeScreen({navigation}) {
           </BoxContainer>
         </ScrollView>
       ) : (
-        <View style={{justifyContent: 'center', alignItems: 'center', flex: 1}}>
+        <View
+          style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}
+        >
           <Text>Carregando</Text>
         </View>
       )}
