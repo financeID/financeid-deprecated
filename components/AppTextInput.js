@@ -20,6 +20,8 @@ export default function AppTextInput({
   ...otherProps
 }) {
   return (
+    <>
+    {descTitle && <Text style={styles.descTitle}>{descTitle}</Text>}
     <View style={[styles.container, {width}]}>
       {leftIcon && (
         <MaterialCommunityIcons
@@ -30,7 +32,6 @@ export default function AppTextInput({
         />
       )}
       <View style={{flex: 1}}>
-        {descTitle && <Text style={styles.descTitle}>{descTitle}</Text>}
         <TextInput
           style={styles.input}
           placeholderTextColor={Colors.mediumGrey}
@@ -48,6 +49,7 @@ export default function AppTextInput({
         </TouchableOpacity>
       )}
     </View>
+    </>
   );
 }
 
@@ -66,7 +68,7 @@ const styles = StyleSheet.create({
   descTitle: {
     paddingTop: 15,
     paddingLeft: 15,
-    bottom: -5,
+    bottom: -10,
     fontWeight: 'bold',
     color: '#8895A5',
     textTransform: 'uppercase',

@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Platform, ScrollView} from 'react-native';
-//import {parse, isDate, format} from 'date-fns';
+import {parse, isDate, format} from 'date-fns';
 import {KeyboardAccessoryView} from '@flyerhq/react-native-keyboard-accessory-view';
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
 import * as Yup from 'yup';
@@ -70,7 +70,7 @@ export default function AddTransactions({navigation}) {
       initialValues={{
         description: '',
         value: '',
-        date: '',
+        date: format(new Date(), 'dd/MM/yyyy'),
         tag: '',
         type: '',
       }}
@@ -92,21 +92,20 @@ export default function AddTransactions({navigation}) {
           showsVerticalScrollIndicator={false}
         >
           <FormField
-            name="description"
-            leftIcon="text-short"
-            autoCapitalize="words"
             placeholder="Descrição"
+            name="description"
+            leftIcon="text-short" 
+            autoCapitalize="words"
           />
           <FormField
+            placeholder="Valor"
             name="value"
             leftIcon="currency-usd"
             keyboardType={'numeric'}
-            placeholder="Valor"
             autoCapitalize="none"
           />
           <FormField
             name="date"
-            leftIcon="calendar-blank-outline"
             rightIcon="calendar-blank-outline"
             placeholder="Data"
             autoCapitalize="none"
