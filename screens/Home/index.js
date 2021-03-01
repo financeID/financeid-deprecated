@@ -102,7 +102,10 @@ export default function HomeScreen({ navigation }) {
         <ScrollView>
           <Container style={{ paddingTop: getStatusBarHeight() }}>
             <HeaderContainer>
-              <Header>Controle de {date}</Header>
+              <Header>
+                Controle de {'\n'}
+                {date}
+              </Header>
 
               <PickerMonth date={date} setDate={setDate} />
             </HeaderContainer>
