@@ -49,11 +49,11 @@ export default function AddTransactions({ navigation }) {
 
     data
       .set({
-        description: description,
+        description: description.trim(),
         price: valueTransformed,
         date: date,
         tag: tag,
-        type: typeTransformed,
+        type: typeTransformed.trim(),
       })
       .then(() => navigation.navigate('Home'));
   };
