@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {StyleSheet, TouchableOpacity, Text, View} from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, TouchableOpacity, Text, View } from 'react-native';
 import * as Yup from 'yup';
 
 import Colors from '../utils/colors';
@@ -8,7 +8,7 @@ import Form from '../components/Forms/Form';
 import FormField from '../components/Forms/FormField';
 import FormButton from '../components/Forms/FormButton';
 import IconButton from '../components/IconButton';
-import {loginWithEmail} from '../components/Firebase/firebase';
+import { loginWithEmail } from '../components/Firebase/firebase';
 import FormErrorMessage from '../components/Forms/FormErrorMessage';
 import useStatusBar from '../hooks/useStatusBar';
 
@@ -23,7 +23,7 @@ const validationSchema = Yup.object().shape({
     .label('Password'),
 });
 
-export default function LoginScreen({navigation}) {
+export default function LoginScreen({ navigation }) {
   useStatusBar('light-content');
 
   const [passwordVisibility, setPasswordVisibility] = useState(true);
@@ -41,7 +41,7 @@ export default function LoginScreen({navigation}) {
   }
 
   async function handleOnLogin(values) {
-    const {email, password} = values;
+    const { email, password } = values;
 
     try {
       await loginWithEmail(email, password);
@@ -53,9 +53,9 @@ export default function LoginScreen({navigation}) {
   return (
     <SafeView style={styles.container}>
       <Form
-        initialValues={{email: '', password: ''}}
+        initialValues={{ email: '', password: '' }}
         validationSchema={validationSchema}
-        onSubmit={(values) => handleOnLogin(values)}
+        onSubmit={values => handleOnLogin(values)}
       >
         <FormField
           name="email"

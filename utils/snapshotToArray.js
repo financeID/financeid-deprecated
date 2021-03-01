@@ -8,9 +8,10 @@ const snapshotToArray = (snapshot, date) => {
     returnArr.push(item);
   });
 
-  const filterObj = returnArr.filter((x) => x.date === Number(date));
-
-  console.log(filterObj);
+  const filterObj = returnArr.filter(x => {
+    const dateSplit = x.date.toString().split('/0')[1];
+    return dateSplit === date;
+  });
 
   return filterObj;
 };

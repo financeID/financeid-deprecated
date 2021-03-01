@@ -1,10 +1,10 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
-import {Ionicons} from '@expo/vector-icons';
+import { StyleSheet } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import RNPickerSelect from 'react-native-picker-select';
-import {Picker} from './styles';
+import { Picker } from './styles';
 
-export default function PickerMonth({date, setDate}) {
+export default function PickerMonth({ date, setDate }) {
   const pickerSelectStyles = StyleSheet.create({
     inputIOS: {
       color: 'transparent',
@@ -37,13 +37,14 @@ export default function PickerMonth({date, setDate}) {
         value={date}
         placeholder={{}}
         useNativeAndroidPickerStyle={false}
-        onValueChange={(value) => {
+        onValueChange={value => {
           setDate(value);
         }}
         InputAccessoryView={() => null}
         items={[
-          {label: 'Janeiro', value: 1},
-          {label: 'Fevereiro', value: 2},
+          { label: 'Janeiro', value: '1/2021' },
+          { label: 'Fevereiro', value: '2/2021' },
+          { label: 'Março', value: '3/2021' },
         ]}
         Icon={() => {
           return <Ionicons name="filter" size={24} color="black" />;

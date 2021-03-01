@@ -49,10 +49,10 @@ export default function AddTransactions({ navigation }) {
 
     data
       .set({
-        description: description.trim(),
-        price: valueTransformed.trim(),
-        date: Number(date),
-        tag: tag.trim(),
+        description: description,
+        price: valueTransformed,
+        date: date,
+        tag: tag,
         type: typeTransformed,
       })
       .then(() => navigation.navigate('Home'));
@@ -104,12 +104,7 @@ export default function AddTransactions({ navigation }) {
             keyboardType={'numeric'}
             autoCapitalize="none"
           />
-          <FormField
-            type={'datetime'}
-            name="date"
-            rightIcon="calendar-blank-outline"
-            placeholder="Data"
-          />
+          <FormField type={'datetime'} name="date" />
           <FormField
             name="tag"
             leftIcon="tag-outline"

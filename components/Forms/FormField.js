@@ -19,7 +19,6 @@ export default function FormField({
   leftIcon,
   rightIcon,
   width = '100%',
-  handlePasswordVisibility,
   type,
   name,
   ...otherProps
@@ -61,7 +60,7 @@ export default function FormField({
               />
             </View>
             {rightIcon && (
-              <TouchableOpacity onPress={handlePasswordVisibility}>
+              <TouchableOpacity onPress={() => {}}>
                 <MaterialCommunityIcons
                   name={rightIcon}
                   size={20}

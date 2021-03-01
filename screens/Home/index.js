@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, ScrollView, Text } from 'react-native';
 import * as firebase from 'firebase';
+import { getMonth, getYear } from 'date-fns';
 import { auth } from '../../components/Firebase/firebase';
 import useStatusBar from '../../hooks/useStatusBar';
 import snapshotToArray from '../../utils/snapshotToArray';
@@ -37,8 +38,10 @@ import DownArrowIcon from '../../assets/down-arrow.svg';
 export default function HomeScreen({ navigation }) {
   useStatusBar('dark-content');
 
+  const dateTransformed = getMonth(new Date()) + '/' + getYear(new Date());
+
   const [transactions, setTransactions] = useState([]);
-  const [date, setDate] = useState(new Date().getMonth() + 1);
+  const [date, setDate] = useState(dateTransformed);
   const [loading, setLoading] = useState(false);
 
   const { uid } = auth.currentUser;
@@ -99,10 +102,7 @@ export default function HomeScreen({ navigation }) {
         <ScrollView>
           <Container style={{ paddingTop: getStatusBarHeight() }}>
             <HeaderContainer>
-              <Header>
-                Controle de {'\n'}
-                {date === 1 ? 'Janeiro' : 'Fevereiro'}
-              </Header>
+              <Header>Controle de {date}</Header>
 
               <PickerMonth date={date} setDate={setDate} />
             </HeaderContainer>
