@@ -34,9 +34,11 @@ const validationSchema = Yup.object().shape({
     .label('Tag'),
 });
 
-export default function AddTransactions({ navigation }) {
+export default function AddTransactions({ navigation, route }) {
   const { uid } = auth.currentUser;
-  const [type, setType] = useState(0);
+  const { Type } = route.params;
+
+  const [type, setType] = useState(Type);
 
   const onType = type === 0 ? 'Adicionar entrada' : 'Adicionar saída';
 
