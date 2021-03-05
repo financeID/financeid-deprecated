@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { View, ScrollView, Text } from 'react-native';
+import { View, ScrollView, Text, TouchableOpacity } from 'react-native';
 import * as firebase from 'firebase';
-import { getMonth, getYear } from 'date-fns';
+import { format, eachMonthOfInterval } from 'date-fns';
+import { pt } from 'date-fns/locale';
 import { auth } from '../../components/Firebase/firebase';
+import { Ionicons } from '@expo/vector-icons';
 import useStatusBar from '../../hooks/useStatusBar';
 import snapshotToArray from '../../utils/snapshotToArray';
 import formatValue from '../../utils/formatValue';
@@ -35,10 +37,12 @@ import BagIcon from '../../assets/bag.svg';
 import UpArrowIcon from '../../assets/up-arrow.svg';
 import DownArrowIcon from '../../assets/down-arrow.svg';
 
-export default function HomeScreen({ navigation }) {
+export default function HomeScreen({ navigation, route }) {
   useStatusBar('dark-content');
 
-  const dateTransformed = getMonth(new Date()) + '/' + getYear(new Date());
+  const dateTransformed = format(new Date(), 'M/yyyy', {
+    locale: pt,
+  }).toString();
 
   const [transactions, setTransactions] = useState([]);
   const [date, setDate] = useState(dateTransformed);
@@ -48,6 +52,11 @@ export default function HomeScreen({ navigation }) {
 
   useEffect(() => {
     setLoading(true);
+
+    /*const result = eachMonthOfInterval({
+      start: new Date(2020, 12, 1),
+      end: new Date(),
+    });*/
 
     const data = firebase.database().ref(`/users/${uid}/transactions`);
 
@@ -107,20 +116,41 @@ export default function HomeScreen({ navigation }) {
                 {date}
               </Header>
 
-              <PickerMonth date={date} setDate={setDate} />
+              <View
+                style={{
+                  alignContent: 'center',
+                  justifyContent: 'center',
+                  flexDirection: 'row',
+                }}
+              >
+                {dateTransformed !== date && (
+                  <TouchableOpacity
+                    onPress={() => setDate(dateTransformed)}
+                    style={{
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      flexDirection: 'row',
+                      width: 50,
+                      height: 50,
+                    }}
+                  >
+                    <Ionicons name="refresh" size={24} color="black" />
+                  </TouchableOpacity>
+                )}
+                <PickerMonth date={date} setDate={setDate} />
+              </View>
             </HeaderContainer>
-
             <ControlContainer>
               <ProgressView>
                 <ProgressIncome percentage={balance.total / balance.income} />
-                <CircleContainerText>Receitas</CircleContainerText>
+                <CircleContainerText>Entradas</CircleContainerText>
               </ProgressView>
 
               <ProgressView>
                 <ProgressOutcome
                   percentage={balance.outcome / balance.income}
                 />
-                <CircleContainerText>Despesas</CircleContainerText>
+                <CircleContainerText>Saídas</CircleContainerText>
               </ProgressView>
 
               <DataContainer>
@@ -132,7 +162,7 @@ export default function HomeScreen({ navigation }) {
                       style={{ paddingLeft: 35 }}
                     />
                     <View>
-                      <DataText>Economias</DataText>
+                      <DataText>Balanço</DataText>
                       <DataSubText>{formatValue(balance.total)}</DataSubText>
                     </View>
                   </DataView>
@@ -144,7 +174,7 @@ export default function HomeScreen({ navigation }) {
                       style={{ paddingLeft: 35 }}
                     />
                     <View>
-                      <DataText>Receitas</DataText>
+                      <DataText>Entradas</DataText>
                       <DataSubText>{formatValue(balance.income)}</DataSubText>
                     </View>
                   </DataView>
@@ -156,7 +186,7 @@ export default function HomeScreen({ navigation }) {
                       style={{ paddingLeft: 35 }}
                     />
                     <View>
-                      <DataText>Despesas</DataText>
+                      <DataText>Saídas</DataText>
                       <DataSubText>{formatValue(balance.outcome)}</DataSubText>
                     </View>
                   </DataView>

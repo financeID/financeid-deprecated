@@ -1,6 +1,6 @@
 import * as React from 'react';
-import {createStackNavigator} from '@react-navigation/stack';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import HomeScreen from '../screens/Home';
 import TransactionScreen from '../screens/TransactionScreen';
@@ -14,7 +14,7 @@ function TransactionStackScreen() {
     <HomeStack.Navigator>
       <HomeStack.Screen
         name="Transações"
-        options={{headerShown: true, headerTitleAlign: 'center'}}
+        options={{ headerShown: true, headerTitleAlign: 'center' }}
         component={TransactionScreen}
       />
     </HomeStack.Navigator>
@@ -50,12 +50,12 @@ export default function AppStack() {
   return (
     <HomeStack.Navigator>
       <HomeStack.Screen
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
         name="Home"
         component={HomeStackScreen}
       />
       <HomeStack.Screen
-        options={{title: 'Adicionar', headerBackTitle: ''}}
+        options={{ title: 'Adicionar', headerBackTitle: '' }}
         name="addIncome"
         component={AddTransactions}
       />

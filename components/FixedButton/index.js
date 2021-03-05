@@ -9,7 +9,7 @@ export default function AddButton({ navigation }) {
     <ActionButton>
       <ActionButton.Item
         buttonColor={Colors.income}
-        title="Adicioanr entrada"
+        title="Adicionar entrada"
         onPress={() => navigation.navigate('addIncome', { Type: 0 })}
       >
         <Icon name="arrow-up" style={styles.actionButtonIcon} />

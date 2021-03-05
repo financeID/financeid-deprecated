@@ -1,5 +1,5 @@
-import {Platform} from 'react-native';
-import styled, {css} from 'styled-components/native';
+import { Platform } from 'react-native';
+import styled, { css } from 'styled-components/native';
 import Colors from '../../utils/colors';
 
 export const Container = styled.View`
@@ -93,9 +93,4 @@ export const HeaderContainer = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-`;
-
-export const Picker = styled.View`
-  width: 60px;
-  height: 50px;
 `;

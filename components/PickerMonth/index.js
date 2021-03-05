@@ -45,6 +45,7 @@ export default function PickerMonth({ date, setDate }) {
           { label: 'Janeiro', value: '1/2021' },
           { label: 'Fevereiro', value: '2/2021' },
           { label: 'Março', value: '3/2021' },
+          { label: 'Abril', value: '4/2021' },
         ]}
         Icon={() => {
           return <Ionicons name="filter" size={24} color="black" />;
