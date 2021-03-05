@@ -244,9 +244,7 @@ export default function HomeScreen({ navigation }) {
           <Text>Carregando</Text>
         </View>
       )}
-      <Text onPress={() => showMessage({ message: 'Hello World' })}>
-        press here
-      </Text>
+
       <FixedButton navigation={navigation} />
       <FlashMessage position="top" />
     </>
