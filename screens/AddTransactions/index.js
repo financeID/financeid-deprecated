@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Platform, ScrollView } from 'react-native';
 import { format } from 'date-fns';
+import { showMessage } from 'react-native-flash-message';
 import { KeyboardAccessoryView } from '@flyerhq/react-native-keyboard-accessory-view';
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
 import * as Yup from 'yup';
 import * as firebase from 'firebase';
 import { auth } from '../../components/Firebase/firebase';
+import Colors from '../../utils/colors';
 import Form from '../../components/Forms/Form';
 import FormField from '../../components/Forms/FormField';
 import FormButtonTransactions from '../../components/Forms/FormButtonTransactions';
@@ -57,7 +59,15 @@ export default function AddTransactions({ navigation, route }) {
         tag: tag,
         type: typeTransformed.trim(),
       })
-      .then(() => navigation.navigate('Home'));
+      .then(() => {
+        navigation.navigate('Home');
+
+        showMessage({
+          animationDuration: 400,
+          message: type === 0 ? 'Entrada adicionada' : 'Despesa adicionada',
+          backgroundColor: type === 0 ? Colors.income : Colors.outcome,
+        });
+      });
   };
 
   const renderScrollable = GestureResponderHandlers => (

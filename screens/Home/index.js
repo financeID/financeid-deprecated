@@ -10,6 +10,7 @@ import snapshotToArray from '../../utils/snapshotToArray';
 import formatValue from '../../utils/formatValue';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { StackedBarChart } from 'react-native-svg-charts';
+import FlashMessage, { showMessage } from 'react-native-flash-message';
 import Colors from '../../utils/colors';
 import ProgressIncome from '../../components/ProgressIncome';
 import ProgressOutcome from '../../components/ProgressOutcome';
@@ -37,7 +38,7 @@ import BagIcon from '../../assets/bag.svg';
 import UpArrowIcon from '../../assets/up-arrow.svg';
 import DownArrowIcon from '../../assets/down-arrow.svg';
 
-export default function HomeScreen({ navigation, route }) {
+export default function HomeScreen({ navigation }) {
   useStatusBar('dark-content');
 
   const dateTransformed = format(new Date(), 'M/yyyy', {
@@ -243,8 +244,11 @@ export default function HomeScreen({ navigation, route }) {
           <Text>Carregando</Text>
         </View>
       )}
-
+      <Text onPress={() => showMessage({ message: 'Hello World' })}>
+        press here
+      </Text>
       <FixedButton navigation={navigation} />
+      <FlashMessage position="top" />
     </>
   );
 }
