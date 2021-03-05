@@ -62,10 +62,15 @@ export default function AddTransactions({ navigation, route }) {
       .then(() => {
         navigation.navigate('Home');
 
+        const typeMsg =
+          type === 0
+            ? 'Entrada adicionada com sucesso'
+            : 'Despesa adicionada com sucesso';
+
         showMessage({
-          animationDuration: 400,
-          message: type === 0 ? 'Entrada adicionada' : 'Despesa adicionada',
-          backgroundColor: type === 0 ? Colors.income : Colors.outcome,
+          animationDuration: 500,
+          message: typeMsg,
+          backgroundColor: Colors.income,
         });
       });
   };
