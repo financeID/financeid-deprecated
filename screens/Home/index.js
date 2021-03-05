@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { View, ScrollView, Text, TouchableOpacity } from 'react-native';
 import * as firebase from 'firebase';
-import { format, eachMonthOfInterval } from 'date-fns';
-import { pt } from 'date-fns/locale';
+import { format } from 'date-fns';
+import pt from 'date-fns/locale/pt-BR';
 import { auth } from '../../components/Firebase/firebase';
 import { Ionicons } from '@expo/vector-icons';
 import useStatusBar from '../../hooks/useStatusBar';
@@ -10,7 +10,7 @@ import snapshotToArray from '../../utils/snapshotToArray';
 import formatValue from '../../utils/formatValue';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { StackedBarChart } from 'react-native-svg-charts';
-import FlashMessage, { showMessage } from 'react-native-flash-message';
+import FlashMessage from 'react-native-flash-message';
 import Colors from '../../utils/colors';
 import ProgressIncome from '../../components/ProgressIncome';
 import ProgressOutcome from '../../components/ProgressOutcome';
@@ -41,7 +41,7 @@ import DownArrowIcon from '../../assets/down-arrow.svg';
 export default function HomeScreen({ navigation }) {
   useStatusBar('dark-content');
 
-  const dateTransformed = format(new Date(), 'M/yyyy', {
+  const dateTransformed = format(new Date(), 'yyyy-MM', {
     locale: pt,
   }).toString();
 
@@ -50,14 +50,12 @@ export default function HomeScreen({ navigation }) {
   const [loading, setLoading] = useState(false);
 
   const { uid } = auth.currentUser;
+  const dateTransformedToMonth = format(new Date(date + '-02'), 'MMMM', {
+    locale: pt,
+  });
 
   useEffect(() => {
     setLoading(true);
-
-    /*const result = eachMonthOfInterval({
-      start: new Date(2020, 12, 1),
-      end: new Date(),
-    });*/
 
     const data = firebase.database().ref(`/users/${uid}/transactions`);
 
@@ -114,7 +112,7 @@ export default function HomeScreen({ navigation }) {
             <HeaderContainer>
               <Header>
                 Controle de {'\n'}
-                {date}
+                {dateTransformedToMonth}
               </Header>
 
               <View

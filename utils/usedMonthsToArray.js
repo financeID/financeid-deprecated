@@ -1,4 +1,6 @@
-const snapshotToArray = (snapshot, date) => {
+import { eachMonthOfInterval } from 'date-fns';
+
+const usedMonthsToArray = snapshot => {
   var returnArr = [];
 
   snapshot.forEach(function (childSnapshot) {
@@ -9,12 +11,15 @@ const snapshotToArray = (snapshot, date) => {
   });
 
   const filterObj = returnArr.filter(x => {
-    const dateSplit = x.date.slice(0, 7);
+    const result = eachMonthOfInterval({
+      start: new Date(x.date),
+      end: new Date(),
+    });
 
-    return dateSplit === date;
+    return result;
   });
 
   return filterObj;
 };
 
-export default snapshotToArray;
+export default usedMonthsToArray;

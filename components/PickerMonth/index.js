@@ -42,10 +42,10 @@ export default function PickerMonth({ date, setDate }) {
         }}
         InputAccessoryView={() => null}
         items={[
-          { label: 'Janeiro', value: '1/2021' },
-          { label: 'Fevereiro', value: '2/2021' },
-          { label: 'Março', value: '3/2021' },
-          { label: 'Abril', value: '4/2021' },
+          { label: 'Janeiro', value: '2021-01' },
+          { label: 'Fevereiro', value: '2021-02' },
+          { label: 'Março', value: '2021-03' },
+          { label: 'Abril', value: '2021-04' },
         ]}
         Icon={() => {
           return <Ionicons name="filter" size={24} color="black" />;

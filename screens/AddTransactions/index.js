@@ -87,7 +87,7 @@ export default function AddTransactions({ navigation, route }) {
       initialValues={{
         description: '',
         value: '',
-        date: format(new Date(), 'dd/MM/yyyy'),
+        date: format(new Date(), 'yyyy-MM-dd'),
         tag: '',
         type: '',
       }}

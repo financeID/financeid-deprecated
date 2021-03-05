@@ -49,7 +49,7 @@ export default function FormField({
               <TextInputMask
                 type={'datetime'}
                 options={{
-                  format: 'DD/MM/YYYY',
+                  format: 'YYYY-MM-DD',
                 }}
                 value={values[name]}
                 placeholderTextColor={Colors.mediumGrey}
