@@ -1,25 +1,16 @@
-import { eachMonthOfInterval } from 'date-fns';
-
-const usedMonthsToArray = snapshot => {
-  var returnArr = [];
-
-  snapshot.forEach(function (childSnapshot) {
-    var item = childSnapshot.val();
-    item.key = childSnapshot.key;
-
-    returnArr.push(item);
-  });
-
-  const filterObj = returnArr.filter(x => {
-    const result = eachMonthOfInterval({
-      start: new Date(x.date),
-      end: new Date(),
-    });
-
-    return result;
-  });
-
-  return filterObj;
+var usedMonthsToArray = function (startDate, endDate) {
+  var dates = [],
+    currentDate = startDate,
+    addDays = function (days) {
+      var date = new Date(this.valueOf());
+      date.setDate(date.getDate() + days);
+      return date;
+    };
+  while (currentDate <= endDate) {
+    dates.push(currentDate);
+    currentDate = addDays.call(currentDate, 1);
+  }
+  return dates;
 };
 
 export default usedMonthsToArray;
