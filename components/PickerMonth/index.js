@@ -1,10 +1,27 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import * as firebase from 'firebase';
+import { auth } from '../../components/Firebase/firebase';
 import { StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import RNPickerSelect from 'react-native-picker-select';
+import usedMonthsToArray from '../../utils/usedMonthsToArray';
 import { Picker } from './styles';
 
 export default function PickerMonth({ date, setDate }) {
+  const { uid } = auth.currentUser;
+
+  const [usedMonths, setUsedMonths] = useState([]);
+
+  useEffect(() => {
+    const data = firebase.database().ref(`/users/${uid}/transactions`);
+
+    data.on('value', snapshot => {
+      setUsedMonths(usedMonthsToArray(snapshot));
+    });
+  }, [uid]);
+
+  console.log(usedMonths);
+
   const pickerSelectStyles = StyleSheet.create({
     inputIOS: {
       color: 'transparent',
@@ -41,12 +58,7 @@ export default function PickerMonth({ date, setDate }) {
           setDate(value);
         }}
         InputAccessoryView={() => null}
-        items={[
-          { label: 'Janeiro', value: '2021-01' },
-          { label: 'Fevereiro', value: '2021-02' },
-          { label: 'Março', value: '2021-03' },
-          { label: 'Abril', value: '2021-04' },
-        ]}
+        items={usedMonths}
         Icon={() => {
           return <Ionicons name="filter" size={24} color="black" />;
         }}

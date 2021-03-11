@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Platform, ScrollView } from 'react-native';
 import { format } from 'date-fns';
+import pt from 'date-fns/locale/pt-BR';
 import { showMessage } from 'react-native-flash-message';
 import { KeyboardAccessoryView } from '@flyerhq/react-native-keyboard-accessory-view';
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
@@ -87,7 +88,9 @@ export default function AddTransactions({ navigation, route }) {
       initialValues={{
         description: '',
         value: '',
-        date: format(new Date(), 'yyyy-MM-dd'),
+        date: format(new Date(), 'yyyy-MM-dd', {
+          locale: pt,
+        }),
         tag: '',
         type: '',
       }}

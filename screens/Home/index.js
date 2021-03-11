@@ -7,7 +7,7 @@ import { auth } from '../../components/Firebase/firebase';
 import { Ionicons } from '@expo/vector-icons';
 import useStatusBar from '../../hooks/useStatusBar';
 import snapshotToArray from '../../utils/snapshotToArray';
-import usedMonthsToArray from '../../utils/usedMonthsToArray';
+//import usedMonthsToArray from '../../utils/usedMonthsToArray';
 import formatValue from '../../utils/formatValue';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { StackedBarChart } from 'react-native-svg-charts';
@@ -47,7 +47,6 @@ export default function HomeScreen({ navigation }) {
   }).toString();
 
   const [transactions, setTransactions] = useState([]);
-  const [usedMonths, setUsedMonths] = useState([]);
   const [date, setDate] = useState(dateTransformed);
   const [loading, setLoading] = useState(false);
 
@@ -63,9 +62,6 @@ export default function HomeScreen({ navigation }) {
 
     data.on('value', snapshot => {
       setTransactions(snapshotToArray(snapshot, date));
-      setUsedMonths(
-        usedMonthsToArray(new Date('2021-01-04'), new Date('2021-04-04')),
-      );
       setLoading(false);
     });
   }, [date, uid]);
@@ -119,10 +115,6 @@ export default function HomeScreen({ navigation }) {
                 Controle de {'\n'}
                 {dateTransformedToMonth}
               </Header>
-
-              {usedMonths.forEach(function (date) {
-                console.log(date);
-              })}
 
               <View
                 style={{
