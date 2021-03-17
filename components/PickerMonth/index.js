@@ -20,8 +20,6 @@ export default function PickerMonth({ date, setDate }) {
     });
   }, [uid]);
 
-  console.log(usedMonths);
-
   const pickerSelectStyles = StyleSheet.create({
     inputIOS: {
       color: 'transparent',

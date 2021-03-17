@@ -51,20 +51,25 @@ export default function HomeScreen({ navigation }) {
   const [loading, setLoading] = useState(false);
 
   const { uid } = auth.currentUser;
-  const dateTransformedToMonth = format(new Date(date + '-02'), 'MMMM', {
-    locale: pt,
-  });
+  const dateTransformedToMonth = format(
+    new Date(date + '-02'),
+    'MMMM \'de\' yyyy',
+    {
+      locale: pt,
+    },
+  );
 
-  useEffect(() => {
-    setLoading(true);
+  new Date(date) !==
+    useEffect(() => {
+      setLoading(true);
 
-    const data = firebase.database().ref(`/users/${uid}/transactions`);
+      const data = firebase.database().ref(`/users/${uid}/transactions`);
 
-    data.on('value', snapshot => {
-      setTransactions(snapshotToArray(snapshot, date));
-      setLoading(false);
-    });
-  }, [date, uid]);
+      data.on('value', snapshot => {
+        setTransactions(snapshotToArray(snapshot, date));
+        setLoading(false);
+      });
+    }, [date, uid]);
 
   const balance = transactions.reduce(
     (accumulator, transaction) => {
