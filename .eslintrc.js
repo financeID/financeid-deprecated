@@ -20,7 +20,7 @@ module.exports = {
     'prettier/prettier': ['error'],
     'linebreak-style': ['error', 'unix'],
     'react/prop-types': 0,
-    quotes: ['error', 'single'],
+    quotes: ['error', 'single', { avoidEscape: true }],
     semi: ['error', 'always'],
   },
 };

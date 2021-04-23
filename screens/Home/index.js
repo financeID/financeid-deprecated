@@ -53,7 +53,7 @@ export default function HomeScreen({ navigation }) {
   const { uid } = auth.currentUser;
   const dateTransformedToMonth = format(
     new Date(date + '-02'),
-    'MMMM \'de\' yyyy',
+    "MMMM 'de' yyyy",
     {
       locale: pt,
     },
