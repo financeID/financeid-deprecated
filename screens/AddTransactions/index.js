@@ -127,7 +127,7 @@ export default function AddTransactions({ navigation, route }) {
             name="tag"
             placeholder="Tag"
             autoCapitalize="none"
-            rightIcon="tag-outline"
+            pickerTag
           />
         </ScrollView>
       </Container>

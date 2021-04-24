@@ -10,12 +10,14 @@ import {
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import Colors from '../utils/colors';
+import Tag from '../components/PickerTag';
 
 export default function AppTextInput({
   leftIcon,
   width = '100%',
   rightIcon,
   descTitle,
+  pickerTag,
   handlePasswordVisibility,
   ...otherProps
 }) {
@@ -48,6 +50,7 @@ export default function AppTextInput({
             />
           </TouchableOpacity>
         )}
+        {pickerTag && <Tag />}
       </View>
     </>
   );
