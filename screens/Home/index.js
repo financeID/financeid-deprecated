@@ -139,7 +139,7 @@ export default function HomeScreen({ navigation }) {
                       height: 50,
                     }}
                   >
-                    <Ionicons name="refresh" size={24} color="black" />
+                    <Ionicons name="refresh" size={24} color="red" />
                   </TouchableOpacity>
                 )}
                 <PickerMonth date={date} setDate={setDate} />
