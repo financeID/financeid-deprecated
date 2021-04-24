@@ -64,6 +64,8 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     paddingBottom: 15,
     paddingLeft: 15,
+    paddingRight: 15,
+    backgroundColor: 'red',
   },
   descTitle: {
     paddingTop: 15,
@@ -74,7 +76,10 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
   },
   input: {
-    padding: 15,
+    paddingTop: 15,
+    paddingBottom: 15,
+    paddingLeft: 7,
+    paddingRight: 10,
     width: '100%',
     fontSize: Platform.OS === 'ios' ? 19 : 16,
     lineHeight: 26,
@@ -83,6 +88,7 @@ const styles = StyleSheet.create({
   rightIconStyles: {
     paddingTop: 20,
     paddingBottom: 15,
+    paddingLeft: 15,
     paddingRight: 15,
   },
 });
