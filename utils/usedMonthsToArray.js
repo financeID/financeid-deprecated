@@ -20,27 +20,29 @@ var usedMonthsToArray = function (snapshot) {
   const minDate = min(filterObj);
   const maxDate = max(filterObj);
 
+  const consultMinDate = isNaN(minDate) === false ? minDate : new Date();
+  const consultMaxDate = isNaN(maxDate) === false ? maxDate : new Date();
+
   const result = eachMonthOfInterval({
-    start: minDate,
-    end: maxDate,
+    start: consultMinDate,
+    end: consultMaxDate,
   });
 
-  const wkod = result.map(date => {
+  const transformDate = result.map(date => {
     const dateTransformed = format(new Date(date), 'yyyy-MM').toString();
-
     const monthTransformed = format(new Date(date), 'MMMM', {
       locale: pt,
     }).toString();
 
-    const asdk = {
+    const labelValue = {
       label: monthTransformed,
       value: dateTransformed,
     };
 
-    return asdk;
+    return labelValue;
   });
 
-  return wkod;
+  return transformDate;
 };
 
 export default usedMonthsToArray;

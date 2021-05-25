@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import HomeScreen from '../screens/Home';
 import TransactionScreen from '../screens/TransactionScreen';
+import ProfileScreen from '../screens/ProfileScreen';
 import AddTransactions from '../screens/AddTransactions';
 
 const HomeStack = createStackNavigator();
@@ -16,6 +17,18 @@ function TransactionStackScreen() {
         name="Transações"
         options={{ headerShown: true, headerTitleAlign: 'center' }}
         component={TransactionScreen}
+      />
+    </HomeStack.Navigator>
+  );
+}
+
+function ProfileStackScreen() {
+  return (
+    <HomeStack.Navigator>
+      <HomeStack.Screen
+        name="Perfil"
+        options={{ headerShown: true, headerTitleAlign: 'center' }}
+        component={ProfileScreen}
       />
     </HomeStack.Navigator>
   );
@@ -42,6 +55,7 @@ function HomeStackScreen() {
     >
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Transações" component={TransactionStackScreen} />
+      <Tab.Screen name="Perfil" component={ProfileStackScreen} />
     </Tab.Navigator>
   );
 }

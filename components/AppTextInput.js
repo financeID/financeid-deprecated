@@ -68,7 +68,6 @@ const styles = StyleSheet.create({
     paddingBottom: 15,
     paddingLeft: 15,
     paddingRight: 15,
-    backgroundColor: 'red',
   },
   descTitle: {
     paddingTop: 15,
