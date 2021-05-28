@@ -20,8 +20,8 @@ var usedMonthsToArray = function (snapshot) {
   const minDate = min(filterObj);
   const maxDate = max(filterObj);
 
-  const consultMinDate = isNaN(minDate) === false ? minDate : new Date();
-  const consultMaxDate = isNaN(maxDate) === false ? maxDate : new Date();
+  const consultMinDate = minDate === isNaN ? minDate : new Date();
+  const consultMaxDate = maxDate === isNaN ? maxDate : new Date();
 
   const result = eachMonthOfInterval({
     start: consultMinDate,

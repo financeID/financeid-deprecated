@@ -59,17 +59,17 @@ export default function HomeScreen({ navigation }) {
     },
   );
 
-  new Date(date) !==
-    useEffect(() => {
-      setLoading(true);
+  //new Date(date) !==
+  useEffect(() => {
+    setLoading(true);
 
-      const data = firebase.database().ref(`/users/${uid}/transactions`);
+    const data = firebase.database().ref(`/users/${uid}/transactions`);
 
-      data.on('value', snapshot => {
-        setTransactions(snapshotToArray(snapshot, date));
-        setLoading(false);
-      });
-    }, [date, uid]);
+    data.on('value', snapshot => {
+      setTransactions(snapshotToArray(snapshot, date));
+      setLoading(false);
+    });
+  }, [date, uid]);
 
   const balance = transactions.reduce(
     (accumulator, transaction) => {
