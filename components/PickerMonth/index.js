@@ -11,6 +11,7 @@ export default function PickerMonth({ date, setDate }) {
   const { uid } = auth.currentUser;
 
   const [usedMonths, setUsedMonths] = useState([]);
+  console.log(usedMonths);
 
   useEffect(() => {
     const data = firebase.database().ref(`/users/${uid}/transactions`);

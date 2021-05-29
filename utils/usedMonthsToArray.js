@@ -17,21 +17,6 @@ var usedMonthsToArray = function (snapshot) {
     return date;
   });
 
-  //const sameDate = minDate == maxDate ? new Date() : maxDate;
-  //const consultMinDate = isNaN(minDate) === isNaN() ? new Date() : minDate;
-  //const consultMaxDate = isNaN(maxDate) === isNaN() ? new Date() : sameDate;
-
-  //const final = isNaN(sameDate) === isNaN() ? new Date() : sameDate;
-  //const inicial = consultMinDate > new Date() ? new Date() : consultMinDate;
-
-  //console.log('maxDate:', maxDate);
-  //console.log('minDate:', minDate);
-  //console.log('sameDate:', sameDate);
-  //console.log('consultMinDate', consultMinDate);
-  //console.log('consultMaxDate', consultMaxDate);
-  //console.log('inicial', inicial);
-  //console.log('final', final);
-
   const minDate = min(filterObj);
   const maxDate = max(filterObj);
 
@@ -50,7 +35,14 @@ var usedMonthsToArray = function (snapshot) {
 
   const transformDate = result.map(date => {
     const dateTransformed = format(new Date(date), 'yyyy-MM').toString();
-    const monthTransformed = format(new Date(date), 'MMMM', {
+
+    const currentYear = format(new Date(), 'yy').toString();
+    const currentYearTransformDate = format(new Date(date), 'yy').toString();
+
+    const putYear =
+      currentYear === currentYearTransformDate ? 'MMMM' : 'MMMM/yy';
+
+    const monthTransformed = format(new Date(date), putYear, {
       locale: pt,
     }).toString();
 
