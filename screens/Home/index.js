@@ -59,7 +59,6 @@ export default function HomeScreen({ navigation }) {
     },
   );
 
-  //new Date(date) !==
   useEffect(() => {
     setLoading(true);
 
