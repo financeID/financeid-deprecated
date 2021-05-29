@@ -1,4 +1,4 @@
-import {DefaultTheme} from '@react-navigation/native';
+import { DefaultTheme } from '@react-navigation/native';
 
 import Colors from '../utils/colors';
 

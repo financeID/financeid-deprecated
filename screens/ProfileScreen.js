@@ -1,6 +1,6 @@
 import React from 'react';
-import {View, StyleSheet, Button} from 'react-native';
-import {logout} from '../components/Firebase/firebase';
+import { View, StyleSheet, Button } from 'react-native';
+import { logout } from '../components/Firebase/firebase';
 
 export default function ProfileScreen() {
   async function handleSignOut() {

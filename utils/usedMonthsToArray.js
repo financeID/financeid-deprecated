@@ -20,27 +20,41 @@ var usedMonthsToArray = function (snapshot) {
   const minDate = min(filterObj);
   const maxDate = max(filterObj);
 
+  const todayMinDate = minDate > new Date() ? new Date() : minDate;
+  const minDateNaN =
+    isNaN(todayMinDate) !== isNaN() ? todayMinDate : new Date();
+
+  const todayMaxDate = maxDate < new Date() ? new Date() : maxDate;
+  const maxDateNaN =
+    isNaN(todayMaxDate) !== isNaN() ? todayMaxDate : new Date();
+
   const result = eachMonthOfInterval({
-    start: minDate,
-    end: maxDate,
+    start: minDateNaN,
+    end: maxDateNaN,
   });
 
-  const wkod = result.map(date => {
+  const transformDate = result.map(date => {
     const dateTransformed = format(new Date(date), 'yyyy-MM').toString();
 
-    const monthTransformed = format(new Date(date), 'MMMM', {
+    const currentYear = format(new Date(), 'yy').toString();
+    const currentYearTransformDate = format(new Date(date), 'yy').toString();
+
+    const putYear =
+      currentYear === currentYearTransformDate ? 'MMMM' : 'MMMM/yy';
+
+    const monthTransformed = format(new Date(date), putYear, {
       locale: pt,
     }).toString();
 
-    const asdk = {
+    const labelValue = {
       label: monthTransformed,
       value: dateTransformed,
     };
 
-    return asdk;
+    return labelValue;
   });
 
-  return wkod;
+  return transformDate;
 };
 
 export default usedMonthsToArray;

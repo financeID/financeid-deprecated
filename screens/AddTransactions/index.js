@@ -114,22 +114,20 @@ export default function AddTransactions({ navigation, route }) {
           <FormField
             placeholder="Descrição"
             name="description"
-            leftIcon="text-short"
             autoCapitalize="sentences"
           />
           <FormField
             placeholder="Valor"
             name="value"
-            leftIcon="currency-usd"
             keyboardType={'numeric'}
             autoCapitalize="none"
           />
           <FormField type={'datetime'} name="date" />
           <FormField
             name="tag"
-            leftIcon="tag-outline"
             placeholder="Tag"
             autoCapitalize="none"
+            pickerTag
           />
         </ScrollView>
       </Container>
