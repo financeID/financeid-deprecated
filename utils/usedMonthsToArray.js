@@ -17,15 +17,35 @@ var usedMonthsToArray = function (snapshot) {
     return date;
   });
 
+  //const sameDate = minDate == maxDate ? new Date() : maxDate;
+  //const consultMinDate = isNaN(minDate) === isNaN() ? new Date() : minDate;
+  //const consultMaxDate = isNaN(maxDate) === isNaN() ? new Date() : sameDate;
+
+  //const final = isNaN(sameDate) === isNaN() ? new Date() : sameDate;
+  //const inicial = consultMinDate > new Date() ? new Date() : consultMinDate;
+
+  //console.log('maxDate:', maxDate);
+  //console.log('minDate:', minDate);
+  //console.log('sameDate:', sameDate);
+  //console.log('consultMinDate', consultMinDate);
+  //console.log('consultMaxDate', consultMaxDate);
+  //console.log('inicial', inicial);
+  //console.log('final', final);
+
   const minDate = min(filterObj);
   const maxDate = max(filterObj);
 
-  const consultMinDate = minDate === isNaN ? minDate : new Date();
-  const consultMaxDate = maxDate === isNaN ? maxDate : new Date();
+  const todayMinDate = minDate > new Date() ? new Date() : minDate;
+  const minDateNaN =
+    isNaN(todayMinDate) !== isNaN() ? todayMinDate : new Date();
+
+  const todayMaxDate = maxDate < new Date() ? new Date() : maxDate;
+  const maxDateNaN =
+    isNaN(todayMaxDate) !== isNaN() ? todayMaxDate : new Date();
 
   const result = eachMonthOfInterval({
-    start: consultMinDate,
-    end: consultMaxDate,
+    start: minDateNaN,
+    end: maxDateNaN,
   });
 
   const transformDate = result.map(date => {
