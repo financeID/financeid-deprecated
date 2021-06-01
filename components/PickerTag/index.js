@@ -70,8 +70,8 @@ export default function PickerTag({ name, ...otherProps }) {
           return (
             <Ionicons
               name="pricetag-outline"
-              size={Platform.OS === 'ios' ? 24 : 21}
-              color="black"
+              size={Platform.OS === 'ios' ? 20 : 21}
+              color={Colors.mediumGrey}
             />
           );
         }}
