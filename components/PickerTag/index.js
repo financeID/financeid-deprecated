@@ -5,10 +5,17 @@ import { StyleSheet, Platform } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import RNPickerSelect from 'react-native-picker-select';
 
+import FormErrorMessage from '../../components/Forms/FormErrorMessage';
 import Colors from '../../utils/colors';
 
 export default function PickerTag({ name, ...otherProps }) {
-  const { setFieldTouched, setFieldValue, values } = useFormikContext();
+  const {
+    setFieldTouched,
+    setFieldValue,
+    values,
+    errors,
+    touched,
+  } = useFormikContext();
 
   const pickerSelectStyles = StyleSheet.create({
     inputIOS: {
@@ -32,40 +39,46 @@ export default function PickerTag({ name, ...otherProps }) {
   });
 
   return (
-    <RNPickerSelect
-      style={{
-        ...pickerSelectStyles,
-        iconContainer: {
-          width: 60,
-          alignItems: 'center',
-          justifyContent: 'center',
-          height: 50,
-          margin: 0,
-          paddingTop: Platform.OS === 'ios' ? 0 : 10,
-        },
-        placeholder: {},
-      }}
-      placeholder={{}}
-      useNativeAndroidPickerStyle={false}
-      value={values[name]}
-      onValueChange={value => setFieldValue(name, value)}
-      onBlur={() => setFieldTouched(name)}
-      InputAccessoryView={() => null}
-      items={[
-        { label: 'Football', value: 'football' },
-        { label: 'Baseball', value: 'baseball' },
-        { label: 'Hockey', value: 'hockey' },
-      ]}
-      Icon={() => {
-        return (
-          <Ionicons
-            name="pricetag-outline"
-            size={Platform.OS === 'ios' ? 24 : 21}
-            color="black"
-          />
-        );
-      }}
-      {...otherProps}
-    />
+    <React.Fragment>
+      <RNPickerSelect
+        style={{
+          ...pickerSelectStyles,
+          iconContainer: {
+            width: 60,
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: 50,
+            margin: 0,
+            paddingTop: Platform.OS === 'ios' ? 0 : 10,
+          },
+          placeholder: {
+            color: '#8895A5',
+          },
+        }}
+        placeholder={{ label: '', value: null }}
+        useNativeAndroidPickerStyle={false}
+        value={values[name]}
+        onValueChange={value => setFieldValue(name, value)}
+        onBlur={() => setFieldTouched(name)}
+        InputAccessoryView={() => null}
+        items={[
+          { label: 'Viagem', value: 'viagem' },
+          { label: 'Educação', value: 'educação' },
+          { label: 'Automóvel', value: 'automóvel' },
+        ]}
+        Icon={() => {
+          return (
+            <Ionicons
+              name="pricetag-outline"
+              size={Platform.OS === 'ios' ? 24 : 21}
+              color="black"
+            />
+          );
+        }}
+        {...otherProps}
+      />
+
+      <FormErrorMessage error={errors[name]} visible={touched[name]} />
+    </React.Fragment>
   );
 }

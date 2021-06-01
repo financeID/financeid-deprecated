@@ -24,7 +24,7 @@ const validationSchema = Yup.object().shape({
     .label('Description'),
   value: Yup.number()
     .typeError('O valor deve ser um número')
-    .required('Digite o valor da item')
+    .required('Digite o valor do item')
     .positive()
     .label('Value'),
   date: Yup.string()
@@ -32,9 +32,10 @@ const validationSchema = Yup.object().shape({
     .required('A data é obrigatória')
     .label('Date'),
   tag: Yup.string()
-    .required('Digite uma tag para o item')
+    .required('Selecione uma tag')
     .min(2, 'A tag deve conter ao menos 3 caracteres')
     .max(10, 'A tag deve conter no máximo 10 caracteres')
+    .nullable()
     .label('Tag'),
 });
 
@@ -125,7 +126,7 @@ export default function AddTransactions({ navigation, route }) {
           />
           <FormField type={'datetime'} name="date" />
 
-          <PickerTag name="tag" />
+          <PickerTag name="tag" placeholder={{ label: 'Tag', value: null }} />
         </ScrollView>
       </Container>
 
