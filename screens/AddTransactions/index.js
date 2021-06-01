@@ -124,7 +124,7 @@ export default function AddTransactions({ navigation, route }) {
             keyboardType={'numeric'}
             autoCapitalize="none"
           />
-          <FormField type={'datetime'} name="date" />
+          <FormField name="date" rightIcon="clock-outline" />
 
           <PickerTag name="tag" placeholder={{ label: 'Tag', value: null }} />
         </ScrollView>
