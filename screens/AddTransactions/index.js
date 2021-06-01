@@ -12,6 +12,7 @@ import Colors from '../../utils/colors';
 import Form from '../../components/Forms/Form';
 import FormField from '../../components/Forms/FormField';
 import FormButtonTransactions from '../../components/Forms/FormButtonTransactions';
+import PickerTag from '../../components/PickerTag';
 
 import { Container, ContainerKeyboard, ViewButton } from './styles';
 
@@ -123,12 +124,8 @@ export default function AddTransactions({ navigation, route }) {
             autoCapitalize="none"
           />
           <FormField type={'datetime'} name="date" />
-          <FormField
-            name="tag"
-            placeholder="Tag"
-            autoCapitalize="none"
-            pickerTag
-          />
+
+          <PickerTag name="tag" />
         </ScrollView>
       </Container>
 
