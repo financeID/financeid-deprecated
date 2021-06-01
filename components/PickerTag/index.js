@@ -1,50 +1,84 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { useFormikContext } from 'formik';
+
+import { StyleSheet, Platform } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import RNPickerSelect from 'react-native-picker-select';
 
-export default function PickerTag({ date }) {
+import FormErrorMessage from '../../components/Forms/FormErrorMessage';
+import Colors from '../../utils/colors';
+
+export default function PickerTag({ name, ...otherProps }) {
+  const {
+    setFieldTouched,
+    setFieldValue,
+    values,
+    errors,
+    touched,
+  } = useFormikContext();
+
   const pickerSelectStyles = StyleSheet.create({
     inputIOS: {
-      color: 'transparent',
-      width: 60,
-      height: 50,
+      color: Colors.black,
+      paddingTop: 15,
+      paddingBottom: 15,
+      paddingLeft: 7,
+      paddingRight: 10,
+      width: '100%',
+      fontSize: Platform.OS === 'ios' ? 19 : 16,
     },
     inputAndroid: {
-      color: 'transparent',
-      width: 60,
-      height: 50,
+      color: Colors.black,
+      paddingTop: 15,
+      paddingBottom: 15,
+      paddingLeft: 7,
+      paddingRight: 10,
+      width: '100%',
+      fontSize: Platform.OS === 'ios' ? 19 : 16,
     },
   });
 
   return (
-    <RNPickerSelect
-      style={{
-        ...pickerSelectStyles,
-        iconContainer: {
-          width: 60,
-          alignItems: 'center',
-          justifyContent: 'center',
-          height: 50,
-          margin: 0,
-        },
-        placeholder: {
-          fontSize: 0,
-        },
-      }}
-      value={date}
-      placeholder={{}}
-      useNativeAndroidPickerStyle={false}
-      onValueChange={() => {}}
-      InputAccessoryView={() => null}
-      items={[
-        { label: 'Football', value: 'football' },
-        { label: 'Baseball', value: 'baseball' },
-        { label: 'Hockey', value: 'hockey' },
-      ]}
-      Icon={() => {
-        return <Ionicons name="filter" size={24} color="black" />;
-      }}
-    />
+    <React.Fragment>
+      <RNPickerSelect
+        style={{
+          ...pickerSelectStyles,
+          iconContainer: {
+            width: 60,
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: 50,
+            margin: 0,
+            paddingTop: Platform.OS === 'ios' ? 0 : 10,
+          },
+          placeholder: {
+            color: '#8895A5',
+          },
+        }}
+        placeholder={{ label: '', value: null }}
+        useNativeAndroidPickerStyle={false}
+        value={values[name]}
+        onValueChange={value => setFieldValue(name, value)}
+        onBlur={() => setFieldTouched(name)}
+        InputAccessoryView={() => null}
+        items={[
+          { label: 'Viagem', value: 'viagem' },
+          { label: 'Educação', value: 'educação' },
+          { label: 'Automóvel', value: 'automóvel' },
+        ]}
+        Icon={() => {
+          return (
+            <Ionicons
+              name="pricetag-outline"
+              size={Platform.OS === 'ios' ? 24 : 21}
+              color="black"
+            />
+          );
+        }}
+        {...otherProps}
+      />
+
+      <FormErrorMessage error={errors[name]} visible={touched[name]} />
+    </React.Fragment>
   );
 }

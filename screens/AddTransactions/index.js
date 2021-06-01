@@ -12,6 +12,7 @@ import Colors from '../../utils/colors';
 import Form from '../../components/Forms/Form';
 import FormField from '../../components/Forms/FormField';
 import FormButtonTransactions from '../../components/Forms/FormButtonTransactions';
+import PickerTag from '../../components/PickerTag';
 
 import { Container, ContainerKeyboard, ViewButton } from './styles';
 
@@ -23,7 +24,7 @@ const validationSchema = Yup.object().shape({
     .label('Description'),
   value: Yup.number()
     .typeError('O valor deve ser um número')
-    .required('Digite o valor da item')
+    .required('Digite o valor do item')
     .positive()
     .label('Value'),
   date: Yup.string()
@@ -31,9 +32,10 @@ const validationSchema = Yup.object().shape({
     .required('A data é obrigatória')
     .label('Date'),
   tag: Yup.string()
-    .required('Digite uma tag para o item')
+    .required('Selecione uma tag')
     .min(2, 'A tag deve conter ao menos 3 caracteres')
     .max(10, 'A tag deve conter no máximo 10 caracteres')
+    .nullable()
     .label('Tag'),
 });
 
@@ -123,12 +125,8 @@ export default function AddTransactions({ navigation, route }) {
             autoCapitalize="none"
           />
           <FormField type={'datetime'} name="date" />
-          <FormField
-            name="tag"
-            placeholder="Tag"
-            autoCapitalize="none"
-            pickerTag
-          />
+
+          <PickerTag name="tag" placeholder={{ label: 'Tag', value: null }} />
         </ScrollView>
       </Container>
 
