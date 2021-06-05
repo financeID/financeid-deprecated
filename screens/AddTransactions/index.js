@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { Platform, ScrollView } from 'react-native';
-import { format } from 'date-fns';
-import pt from 'date-fns/locale/pt-BR';
 import { showMessage } from 'react-native-flash-message';
 import { KeyboardAccessoryView } from '@flyerhq/react-native-keyboard-accessory-view';
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
@@ -13,6 +11,7 @@ import Form from '../../components/Forms/Form';
 import FormField from '../../components/Forms/FormField';
 import FormButtonTransactions from '../../components/Forms/FormButtonTransactions';
 import PickerTag from '../../components/PickerTag';
+import Calendar from '../../components/Calendar';
 
 import { Container, ContainerKeyboard, ViewButton } from './styles';
 
@@ -90,9 +89,7 @@ export default function AddTransactions({ navigation, route }) {
       initialValues={{
         description: '',
         value: '',
-        date: format(new Date(), 'yyyy-MM-dd', {
-          locale: pt,
-        }),
+        date: '',
         tag: '',
         type: '',
       }}
@@ -124,8 +121,7 @@ export default function AddTransactions({ navigation, route }) {
             keyboardType={'numeric'}
             autoCapitalize="none"
           />
-          <FormField name="date" rightIcon="clock-outline" />
-
+          <Calendar name="date" />
           <PickerTag name="tag" placeholder={{ label: 'Tag', value: null }} />
         </ScrollView>
       </Container>
