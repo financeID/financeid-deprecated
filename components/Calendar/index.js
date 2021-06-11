@@ -9,6 +9,8 @@ export default function DatePickerModal({ name }) {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [date, setDate] = useState('');
 
+  const dateTimeTranformed = date + new Date().toISOString().slice(10);
+
   const { setFieldValue, errors, touched } = useFormikContext();
 
   useEffect(() => {
@@ -49,6 +51,7 @@ export default function DatePickerModal({ name }) {
       <DateTimePickerModal
         isVisible={isDatePickerVisible}
         mode="date"
+        date={new Date(dateTimeTranformed)}
         onConfirm={handleConfirm}
         onCancel={hideDatePicker}
       />
