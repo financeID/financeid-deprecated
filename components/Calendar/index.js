@@ -3,13 +3,11 @@ import { useFormikContext } from 'formik';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import AppTextInput from '../AppTextInput';
 import FormErrorMessage from '../../components/Forms/FormErrorMessage';
-import Format from '../../utils/formatedDate';
+import { formatedDate as Format } from '../../utils/formatedDate';
 
 export default function DatePickerModal({ name }) {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [date, setDate] = useState('');
-
-  const dateTimeTranformed = date + new Date().toISOString().slice(10);
 
   const { setFieldValue, errors, touched } = useFormikContext();
 
@@ -36,6 +34,12 @@ export default function DatePickerModal({ name }) {
     hideDatePicker();
   };
 
+  /*const as = format(new Date(date), 'yyyy-MM-dd', {
+    locale: pt,
+  });*/
+
+  //const dateTimeTranformed = as + new Date().toISOString().slice(10);
+
   return (
     <React.Fragment>
       <AppTextInput
@@ -51,7 +55,6 @@ export default function DatePickerModal({ name }) {
       <DateTimePickerModal
         isVisible={isDatePickerVisible}
         mode="date"
-        date={new Date(dateTimeTranformed)}
         onConfirm={handleConfirm}
         onCancel={hideDatePicker}
       />
