@@ -22,14 +22,13 @@ const validationSchema = Yup.object().shape({
     .min(2, 'A descrição deve conter ao menos 3 caracteres')
     .max(20, 'A descrição deve conter no máximo 20 caracteres')
     .label('Description'),
-  value: Yup.number()
+  value: Yup.string()
     .typeError('O valor deve ser um número')
     .required('Digite o valor do item')
-    .positive()
     .label('Value'),
   date: Yup.string()
-    .typeError('Insira uma data')
-    .required('A data é obrigatória')
+    .min(10, 'Insira uma data')
+    .required('A data é1 obrigatória')
     .label('Date'),
   tag: Yup.string()
     .required('Selecione uma tag')
@@ -54,7 +53,7 @@ export default function AddTransactions({ navigation, route }) {
 
     const data = firebase.database().ref(`/users/${uid}/transactions/`).push();
 
-    const valueTransformed = Math.round(value * 100) / 100;
+    const valueTransformed = value.replace(/,/g, '');
     const typeTransformed = type === 0 ? 'income' : 'outcome';
 
     data
@@ -122,6 +121,14 @@ export default function AddTransactions({ navigation, route }) {
           <FormField
             placeholder="Valor"
             name="value"
+            type={'money'}
+            options={{
+              precision: 2,
+              separator: '.',
+              delimiter: ',',
+              unit: '',
+              suffixUnit: '',
+            }}
             keyboardType={'numeric'}
             autoCapitalize="none"
           />
