@@ -65,6 +65,11 @@ export default function PickerTag({ name, ...otherProps }) {
           { label: 'Viagem', value: 'viagem' },
           { label: 'Educação', value: 'educação' },
           { label: 'Automóvel', value: 'automóvel' },
+          { label: 'Casa', value: 'casa' },
+          { label: 'Comer fora', value: 'comer fora' },
+          { label: 'Refeição', value: 'refeição' },
+          { label: 'Lazer', value: 'lazer' },
+          { label: 'Outros', value: 'outros' },
         ]}
         Icon={() => {
           return (

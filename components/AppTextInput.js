@@ -8,11 +8,14 @@ import {
   Text,
 } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { TextInputMask } from 'react-native-masked-text';
 
 import Colors from '../utils/colors';
 
 export default function AppTextInput({
   leftIcon,
+  type,
+  options,
   width = '100%',
   rightIcon,
   descTitle,
@@ -32,11 +35,21 @@ export default function AppTextInput({
           />
         )}
         <View style={{ flex: 1 }}>
-          <TextInput
-            style={styles.input}
-            placeholderTextColor={Colors.mediumGrey}
-            {...otherProps}
-          />
+          {type ? (
+            <TextInputMask
+              type={type}
+              options={options}
+              style={styles.input}
+              placeholderTextColor={Colors.mediumGrey}
+              {...otherProps}
+            />
+          ) : (
+            <TextInput
+              style={styles.input}
+              placeholderTextColor={Colors.mediumGrey}
+              {...otherProps}
+            />
+          )}
         </View>
         {rightIcon && (
           <TouchableOpacity onPress={handlePasswordVisibility}>
