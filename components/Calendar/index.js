@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useFormikContext } from 'formik';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import AppTextInput from '../AppTextInput';
 import FormErrorMessage from '../../components/Forms/FormErrorMessage';
+import TextInput from '../../components/AppTextInput';
 import { formatedDate as Format } from '../../utils/formatedDate';
 
 export default function DatePickerModal({ name }) {
@@ -42,9 +42,13 @@ export default function DatePickerModal({ name }) {
 
   return (
     <React.Fragment>
-      <AppTextInput
+      <TextInput
         rightIcon="clock-outline"
         value={date}
+        type={'datetime'}
+        options={{
+          format: 'DD/MM/YYYY',
+        }}
         handlePasswordVisibility={showDatePicker}
         onChangeText={text => {
           setDate(text);
