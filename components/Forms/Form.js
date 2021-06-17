@@ -11,6 +11,8 @@ export default function Form({
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
+      validateOnChange={false}
+      validateOnBlur={false}
       onSubmit={onSubmit}
     >
       {() => <React.Fragment>{children}</React.Fragment>}
