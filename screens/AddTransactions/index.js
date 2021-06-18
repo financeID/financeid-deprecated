@@ -11,7 +11,6 @@ import Form from '../../components/Forms/Form';
 import FormField from '../../components/Forms/FormField';
 import FormButtonTransactions from '../../components/Forms/FormButtonTransactions';
 import PickerTag from '../../components/PickerTag';
-import PickerTagModal from '../../components/PickerTagModal';
 import Calendar from '../../components/Calendar';
 import { formatedDate2 } from '../../utils/formatedDate';
 
@@ -137,7 +136,6 @@ export default function AddTransactions({ navigation, route }) {
           />
           <Calendar name="date" />
           <PickerTag name="tag" placeholder={{ label: 'Tag', value: null }} />
-          <PickerTagModal />
         </ScrollView>
       </Container>
 

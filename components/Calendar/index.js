@@ -59,6 +59,9 @@ export default function DatePickerModal({ name }) {
       <DateTimePickerModal
         isVisible={isDatePickerVisible}
         mode="date"
+        locale="pt_BR"
+        confirmTextIOS="Confirmar"
+        cancelTextIOS="Cancelar"
         onConfirm={handleConfirm}
         onCancel={hideDatePicker}
       />
