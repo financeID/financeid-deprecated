@@ -25,7 +25,7 @@ export default function Routes() {
 
     // unsubscribe auth listener on unmount
     return unsubscribeAuth;
-  }, []);
+  }, [setUser]);
 
   if (isLoading) {
     return <Spinner />;

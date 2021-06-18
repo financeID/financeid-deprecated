@@ -58,6 +58,7 @@ export default function PickerTag({ name, ...otherProps }) {
         placeholder={{ label: '', value: null }}
         useNativeAndroidPickerStyle={false}
         value={values[name]}
+        loca
         onValueChange={value => setFieldValue(name, value)}
         onBlur={() => setFieldTouched(name)}
         InputAccessoryView={() => null}

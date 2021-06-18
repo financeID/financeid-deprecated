@@ -69,7 +69,7 @@ export default function AppStack() {
         component={HomeStackScreen}
       />
       <HomeStack.Screen
-        options={{ title: 'Adicionar', headerBackTitle: '' }}
+        options={{ title: 'Adicionar', headerBackTitle: 'Voltar' }}
         name="addIncome"
         component={AddTransactions}
       />

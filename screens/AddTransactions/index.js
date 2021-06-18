@@ -112,11 +112,13 @@ export default function AddTransactions({ navigation, route }) {
         <ScrollView
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="always"
         >
           <FormField
             placeholder="Descrição"
             name="description"
             autoCapitalize="sentences"
+            autoFocus={true}
           />
           <FormField
             placeholder="Valor"
