@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { View, ScrollView, Text, TouchableOpacity } from 'react-native';
+import {
+  ActivityIndicator,
+  View,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
 import * as firebase from 'firebase';
 import { format } from 'date-fns';
 import pt from 'date-fns/locale/pt-BR';
@@ -16,9 +21,10 @@ import Colors from '../../utils/colors';
 import ProgressIncome from '../../components/ProgressIncome';
 import ProgressOutcome from '../../components/ProgressOutcome';
 import FixedButton from '../../components/FixedButton';
-import PickerMonth from '../../components/PickerMonth';
+import MonthPicker from '../../components/MonthPicker';
 
 import {
+  LoadingContainer,
   Container,
   HeaderContainer,
   Header,
@@ -46,9 +52,9 @@ export default function HomeScreen({ navigation }) {
     locale: pt,
   }).toString();
 
+  const [loading, setLoading] = useState(false);
   const [transactions, setTransactions] = useState([]);
   const [date, setDate] = useState(dateTransformed);
-  const [loading, setLoading] = useState(false);
 
   const { uid } = auth.currentUser;
   const dateTransformedToMonth = format(
@@ -111,7 +117,11 @@ export default function HomeScreen({ navigation }) {
 
   return (
     <>
-      {loading == false ? (
+      {loading ? (
+        <LoadingContainer>
+          <ActivityIndicator size="large" color={Colors.secondary} />
+        </LoadingContainer>
+      ) : (
         <ScrollView>
           <Container style={{ paddingTop: getStatusBarHeight() }}>
             <HeaderContainer>
@@ -141,7 +151,7 @@ export default function HomeScreen({ navigation }) {
                     <Ionicons name="refresh" size={24} color="black" />
                   </TouchableOpacity>
                 )}
-                <PickerMonth date={date} setDate={setDate} />
+                <MonthPicker date={date} setDate={setDate} />
               </View>
             </HeaderContainer>
             <ControlContainer>
@@ -240,12 +250,6 @@ export default function HomeScreen({ navigation }) {
             </ScrollView>
           </BoxContainer>
         </ScrollView>
-      ) : (
-        <View
-          style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}
-        >
-          <Text>Carregando</Text>
-        </View>
       )}
 
       <FixedButton navigation={navigation} />

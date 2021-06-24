@@ -9,7 +9,7 @@ export const formatedDate = date => {
   });
 };
 
-export const formatedDate2 = date => {
+export const formatedDatePtBR = date => {
   const day = date.slice(0, 2);
   const month = date.slice(3, 5) - 1;
   const year = date.slice(6, 11);

@@ -10,9 +10,9 @@ import Colors from '../../utils/colors';
 import Form from '../../components/Forms/Form';
 import FormField from '../../components/Forms/FormField';
 import FormButtonTransactions from '../../components/Forms/FormButtonTransactions';
-import PickerTag from '../../components/PickerTag';
+import TagPicker from '../../components/TagPicker';
 import Calendar from '../../components/Calendar';
-import { formatedDate2 } from '../../utils/formatedDate';
+import { formatedDatePtBR } from '../../utils/formatedDate';
 
 import { Container, ContainerKeyboard, ViewButton } from './styles';
 
@@ -44,12 +44,14 @@ export default function AddTransactions({ navigation, route }) {
 
   const [type, setType] = useState(Type);
 
+  const { Tag } = route.params;
+
   const onType = type === 0 ? 'Adicionar entrada' : 'Adicionar saída';
 
   const handleTransactions = values => {
     const { description, value, date, tag } = values;
 
-    const dateTranformed = formatedDate2(date);
+    const dateTranformed = formatedDatePtBR(date);
 
     const data = firebase.database().ref(`/users/${uid}/transactions/`).push();
 
@@ -94,6 +96,7 @@ export default function AddTransactions({ navigation, route }) {
         value: '',
         date: '',
         tag: '',
+        tag2: '',
         type: '',
       }}
       validationSchema={validationSchema}
@@ -134,8 +137,14 @@ export default function AddTransactions({ navigation, route }) {
             keyboardType={'numeric'}
             autoCapitalize="none"
           />
+
+          <TagPicker
+            placeholder="Tag"
+            tag={Tag}
+            name="tag"
+            navigation={navigation}
+          />
           <Calendar name="date" />
-          <PickerTag name="tag" placeholder={{ label: 'Tag', value: null }} />
         </ScrollView>
       </Container>
 

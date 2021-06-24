@@ -2,6 +2,11 @@ import { Platform } from 'react-native';
 import styled, { css } from 'styled-components/native';
 import Colors from '../../utils/colors';
 
+export const LoadingContainer = styled.View`
+  flex: 1;
+  justify-content: center;
+`;
+
 export const Container = styled.View`
   flex: 1;
   margin: 0 20px;
@@ -32,7 +37,7 @@ export const CircleContainerText = styled.Text`
 
 export const DataContainer = styled.View`
   flex: 1;
-  align-items: flex-start;
+  align-items: center;
 `;
 
 export const DataText = styled.Text`

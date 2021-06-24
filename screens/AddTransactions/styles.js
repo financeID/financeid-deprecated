@@ -4,7 +4,6 @@ import Colors from '../../utils/colors';
 export const Container = styled.View`
   flex: 1;
   padding: 0 14px;
-  background-color: ${Colors.white};
 `;
 
 export const ContainerKeyboard = styled.View`

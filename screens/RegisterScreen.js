@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {StyleSheet} from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet } from 'react-native';
 import * as Yup from 'yup';
 import * as firebase from 'firebase';
 import Colors from '../utils/colors';
@@ -9,8 +9,9 @@ import FormField from '../components/Forms/FormField';
 import FormButton from '../components/Forms/FormButton';
 import IconButton from '../components/IconButton';
 import FormErrorMessage from '../components/Forms/FormErrorMessage';
-import {registerWithEmail} from '../components/Firebase/firebase';
+import { registerWithEmail } from '../components/Firebase/firebase';
 import useStatusBar from '../hooks/useStatusBar';
+import tags from '../utils/tags';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required().label('Name'),
@@ -27,7 +28,7 @@ const validationSchema = Yup.object().shape({
     .required('Confirm Password is required'),
 });
 
-export default function RegisterScreen({navigation}) {
+export default function RegisterScreen({ navigation }) {
   useStatusBar('light-content');
 
   const [passwordVisibility, setPasswordVisibility] = useState(true);
@@ -59,17 +60,22 @@ export default function RegisterScreen({navigation}) {
   }
 
   async function handleOnSignUp(values) {
-    const {name, email, password} = values;
+    const { name, email, password } = values;
 
     try {
-      await registerWithEmail(email, password).then((res) => {
-        return firebase
+      await registerWithEmail(email, password).then(res => {
+        firebase
           .database()
           .ref('users/' + res.user.uid)
           .set({
             firstName: name,
             email: email,
           });
+
+        firebase
+          .database()
+          .ref('users/' + res.user.uid + '/tags/')
+          .set(tags);
       });
     } catch (error) {
       setRegisterError(error.message);
@@ -86,7 +92,7 @@ export default function RegisterScreen({navigation}) {
           confirmPassword: '',
         }}
         validationSchema={validationSchema}
-        onSubmit={(values) => handleOnSignUp(values)}
+        onSubmit={values => handleOnSignUp(values)}
       >
         <FormField
           name="name"
@@ -141,7 +147,7 @@ export default function RegisterScreen({navigation}) {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 15,
+    padding: 10,
     backgroundColor: Colors.white,
   },
   backButton: {

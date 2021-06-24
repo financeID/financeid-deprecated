@@ -10,14 +10,14 @@ export default function AddButton({ navigation }) {
       <ActionButton.Item
         buttonColor={Colors.income}
         title="Adicionar entrada"
-        onPress={() => navigation.navigate('addIncome', { Type: 0 })}
+        onPress={() => navigation.navigate('AddIncome', { Type: 0 })}
       >
         <Icon name="arrow-up" style={styles.actionButtonIcon} />
       </ActionButton.Item>
       <ActionButton.Item
         buttonColor={Colors.outcome}
         title="Adicionar saída"
-        onPress={() => navigation.navigate('addIncome', { Type: 1 })}
+        onPress={() => navigation.navigate('AddIncome', { Type: 1 })}
       >
         <Icon name="arrow-down" style={styles.actionButtonIcon} />
       </ActionButton.Item>
