@@ -5,7 +5,7 @@ import { StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import RNPickerSelect from 'react-native-picker-select';
 import usedMonthsToArray from '../../utils/usedMonthsToArray';
-import { Picker } from './styles';
+import { Picker, iconContainer, placeholder } from './styles';
 
 export default function MonthPicker({ date, setDate }) {
   const { uid } = auth.currentUser;
@@ -20,34 +20,13 @@ export default function MonthPicker({ date, setDate }) {
     });
   }, [uid]);
 
-  const pickerSelectStyles = StyleSheet.create({
-    inputIOS: {
-      color: 'transparent',
-      width: 60,
-      height: 50,
-    },
-    inputAndroid: {
-      color: 'transparent',
-      width: 60,
-      height: 50,
-    },
-  });
-
   return (
     <Picker>
       <RNPickerSelect
         style={{
           ...pickerSelectStyles,
-          iconContainer: {
-            width: 60,
-            alignItems: 'center',
-            justifyContent: 'center',
-            height: 50,
-            margin: 0,
-          },
-          placeholder: {
-            fontSize: 0,
-          },
+          iconContainer,
+          placeholder,
         }}
         value={date}
         placeholder={{}}
@@ -64,3 +43,16 @@ export default function MonthPicker({ date, setDate }) {
     </Picker>
   );
 }
+
+const pickerSelectStyles = StyleSheet.create({
+  inputIOS: {
+    color: 'transparent',
+    width: 60,
+    height: 50,
+  },
+  inputAndroid: {
+    color: 'transparent',
+    width: 60,
+    height: 50,
+  },
+});

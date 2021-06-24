@@ -6,7 +6,13 @@ import { TouchableOpacity, Platform } from 'react-native';
 import snapshotToArray from '../../utils/snapshotToArray';
 import { Ionicons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Scroll, RemoveTag, ListContainer, RightIconHeader } from './styles';
+import {
+  Scroll,
+  RemoveTag,
+  ListContainer,
+  RightIconHeader,
+  NothingHere,
+} from './styles';
 
 export default function TagManager({ navigation }) {
   const [search, setSearch] = useState('');
@@ -77,24 +83,28 @@ export default function TagManager({ navigation }) {
         value={search}
       />
 
-      <Scroll vertical keyboardShouldPersistTaps="always">
-        {tags.map(tag => (
-          <ListItem
-            containerStyle={ListContainer}
-            key={tag.key}
-            bottomDivider
-            onPress={() => buttonLink(tag)}
-          >
-            <ListItem.Content>
-              <ListItem.Title>{tag.name}</ListItem.Title>
-            </ListItem.Content>
+      {tags.length === 0 ? (
+        <NothingHere>Tag não existente</NothingHere>
+      ) : (
+        <Scroll vertical keyboardShouldPersistTaps="always">
+          {tags.map(tag => (
+            <ListItem
+              containerStyle={ListContainer}
+              key={tag.key}
+              bottomDivider
+              onPress={() => buttonLink(tag)}
+            >
+              <ListItem.Content>
+                <ListItem.Title>{tag.name}</ListItem.Title>
+              </ListItem.Content>
 
-            <RemoveTag onPress={() => removeTag(tag.key)}>
-              <Ionicons name="close-outline" size={24} color="#bdbdbd" />
-            </RemoveTag>
-          </ListItem>
-        ))}
-      </Scroll>
+              <RemoveTag onPress={() => removeTag(tag.key)}>
+                <Ionicons name="close-outline" size={24} color="#bdbdbd" />
+              </RemoveTag>
+            </ListItem>
+          ))}
+        </Scroll>
+      )}
     </>
   );
 }

@@ -21,3 +21,10 @@ export const RemoveTag = styled.TouchableOpacity`
 export const RightIconHeader = {
   paddingRight: 15,
 };
+
+export const NothingHere = styled.Text`
+  padding-top: 20px;
+  font-size: 20px;
+  text-align: center;
+  color: ${Colors.mediumGrey};
+`;

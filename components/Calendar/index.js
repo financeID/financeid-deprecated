@@ -34,12 +34,6 @@ export default function DatePickerModal({ name }) {
     hideDatePicker();
   };
 
-  /*const as = format(new Date(date), 'yyyy-MM-dd', {
-    locale: pt,
-  });*/
-
-  //const dateTimeTranformed = as + new Date().toISOString().slice(10);
-
   return (
     <React.Fragment>
       <TextInput

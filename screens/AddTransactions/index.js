@@ -12,7 +12,7 @@ import FormField from '../../components/Forms/FormField';
 import FormButtonTransactions from '../../components/Forms/FormButtonTransactions';
 import TagPicker from '../../components/TagPicker';
 import Calendar from '../../components/Calendar';
-import { formatedDate2 } from '../../utils/formatedDate';
+import { formatedDatePtBR } from '../../utils/formatedDate';
 
 import { Container, ContainerKeyboard, ViewButton } from './styles';
 
@@ -51,7 +51,7 @@ export default function AddTransactions({ navigation, route }) {
   const handleTransactions = values => {
     const { description, value, date, tag } = values;
 
-    const dateTranformed = formatedDate2(date);
+    const dateTranformed = formatedDatePtBR(date);
 
     const data = firebase.database().ref(`/users/${uid}/transactions/`).push();
 

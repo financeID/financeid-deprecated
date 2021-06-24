@@ -1,5 +1,5 @@
 import React from 'react';
-import {ActivityIndicator, StyleSheet} from 'react-native';
+import { ActivityIndicator, StyleSheet } from 'react-native';
 
 import SafeView from './SafeView';
 import Colors from '../utils/colors';
