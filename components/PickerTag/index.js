@@ -1,90 +1,75 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useFormikContext } from 'formik';
-
-import { StyleSheet, Platform } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import RNPickerSelect from 'react-native-picker-select';
-
+import {
+  View,
+  TouchableOpacity,
+  Text,
+  Platform,
+  StyleSheet,
+} from 'react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import FormErrorMessage from '../../components/Forms/FormErrorMessage';
-import Colors from '../../utils/colors';
 
-export default function PickerTag({ name, ...otherProps }) {
-  const {
-    setFieldTouched,
-    setFieldValue,
-    values,
-    errors,
-    touched,
-  } = useFormikContext();
+export default function PickerTag({ navigation, name, tag, placeholder }) {
+  const { setFieldValue, errors, touched } = useFormikContext();
 
-  const pickerSelectStyles = StyleSheet.create({
-    inputIOS: {
-      color: Colors.black,
-      paddingTop: 15,
-      paddingBottom: 15,
-      paddingLeft: 7,
-      paddingRight: 10,
-      width: '100%',
-      fontSize: Platform.OS === 'ios' ? 19 : 16,
-    },
-    inputAndroid: {
-      color: Colors.black,
-      paddingTop: 15,
-      paddingBottom: 15,
-      paddingLeft: 7,
-      paddingRight: 10,
-      width: '100%',
-      fontSize: Platform.OS === 'ios' ? 19 : 16,
-    },
-  });
+  useEffect(() => {
+    const setTag = tag ? tag : null;
+
+    setFieldValue(name, setTag);
+  }, [setFieldValue, name, tag]);
 
   return (
     <React.Fragment>
-      <RNPickerSelect
-        style={{
-          ...pickerSelectStyles,
-          iconContainer: {
-            width: 60,
-            alignItems: 'center',
-            justifyContent: 'center',
-            height: 50,
-            margin: 0,
-            paddingTop: Platform.OS === 'ios' ? 0 : 10,
-          },
-          placeholder: {
-            color: '#8895A5',
-          },
-        }}
-        placeholder={{ label: '', value: null }}
-        useNativeAndroidPickerStyle={false}
-        value={values[name]}
-        loca
-        onValueChange={value => setFieldValue(name, value)}
-        onBlur={() => setFieldTouched(name)}
-        InputAccessoryView={() => null}
-        items={[
-          { label: 'Viagem', value: 'viagem' },
-          { label: 'Educação', value: 'educação' },
-          { label: 'Automóvel', value: 'automóvel' },
-          { label: 'Casa', value: 'casa' },
-          { label: 'Comer fora', value: 'comer fora' },
-          { label: 'Refeição', value: 'refeição' },
-          { label: 'Lazer', value: 'lazer' },
-          { label: 'Outros', value: 'outros' },
-        ]}
-        Icon={() => {
-          return (
-            <Ionicons
-              name="pricetag-outline"
-              size={Platform.OS === 'ios' ? 20 : 21}
-              color={Colors.mediumGrey}
-            />
-          );
-        }}
-        {...otherProps}
-      />
+      <TouchableOpacity
+        style={styles.container}
+        onPress={() => navigation.navigate('manageTags')}
+      >
+        <Text style={styles.input}>
+          {tag ? tag : <Text style={{ color: 'grey' }}>{placeholder}</Text>}
+        </Text>
+
+        <View style={styles.icon}>
+          <MaterialCommunityIcons
+            name="tag-outline"
+            size={20}
+            color={'#6e6869'}
+          />
+        </View>
+      </TouchableOpacity>
+      <View style={styles.line} />
 
       <FormErrorMessage error={errors[name]} visible={touched[name]} />
     </React.Fragment>
   );
 }
+
+const styles = StyleSheet.create({
+  line: {
+    borderBottomWidth: 1,
+    borderBottomColor: '#EBEBEB',
+  },
+  container: {
+    flexDirection: 'row',
+    marginVertical: 0,
+    flex: 1,
+  },
+  icon: {
+    paddingTop: 20,
+    paddingBottom: 15,
+    paddingLeft: 15,
+    paddingRight: 15,
+  },
+  input: {
+    paddingTop: 15,
+    paddingBottom: 15,
+    paddingLeft: 7,
+    flex: 1,
+    fontSize: Platform.OS === 'ios' ? 19 : 16,
+    lineHeight: 26,
+    color: '#000',
+  },
+  button: {
+    flex: 1,
+  },
+});

@@ -8,13 +8,17 @@ const snapshotToArray = (snapshot, date) => {
     returnArr.push(item);
   });
 
-  const filterObj = returnArr.filter(x => {
-    const dateSplit = x.date.slice(0, 7);
+  if (date) {
+    const filterObj = returnArr.filter(x => {
+      const dateSplit = x.date.slice(0, 7);
 
-    return dateSplit === date;
-  });
+      return dateSplit === date;
+    });
 
-  return filterObj;
+    return filterObj;
+  } else {
+    return returnArr;
+  }
 };
 
 export default snapshotToArray;

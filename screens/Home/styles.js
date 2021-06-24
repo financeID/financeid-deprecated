@@ -32,7 +32,7 @@ export const CircleContainerText = styled.Text`
 
 export const DataContainer = styled.View`
   flex: 1;
-  align-items: flex-start;
+  align-items: center;
 `;
 
 export const DataText = styled.Text`

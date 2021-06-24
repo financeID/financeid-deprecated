@@ -44,6 +44,8 @@ export default function AddTransactions({ navigation, route }) {
 
   const [type, setType] = useState(Type);
 
+  const { Tag } = route.params;
+
   const onType = type === 0 ? 'Adicionar entrada' : 'Adicionar saída';
 
   const handleTransactions = values => {
@@ -94,6 +96,7 @@ export default function AddTransactions({ navigation, route }) {
         value: '',
         date: '',
         tag: '',
+        tag2: '',
         type: '',
       }}
       validationSchema={validationSchema}
@@ -134,8 +137,14 @@ export default function AddTransactions({ navigation, route }) {
             keyboardType={'numeric'}
             autoCapitalize="none"
           />
+
+          <PickerTag
+            placeholder="Tag"
+            tag={Tag}
+            name="tag"
+            navigation={navigation}
+          />
           <Calendar name="date" />
-          <PickerTag name="tag" placeholder={{ label: 'Tag', value: null }} />
         </ScrollView>
       </Container>
 

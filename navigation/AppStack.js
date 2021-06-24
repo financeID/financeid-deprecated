@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-
 import HomeScreen from '../screens/Home';
 import TransactionScreen from '../screens/TransactionScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import AddTransactions from '../screens/AddTransactions';
+import ManageTags from '../screens/ManageTags';
 
 const HomeStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -69,9 +69,17 @@ export default function AppStack() {
         component={HomeStackScreen}
       />
       <HomeStack.Screen
-        options={{ title: 'Adicionar', headerBackTitle: 'Voltar' }}
+        options={{
+          title: 'Adicionar',
+          headerBackTitle: 'Voltar',
+        }}
         name="addIncome"
         component={AddTransactions}
+      />
+      <HomeStack.Screen
+        options={{ title: 'Tags', headerBackTitle: 'Voltar' }}
+        name="manageTags"
+        component={ManageTags}
       />
     </HomeStack.Navigator>
   );
