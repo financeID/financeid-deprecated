@@ -10,7 +10,7 @@ import {
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import FormErrorMessage from '../../components/Forms/FormErrorMessage';
 
-export default function PickerTag({ navigation, name, tag, placeholder }) {
+export default function TagPicker({ navigation, name, tag, placeholder }) {
   const { setFieldValue, errors, touched } = useFormikContext();
 
   useEffect(() => {
@@ -23,7 +23,7 @@ export default function PickerTag({ navigation, name, tag, placeholder }) {
     <React.Fragment>
       <TouchableOpacity
         style={styles.container}
-        onPress={() => navigation.navigate('manageTags')}
+        onPress={() => navigation.navigate('TagManager')}
       >
         <Text style={styles.input}>
           {tag ? tag : <Text style={{ color: 'grey' }}>{placeholder}</Text>}

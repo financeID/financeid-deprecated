@@ -5,7 +5,7 @@ import HomeScreen from '../screens/Home';
 import TransactionScreen from '../screens/TransactionScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import AddTransactions from '../screens/AddTransactions';
-import ManageTags from '../screens/ManageTags';
+import TagManager from '../screens/TagManager';
 
 const HomeStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -73,13 +73,13 @@ export default function AppStack() {
           title: 'Adicionar',
           headerBackTitle: 'Voltar',
         }}
-        name="addIncome"
+        name="AddIncome"
         component={AddTransactions}
       />
       <HomeStack.Screen
         options={{ title: 'Tags', headerBackTitle: 'Voltar' }}
-        name="manageTags"
-        component={ManageTags}
+        name="TagManager"
+        component={TagManager}
       />
     </HomeStack.Navigator>
   );

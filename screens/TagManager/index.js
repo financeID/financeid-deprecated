@@ -8,7 +8,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Scroll, RemoveTag, ListContainer, RightIconHeader } from './styles';
 
-export default function ManageTags({ navigation }) {
+export default function TagManager({ navigation }) {
   const [search, setSearch] = useState('');
   const [tags, setTags] = useState([]);
   const [data, setData] = useState([]);
@@ -16,7 +16,7 @@ export default function ManageTags({ navigation }) {
   const { uid } = auth.currentUser;
 
   useEffect(() => {
-    const data = firebase.database().ref(`/users/${uid}/tags`);
+    const data = firebase.database().ref('users/' + uid + '/tags/');
 
     data.on('value', snapshot => {
       setTags(snapshotToArray(snapshot));
@@ -28,7 +28,7 @@ export default function ManageTags({ navigation }) {
     navigation.setOptions({
       headerRight: () => (
         <TouchableOpacity
-          onPress={() => navigation.navigate('manageTags')}
+          onPress={() => navigation.navigate('AddIncome')}
           style={RightIconHeader}
         >
           <MaterialCommunityIcons
@@ -53,7 +53,7 @@ export default function ManageTags({ navigation }) {
   };
 
   const buttonLink = l => {
-    navigation.navigate('addIncome', { Tag: l.name });
+    navigation.navigate('AddIncome', { Tag: l.name });
   };
 
   const removeTag = key => {
@@ -65,7 +65,7 @@ export default function ManageTags({ navigation }) {
   return (
     <>
       <SearchBar
-        placeholder="Digite uma tag"
+        placeholder="Procurar"
         platform={'ios'}
         cancelButtonTitle=""
         containerStyle={{

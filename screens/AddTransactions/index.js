@@ -10,7 +10,7 @@ import Colors from '../../utils/colors';
 import Form from '../../components/Forms/Form';
 import FormField from '../../components/Forms/FormField';
 import FormButtonTransactions from '../../components/Forms/FormButtonTransactions';
-import PickerTag from '../../components/PickerTag';
+import TagPicker from '../../components/TagPicker';
 import Calendar from '../../components/Calendar';
 import { formatedDate2 } from '../../utils/formatedDate';
 
@@ -138,7 +138,7 @@ export default function AddTransactions({ navigation, route }) {
             autoCapitalize="none"
           />
 
-          <PickerTag
+          <TagPicker
             placeholder="Tag"
             tag={Tag}
             name="tag"

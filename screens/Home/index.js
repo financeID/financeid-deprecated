@@ -16,7 +16,7 @@ import Colors from '../../utils/colors';
 import ProgressIncome from '../../components/ProgressIncome';
 import ProgressOutcome from '../../components/ProgressOutcome';
 import FixedButton from '../../components/FixedButton';
-import PickerMonth from '../../components/PickerMonth';
+import MonthPicker from '../../components/MonthPicker';
 
 import {
   Container,
@@ -141,7 +141,7 @@ export default function HomeScreen({ navigation }) {
                     <Ionicons name="refresh" size={24} color="black" />
                   </TouchableOpacity>
                 )}
-                <PickerMonth date={date} setDate={setDate} />
+                <MonthPicker date={date} setDate={setDate} />
               </View>
             </HeaderContainer>
             <ControlContainer>

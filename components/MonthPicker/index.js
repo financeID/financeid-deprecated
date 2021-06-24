@@ -7,7 +7,7 @@ import RNPickerSelect from 'react-native-picker-select';
 import usedMonthsToArray from '../../utils/usedMonthsToArray';
 import { Picker } from './styles';
 
-export default function PickerMonth({ date, setDate }) {
+export default function MonthPicker({ date, setDate }) {
   const { uid } = auth.currentUser;
 
   const [usedMonths, setUsedMonths] = useState([]);
