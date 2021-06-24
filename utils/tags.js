@@ -1,27 +1,32 @@
 export default {
-  educacao: {
+  BuFmSV65r8: {
     icon: 'educacao',
-    name: 'Educação',
+    name: 'educação',
     value: 'educação',
   },
-  lazer: {
+  bTl3FvJTzh: {
     icon: 'lazer',
-    name: 'Lazer',
+    name: 'lazer',
     value: 'lazer',
   },
-  automovel: {
+  HoGF4VdQ4d: {
     icon: 'automovel',
-    name: 'Automóvel',
+    name: 'automóvel',
     value: 'automóvel',
   },
-  casa: {
+  lNxrYmdBAR: {
     icon: 'casa',
-    name: 'Casa',
+    name: 'casa',
     value: 'casa',
   },
-  outros: {
+  H5H62QQMAv: {
     icon: 'outros',
-    name: 'Outros',
+    name: 'outros',
     value: 'outros',
+  },
+  yT1lgmVLCt: {
+    icon: 'restaurante',
+    name: 'restaurante',
+    value: 'restaurante',
   },
 };
