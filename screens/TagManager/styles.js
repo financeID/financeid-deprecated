@@ -1,6 +1,11 @@
 import styled from 'styled-components/native';
 import Colors from '../../utils/colors';
 
+export const LoadingContainer = styled.View`
+  flex: 1;
+  justify-content: center;
+`;
+
 export const Scroll = styled.ScrollView`
   background-color: ${Colors.lightGrey};
 `;

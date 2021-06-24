@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import * as firebase from 'firebase';
 import { auth } from '../../components/Firebase/firebase';
 import { ListItem, SearchBar } from 'react-native-elements';
-import { TouchableOpacity, Platform } from 'react-native';
+import { ActivityIndicator, TouchableOpacity, Platform } from 'react-native';
 import snapshotToArray from '../../utils/snapshotToArray';
 import { Ionicons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import Colors from '../../utils/colors';
 import {
+  LoadingContainer,
   Scroll,
   RemoveTag,
   ListContainer,
@@ -15,6 +17,7 @@ import {
 } from './styles';
 
 export default function TagManager({ navigation }) {
+  const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [tags, setTags] = useState([]);
   const [data, setData] = useState([]);
@@ -28,6 +31,8 @@ export default function TagManager({ navigation }) {
       setTags(snapshotToArray(snapshot));
       setData(snapshotToArray(snapshot));
     });
+
+    setLoading(false);
   }, [uid]);
 
   React.useLayoutEffect(() => {
@@ -40,7 +45,7 @@ export default function TagManager({ navigation }) {
           <MaterialCommunityIcons
             name="plus"
             size={Platform.OS === 'ios' ? 26 : 27}
-            color="#333434"
+            color={Colors.mediumGrey}
           />
         </TouchableOpacity>
       ),
@@ -70,40 +75,49 @@ export default function TagManager({ navigation }) {
 
   return (
     <>
-      <SearchBar
-        placeholder="Procurar"
-        platform={'ios'}
-        cancelButtonTitle=""
-        containerStyle={{
-          backgroundColor: 'transparent',
-          borderBottomColor: 'transparent',
-        }}
-        autoFocus={true}
-        onChangeText={text => searchFilterFunction(text)}
-        value={search}
-      />
-
-      {tags.length === 0 ? (
-        <NothingHere>Tag não existente</NothingHere>
+      {console.log(loading)}
+      {loading ? (
+        <LoadingContainer>
+          <ActivityIndicator size="large" color={Colors.secondary} />
+        </LoadingContainer>
       ) : (
-        <Scroll vertical keyboardShouldPersistTaps="always">
-          {tags.map(tag => (
-            <ListItem
-              containerStyle={ListContainer}
-              key={tag.key}
-              bottomDivider
-              onPress={() => buttonLink(tag)}
-            >
-              <ListItem.Content>
-                <ListItem.Title>{tag.name}</ListItem.Title>
-              </ListItem.Content>
+        <>
+          <SearchBar
+            placeholder="Procurar"
+            platform={'ios'}
+            cancelButtonTitle=""
+            containerStyle={{
+              backgroundColor: 'transparent',
+              borderBottomColor: 'transparent',
+            }}
+            autoFocus={true}
+            onChangeText={text => searchFilterFunction(text)}
+            value={search}
+          />
 
-              <RemoveTag onPress={() => removeTag(tag.key)}>
-                <Ionicons name="close-outline" size={24} color="#bdbdbd" />
-              </RemoveTag>
-            </ListItem>
-          ))}
-        </Scroll>
+          {tags.length === 0 ? (
+            <NothingHere>Tag não existente</NothingHere>
+          ) : (
+            <Scroll vertical keyboardShouldPersistTaps="always">
+              {tags.map(tag => (
+                <ListItem
+                  containerStyle={ListContainer}
+                  key={tag.key}
+                  bottomDivider
+                  onPress={() => buttonLink(tag)}
+                >
+                  <ListItem.Content>
+                    <ListItem.Title>{tag.name}</ListItem.Title>
+                  </ListItem.Content>
+
+                  <RemoveTag onPress={() => removeTag(tag.key)}>
+                    <Ionicons name="close-outline" size={24} color="#bdbdbd" />
+                  </RemoveTag>
+                </ListItem>
+              ))}
+            </Scroll>
+          )}
+        </>
       )}
     </>
   );

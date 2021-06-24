@@ -1,8 +1,8 @@
-import React, {useState, useEffect} from 'react';
-import {View, StyleSheet, Button, Text} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, StyleSheet, Button, Text } from 'react-native';
 import * as firebase from 'firebase';
 import useStatusBar from '../hooks/useStatusBar';
-import {auth, logout} from '../components/Firebase/firebase';
+import { auth, logout } from '../components/Firebase/firebase';
 
 export default function HomeScreen() {
   useStatusBar('dark-content');
@@ -10,13 +10,13 @@ export default function HomeScreen() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
 
-  const {uid} = auth.currentUser;
+  const { uid } = auth.currentUser;
 
   useEffect(() => {
     const data = firebase.database().ref('users/' + uid);
 
-    data.once('value', (snapshot) => {
-      const {firstName, email} = snapshot.val();
+    data.once('value', snapshot => {
+      const { firstName, email } = snapshot.val();
 
       setName(firstName);
       setEmail(email);

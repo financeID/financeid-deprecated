@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
   icon: {
     paddingTop: 20,
     paddingBottom: 15,
-    paddingLeft: 15,
+    paddingLeft: 10,
     paddingRight: 15,
   },
   descTitle: {
