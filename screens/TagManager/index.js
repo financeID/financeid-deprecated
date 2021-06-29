@@ -2,17 +2,16 @@ import React, { useState, useEffect } from 'react';
 import * as firebase from 'firebase';
 import { auth } from '../../components/Firebase/firebase';
 import { ListItem, SearchBar } from 'react-native-elements';
-import { ActivityIndicator, TouchableOpacity, Platform } from 'react-native';
+import { ActivityIndicator } from 'react-native';
 import snapshotToArray from '../../utils/snapshotToArray';
 import { Ionicons } from '@expo/vector-icons';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Colors from '../../utils/colors';
+import CreateNewTag from '../CreateNewTag';
 import {
   LoadingContainer,
   Scroll,
   RemoveTag,
   ListContainer,
-  RightIconHeader,
   NothingHere,
 } from './styles';
 
@@ -37,18 +36,7 @@ export default function TagManager({ navigation }) {
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      headerRight: () => (
-        <TouchableOpacity
-          onPress={() => navigation.navigate('AddIncome')}
-          style={RightIconHeader}
-        >
-          <MaterialCommunityIcons
-            name="plus"
-            size={Platform.OS === 'ios' ? 26 : 27}
-            color={Colors.mediumGrey}
-          />
-        </TouchableOpacity>
-      ),
+      headerRight: () => <CreateNewTag />,
     });
   }, [navigation]);
 
@@ -75,7 +63,6 @@ export default function TagManager({ navigation }) {
 
   return (
     <>
-      {console.log(loading)}
       {loading ? (
         <LoadingContainer>
           <ActivityIndicator size="large" color={Colors.secondary} />
@@ -96,7 +83,11 @@ export default function TagManager({ navigation }) {
           />
 
           {tags.length === 0 ? (
-            <NothingHere>Tag não existente</NothingHere>
+            data.length === 0 ? (
+              <NothingHere>Não há nada por aqui</NothingHere>
+            ) : (
+              <NothingHere>Tag não encontrada</NothingHere>
+            )
           ) : (
             <Scroll vertical keyboardShouldPersistTaps="always">
               {tags.map(tag => (
