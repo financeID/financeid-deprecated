@@ -13,7 +13,7 @@ export const Container = styled.View`
 `;
 
 export const Header = styled.Text`
-  margin-top: 25px;
+  margin-top: 20px;
   color: ${Colors.primary};
   font-size: 23px;
   font-weight: bold;

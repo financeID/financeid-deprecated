@@ -10,11 +10,10 @@ import { format } from 'date-fns';
 import pt from 'date-fns/locale/pt-BR';
 import { auth } from '../../components/Firebase/firebase';
 import { Ionicons } from '@expo/vector-icons';
-import useStatusBar from '../../hooks/useStatusBar';
+import MyStatusBar from '../../hooks/statusBar';
 import snapshotToArray from '../../utils/snapshotToArray';
 //import usedMonthsToArray from '../../utils/usedMonthsToArray';
 import formatValue from '../../utils/formatValue';
-import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { StackedBarChart } from 'react-native-svg-charts';
 import FlashMessage from 'react-native-flash-message';
 import Colors from '../../utils/colors';
@@ -48,8 +47,6 @@ import UpArrowIcon from '../../assets/up-arrow.svg';
 import DownArrowIcon from '../../assets/down-arrow.svg';
 
 export default function HomeScreen({ navigation }) {
-  useStatusBar('dark-content');
-
   const dateTransformed = format(new Date(), 'yyyy-MM', {
     locale: pt,
   }).toString();
@@ -119,13 +116,14 @@ export default function HomeScreen({ navigation }) {
 
   return (
     <>
+      <MyStatusBar backgroundColor="#f8f8ff" barStyle="dark-content" />
       {loading ? (
         <LoadingContainer>
           <ActivityIndicator size="large" color={Colors.secondary} />
         </LoadingContainer>
       ) : (
         <ScrollView>
-          <Container style={{ paddingTop: getStatusBarHeight() }}>
+          <Container>
             <HeaderContainer>
               <Header>
                 Controle de {'\n'}
