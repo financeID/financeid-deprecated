@@ -99,3 +99,15 @@ export const HeaderContainer = styled.View`
   align-items: center;
   justify-content: space-between;
 `;
+
+export const NoExpenses = styled.Text`
+  margin: 15px 10px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #a6a6a6;
+`;
+
+export const NoExpensesContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+`;

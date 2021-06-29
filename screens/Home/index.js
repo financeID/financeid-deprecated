@@ -39,6 +39,8 @@ import {
   BoxTag,
   BoxTagText,
   BoxTagPriceText,
+  NoExpensesContainer,
+  NoExpenses,
 } from './styles';
 
 import BagIcon from '../../assets/bag.svg';
@@ -211,44 +213,56 @@ export default function HomeScreen({ navigation }) {
             <Header>Para onde está indo {'\n'}seu dinheiro esse mês?</Header>
           </Container>
 
-          <BoxContainer>
+          {tagGroup.length ? (
             <ScrollView
               horizontal
               onContentSizeChange={0}
               showsHorizontalScrollIndicator={false}
             >
-              {tagGroup.map(({ tag, price }, i) => {
-                return (
-                  <View key={price}>
-                    <BoxTag
-                      style={
-                        i === tagGroup.length - 1 ? { marginRight: 23 } : {}
-                      }
-                    >
-                      <BoxTagText numberOfLines={1}>{tag}</BoxTagText>
-                      <BoxTagPriceText numberOfLines={1}>
-                        {formatValue(price)}
-                      </BoxTagPriceText>
+              <BoxContainer>
+                {tagGroup.map(({ tag, price }, i) => {
+                  return (
+                    <View key={price}>
+                      <BoxTag
+                        style={
+                          i === tagGroup.length - 1 ? { marginRight: 23 } : {}
+                        }
+                      >
+                        <BoxTagText numberOfLines={1}>{tag}</BoxTagText>
+                        <BoxTagPriceText numberOfLines={1}>
+                          {formatValue(price)}
+                        </BoxTagPriceText>
 
-                      <StackedBarChart
-                        style={{ height: 4 }}
-                        keys={['outcomes', 'incomes']}
-                        colors={[Colors.outcome, '#dddddd']}
-                        data={[
-                          {
-                            incomes: balance.income,
-                            outcomes: price,
-                          },
-                        ]}
-                        showGrid={false}
-                        horizontal={true}
-                      />
-                    </BoxTag>
-                  </View>
-                );
-              })}
+                        <StackedBarChart
+                          style={{ height: 4 }}
+                          keys={['outcomes', 'incomes']}
+                          colors={[Colors.outcome, '#dddddd']}
+                          data={[
+                            {
+                              incomes: balance.income,
+                              outcomes: price,
+                            },
+                          ]}
+                          showGrid={false}
+                          horizontal={true}
+                        />
+                      </BoxTag>
+                    </View>
+                  );
+                })}
+              </BoxContainer>
             </ScrollView>
-          </BoxContainer>
+          ) : (
+            <NoExpensesContainer>
+              <Ionicons
+                name="information-circle-outline"
+                size={24}
+                color="#a6a6a6"
+                style={{ marginLeft: 20 }}
+              />
+              <NoExpenses>Insira uma despesa</NoExpenses>
+            </NoExpensesContainer>
+          )}
         </ScrollView>
       )}
 
