@@ -9,6 +9,7 @@ import Modal from 'react-native-modal';
 import { KeyboardAccessoryView } from '@flyerhq/react-native-keyboard-accessory-view';
 import FormButtonTransactions from '../../components/Forms/FormButtonTransactions';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import MyStatusBar from '../../hooks/statusBar';
 import Colors from '../../utils/colors';
 import {
   Content,
@@ -60,6 +61,14 @@ function ModalTester() {
 
   return (
     <>
+      {isModalVisible === true ? (
+        <MyStatusBar
+          backgroundColor="rgba(0, 0, 0, 0.75)"
+          barStyle="dark-content"
+        />
+      ) : (
+        <MyStatusBar backgroundColor="#f9f9fd" barStyle="dark-content" />
+      )}
       <AddTag onPress={toggleModal}>
         <MaterialCommunityIcons
           name="plus"
