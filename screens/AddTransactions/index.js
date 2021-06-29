@@ -96,7 +96,6 @@ export default function AddTransactions({ navigation, route }) {
         value: '',
         date: '',
         tag: '',
-        tag2: '',
         type: '',
       }}
       validationSchema={validationSchema}
