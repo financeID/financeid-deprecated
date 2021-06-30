@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import * as firebase from 'firebase';
 import { auth } from '../../components/Firebase/firebase';
-import { ListItem, SearchBar } from 'react-native-elements';
+import { ListItem } from 'react-native-elements';
 import { ActivityIndicator } from 'react-native';
 import snapshotToArray from '../../utils/snapshotToArray';
 import { Ionicons } from '@expo/vector-icons';
@@ -13,6 +13,7 @@ import {
   RemoveTag,
   ListContainer,
   NothingHere,
+  SearchBar,
 } from './styles';
 
 export default function TagManager({ navigation }) {
@@ -71,12 +72,6 @@ export default function TagManager({ navigation }) {
         <>
           <SearchBar
             placeholder="Procurar"
-            platform={'ios'}
-            cancelButtonTitle=""
-            containerStyle={{
-              backgroundColor: 'transparent',
-              borderBottomColor: 'transparent',
-            }}
             autoFocus={true}
             onChangeText={text => searchFilterFunction(text)}
             value={search}

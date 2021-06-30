@@ -29,3 +29,13 @@ export const NothingHere = styled.Text`
   text-align: center;
   color: ${Colors.mediumGrey};
 `;
+
+export const SearchBar = styled.TextInput`
+  margin: 20px 10px 10px;
+  padding: 10px;
+  border-radius: 8px;
+  color: #2b2b2b;
+  font-size: 18px;
+  text-align: left;
+  background-color: #e1e4e8;
+`;
