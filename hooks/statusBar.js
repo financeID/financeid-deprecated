@@ -1,5 +1,11 @@
 import React from 'react';
-import { StyleSheet, View, StatusBar, SafeAreaView } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  StatusBar,
+  SafeAreaView,
+  Platform,
+} from 'react-native';
 
 export default function MyStatusBar({ backgroundColor, ...props }) {
   return (
@@ -18,6 +24,6 @@ const STATUSBAR_HEIGHT = StatusBar.currentHeight;
 
 const styles = StyleSheet.create({
   statusBar: {
-    height: STATUSBAR_HEIGHT,
+    height: Platform.OS === 'ios' ? STATUSBAR_HEIGHT : 0,
   },
 });
