@@ -98,6 +98,7 @@ export const HeaderContainer = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  margin-top: ${Platform.OS === 'ios' ? '0px' : '20px'};
 `;
 
 export const NoExpenses = styled.Text`
