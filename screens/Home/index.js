@@ -12,7 +12,6 @@ import { auth } from '../../components/Firebase/firebase';
 import { Ionicons } from '@expo/vector-icons';
 import MyStatusBar from '../../hooks/statusBar';
 import snapshotToArray from '../../utils/snapshotToArray';
-//import usedMonthsToArray from '../../utils/usedMonthsToArray';
 import formatValue from '../../utils/formatValue';
 import { StackedBarChart } from 'react-native-svg-charts';
 import FlashMessage from 'react-native-flash-message';
