@@ -80,6 +80,7 @@ function ModalTester() {
       <Modal
         onBackButtonPress={() => setModalVisible(!isModalVisible)}
         onBackdropPress={() => setModalVisible(!isModalVisible)}
+        swipeDirection="down"
         useNativeDriverForBackdrop
         isVisible={isModalVisible}
         style={ModalContainer}
