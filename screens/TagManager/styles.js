@@ -10,11 +10,22 @@ export const Scroll = styled.ScrollView`
   background-color: ${Colors.lightGrey};
 `;
 
-export const ListContainer = {
-  backgroundColor: '#f9f9fd',
-  padding: 0,
-  paddingLeft: 15,
-};
+export const ListContainer = styled.View`
+  padding: 0;
+  padding-left: 15px;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const BorderBottom = styled.View`
+  background-color: #e0e0e0;
+  height: 1px;
+`;
+
+export const ListTitleContainer = styled.View``;
+
+export const ListTitle = styled.Text``;
 
 export const RemoveTag = styled.TouchableOpacity`
   height: 50px;

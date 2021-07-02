@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import * as firebase from 'firebase';
 import { auth } from '../../components/Firebase/firebase';
-import { ListItem } from 'react-native-elements';
 import { ActivityIndicator } from 'react-native';
 import snapshotToArray from '../../utils/snapshotToArray';
 import { Ionicons } from '@expo/vector-icons';
@@ -12,8 +11,11 @@ import {
   Scroll,
   RemoveTag,
   ListContainer,
+  ListTitleContainer,
+  ListTitle,
   NothingHere,
   SearchBar,
+  BorderBottom,
 } from './styles';
 
 export default function TagManager({ navigation }) {
@@ -86,20 +88,22 @@ export default function TagManager({ navigation }) {
           ) : (
             <Scroll vertical keyboardShouldPersistTaps="always">
               {tags.map(tag => (
-                <ListItem
-                  containerStyle={ListContainer}
-                  key={tag.key}
-                  bottomDivider
-                  onPress={() => buttonLink(tag)}
-                >
-                  <ListItem.Content>
-                    <ListItem.Title>{tag.name}</ListItem.Title>
-                  </ListItem.Content>
+                <>
+                  <ListContainer key={tag.key} onPress={() => buttonLink(tag)}>
+                    <ListTitleContainer>
+                      <ListTitle>{tag.name}</ListTitle>
+                    </ListTitleContainer>
 
-                  <RemoveTag onPress={() => removeTag(tag.key)}>
-                    <Ionicons name="close-outline" size={24} color="#bdbdbd" />
-                  </RemoveTag>
-                </ListItem>
+                    <RemoveTag onPress={() => removeTag(tag.key)}>
+                      <Ionicons
+                        name="close-outline"
+                        size={24}
+                        color="#bdbdbd"
+                      />
+                    </RemoveTag>
+                  </ListContainer>
+                  <BorderBottom />
+                </>
               ))}
             </Scroll>
           )}
