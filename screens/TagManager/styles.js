@@ -10,7 +10,7 @@ export const Scroll = styled.ScrollView`
   background-color: ${Colors.lightGrey};
 `;
 
-export const ListContainer = styled.View`
+export const ListContainer = styled.TouchableOpacity`
   padding: 0;
   padding-left: 15px;
   flex-direction: row;

@@ -109,7 +109,7 @@ function ModalTester() {
             <FormField
               name="description"
               leftIcon="tag-outline"
-              autoCapitalize="sentences"
+              autoCapitalize="none"
               autoFocus={true}
             />
           </Content>
