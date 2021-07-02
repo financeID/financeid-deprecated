@@ -19,6 +19,7 @@ import {
   ViewButton,
   Header,
   AddTag,
+  Chamfered,
 } from './styles';
 
 const validationSchema = Yup.object().shape({
@@ -80,6 +81,7 @@ function ModalTester() {
       <Modal
         onBackButtonPress={() => setModalVisible(!isModalVisible)}
         onBackdropPress={() => setModalVisible(!isModalVisible)}
+        onSwipeComplete={() => setModalVisible(!isModalVisible)}
         swipeDirection="down"
         useNativeDriverForBackdrop
         isVisible={isModalVisible}
@@ -93,6 +95,7 @@ function ModalTester() {
           onSubmit={values => handleTransactions(values)}
         >
           <Content>
+            <Chamfered />
             <Header>
               <Title>Adicionar nova tag</Title>
 

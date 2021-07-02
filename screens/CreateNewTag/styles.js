@@ -3,7 +3,8 @@ import Colors from '../../utils/colors';
 
 export const Content = styled.View`
   background-color: #fff;
-  border-radius: 4px;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
   height: 220px;
   padding: 14px;
 `;
@@ -39,4 +40,12 @@ export const Header = styled.View`
 
 export const AddTag = styled.TouchableOpacity`
   padding: 5px;
+`;
+
+export const Chamfered = styled.View`
+  width: 35px;
+  height: 5px;
+  background-color: #cfcfcf;
+  border-radius: 50px;
+  margin: 0 auto;
 `;
