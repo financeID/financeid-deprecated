@@ -41,7 +41,7 @@ export default function ConfigScreen() {
               </TransactionInfo>
               <RightContent>
                 <TransactionPrice>+ 100</TransactionPrice>
-                <Ionicons name="chevron-forward" size={30} color="#dedede" />
+                <Ionicons name="chevron-forward" size={24} color="#dedede" />
               </RightContent>
             </TransactionContainer>
           </Container>
