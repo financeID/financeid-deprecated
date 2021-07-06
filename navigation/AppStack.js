@@ -2,7 +2,7 @@ import * as React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '../screens/Home';
-import TransactionScreen from '../screens/TransactionScreen';
+import TransactionScreen from '../screens/Transactions';
 import ProfileScreen from '../screens/ProfileScreen';
 import AddTransactions from '../screens/AddTransactions';
 import TagManager from '../screens/TagManager';
@@ -14,8 +14,8 @@ function TransactionStackScreen() {
   return (
     <HomeStack.Navigator>
       <HomeStack.Screen
-        name="Transações"
-        options={{ headerShown: true, headerTitleAlign: 'center' }}
+        name="Transações de dezembro de 2021"
+        options={{ headerShown: true, headerTitleAlign: 'left' }}
         component={TransactionScreen}
       />
     </HomeStack.Navigator>

@@ -12,12 +12,13 @@ export const Content = styled.View`
 export const ModalContainer = {
   justifyContent: 'flex-end',
   margin: 0,
+  backgroundColor: 'rgba(0, 0, 0, 0.15)',
 };
 
 export const Title = styled.Text`
   margin-top: 15px;
   margin-bottom: 15px;
-  font-size: 22px;
+  font-size: 20px;
   color: ${Colors.black};
 `;
 
