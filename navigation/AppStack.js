@@ -14,8 +14,8 @@ function TransactionStackScreen() {
   return (
     <HomeStack.Navigator>
       <HomeStack.Screen
-        name="Transações de dezembro de 2021"
-        options={{ headerShown: true, headerTitleAlign: 'left' }}
+        name="Transações"
+        options={{ headerShown: false, headerTitleAlign: 'left' }}
         component={TransactionScreen}
       />
     </HomeStack.Navigator>
