@@ -57,9 +57,11 @@ export default function AddTransactions({ navigation, route }) {
 
     const valueTransformed = value.replace(/,/g, '');
     const typeTransformed = type === 0 ? 'income' : 'outcome';
+    const createdAt = new Date().toISOString();
 
     data
       .set({
+        created_at: createdAt,
         description: description.trim(),
         price: valueTransformed,
         date: dateTranformed,

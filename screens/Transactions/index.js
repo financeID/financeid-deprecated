@@ -32,7 +32,7 @@ export default function ConfigScreen() {
   useEffect(() => {
     const data = firebase.database().ref(`/users/${uid}/transactions`);
 
-    data.on('value', snapshot => {
+    data.orderByChild('created_at').on('value', snapshot => {
       setTransactions(snapshotToArray(snapshot));
     });
   }, [uid]);
