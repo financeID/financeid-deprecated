@@ -40,7 +40,7 @@ export default function ConfigScreen() {
   return (
     <View style={styles.container}>
       <SafeAreaView>
-        <ScrollView>
+        <ScrollView style={{ height: '100%' }}>
           <Container>
             <HeaderContainer>
               <Header>
