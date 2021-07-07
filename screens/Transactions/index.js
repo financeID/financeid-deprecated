@@ -1,5 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
+import * as firebase from 'firebase';
+import { auth } from '../../components/Firebase/firebase';
+import snapshotToArray from '../../utils/snapshotToArray';
+import formatedValue from '../../utils/formatValue';
+import { formatedDate } from '../../utils/formatedDate';
 import useStatusBar from '../../hooks/useStatusBar';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -19,6 +24,19 @@ import {
 
 export default function ConfigScreen() {
   useStatusBar('dark-content');
+
+  const { uid } = auth.currentUser;
+
+  const [transactions, setTransactions] = useState([]);
+
+  useEffect(() => {
+    const data = firebase.database().ref(`/users/${uid}/transactions`);
+
+    data.on('value', snapshot => {
+      setTransactions(snapshotToArray(snapshot));
+    });
+  }, [uid]);
+
   return (
     <View style={styles.container}>
       <SafeAreaView>
@@ -26,24 +44,40 @@ export default function ConfigScreen() {
           <Container>
             <HeaderContainer>
               <Header>
-                Controle de {'\n'}
+                Transações de {'\n'}
                 fevereiro
               </Header>
             </HeaderContainer>
 
-            <TransactionContainer>
-              <TransactionInfo>
-                <TransactionText>Compras do mês</TransactionText>
-                <InfoView>
-                  <TransactionDate>14/10/2021 - </TransactionDate>
-                  <TransactionTag>Lazer</TransactionTag>
-                </InfoView>
-              </TransactionInfo>
-              <RightContent>
-                <TransactionPrice>+ 100</TransactionPrice>
-                <Ionicons name="chevron-forward" size={24} color="#dedede" />
-              </RightContent>
-            </TransactionContainer>
+            {transactions.map(
+              ({ key, description, tag, date, type, price }) => {
+                return (
+                  <TransactionContainer key={key}>
+                    <TransactionInfo>
+                      <TransactionText>{description}</TransactionText>
+                      <InfoView>
+                        <TransactionDate>
+                          {formatedDate(new Date(date))}
+                          {' - '}
+                        </TransactionDate>
+                        <TransactionTag>{tag}</TransactionTag>
+                      </InfoView>
+                    </TransactionInfo>
+                    <RightContent>
+                      <TransactionPrice type={type}>
+                        {type === 'outcome' && ' - '}
+                        {formatedValue(Number(price))}
+                      </TransactionPrice>
+                      <Ionicons
+                        name="chevron-forward"
+                        size={24}
+                        color="#dedede"
+                      />
+                    </RightContent>
+                  </TransactionContainer>
+                );
+              },
+            )}
           </Container>
         </ScrollView>
       </SafeAreaView>

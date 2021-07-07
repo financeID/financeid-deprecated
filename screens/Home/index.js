@@ -211,12 +211,12 @@ export default function HomeScreen({ navigation }) {
           </Container>
 
           {tagGroup.length ? (
-            <ScrollView
-              horizontal
-              onContentSizeChange={0}
-              showsHorizontalScrollIndicator={false}
-            >
-              <BoxContainer>
+            <BoxContainer>
+              <ScrollView
+                horizontal
+                onContentSizeChange={0}
+                showsHorizontalScrollIndicator={false}
+              >
                 {tagGroup.map(({ tag, price }, i) => {
                   return (
                     <View key={price}>
@@ -247,8 +247,8 @@ export default function HomeScreen({ navigation }) {
                     </View>
                   );
                 })}
-              </BoxContainer>
-            </ScrollView>
+              </ScrollView>
+            </BoxContainer>
           ) : (
             <NoExpensesContainer>
               <Ionicons

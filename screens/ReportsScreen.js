@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {View, StyleSheet, Button, Text} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, StyleSheet, Button, Text } from 'react-native';
 import useStatusBar from '../hooks/useStatusBar';
 
 export default function ReportsScreen() {

@@ -59,9 +59,9 @@ export const TransactionTag = styled.Text`
 `;
 
 export const TransactionPrice = styled.Text`
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 700;
-  color: #4ab648;
+  color: ${props => (props.type === 'income' ? Colors.income : Colors.outcome)};
   padding-right: 15px;
 `;
 
