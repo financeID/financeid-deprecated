@@ -1,4 +1,3 @@
-import { Platform } from 'react-native';
 import styled from 'styled-components/native';
 import Colors from '../../utils/colors';
 
@@ -12,25 +11,10 @@ export const Container = styled.View`
   margin: 0 20px;
 `;
 
-export const Header = styled.Text`
-  margin-top: 20px;
-  color: ${Colors.primary};
-  font-size: 23px;
-  font-weight: bold;
-`;
-
-export const HeaderContainer = styled.View`
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: ${Platform.OS === 'ios' ? '0px' : '20px'};
-  margin-bottom: 15px;
-`;
-
 export const TransactionContainer = styled.View`
   border-bottom-width: 1px;
   border-bottom-color: #dedede;
-  padding: 15px 0;
+  padding: 10px 0 10px 5px;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
@@ -49,12 +33,12 @@ export const InfoView = styled.View`
   flex-direction: row;
 `;
 export const TransactionDate = styled.Text`
-  font-size: 13px;
+  font-size: 12px;
   color: #7c8998;
 `;
 
 export const TransactionTag = styled.Text`
-  font-size: 13px;
+  font-size: 12.5px;
   color: #7c8998;
 `;
 
@@ -62,11 +46,11 @@ export const TransactionPrice = styled.Text`
   font-size: 15px;
   font-weight: 700;
   color: ${props => (props.type === 'income' ? Colors.income : Colors.outcome)};
-  padding-right: 15px;
+  padding-right: 10px;
 `;
 
 export const RightContent = styled.View`
   flex-direction: row;
   align-items: center;
-  padding-right: 5px;
+  padding-right: 3px;
 `;

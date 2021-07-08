@@ -18,6 +18,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    height: 45,
   },
   buttonText: {
     color: '#5c5b5c',

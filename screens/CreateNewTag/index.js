@@ -44,9 +44,9 @@ function ModalTester() {
 
     data
       .set({
-        name: description.trim(),
-        value: description.trim(),
-        icon: description.trim(),
+        name: description.trim().toLowerCase(),
+        value: description.trim().toLowerCase(),
+        icon: description.trim().toLowerCase(),
       })
       .then(() => {
         setModalVisible(!isModalVisible);

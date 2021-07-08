@@ -6,13 +6,11 @@ export const LoadingContainer = styled.View`
   justify-content: center;
 `;
 
-export const Scroll = styled.ScrollView`
-  background-color: ${Colors.lightGrey};
-`;
+export const Scroll = styled.ScrollView``;
 
 export const ListContainer = styled.TouchableOpacity`
   padding: 0;
-  padding-left: 15px;
+  padding-left: 20px;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
@@ -42,8 +40,8 @@ export const NothingHere = styled.Text`
 `;
 
 export const SearchBar = styled.TextInput`
-  margin: 20px 10px 10px;
-  padding: 10px;
+  margin: 20px 20px 10px;
+  padding: 9px;
   border-radius: 8px;
   color: #2b2b2b;
   font-size: 18px;

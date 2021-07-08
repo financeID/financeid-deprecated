@@ -33,7 +33,7 @@ const validationSchema = Yup.object().shape({
   tag: Yup.string()
     .required('Selecione uma tag')
     .min(2, 'A tag deve conter ao menos 3 caracteres')
-    .max(10, 'A tag deve conter no máximo 10 caracteres')
+    .max(20, 'A tag deve conter no máximo 10 caracteres')
     .nullable()
     .label('Tag'),
 });
@@ -57,7 +57,7 @@ export default function AddTransactions({ navigation, route }) {
 
     const valueTransformed = value.replace(/,/g, '');
     const typeTransformed = type === 0 ? 'income' : 'outcome';
-    const createdAt = new Date().toISOString();
+    const createdAt = new Date().getTime();
 
     data
       .set({
@@ -80,6 +80,8 @@ export default function AddTransactions({ navigation, route }) {
           animationDuration: 500,
           message: typeMsg,
           backgroundColor: Colors.income,
+          autoHide: true,
+          position: 'top',
         });
       });
   };

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { View, SafeAreaView } from 'react-native';
 import * as firebase from 'firebase';
 import { auth } from '../../components/Firebase/firebase';
 import { ActivityIndicator } from 'react-native';
@@ -29,12 +30,11 @@ export default function TagManager({ navigation }) {
   useEffect(() => {
     const data = firebase.database().ref('users/' + uid + '/tags/');
 
-    data.on('value', snapshot => {
+    data.orderByChild('value').on('value', snapshot => {
       setTags(snapshotToArray(snapshot));
       setData(snapshotToArray(snapshot));
+      setLoading(false);
     });
-
-    setLoading(false);
   }, [uid]);
 
   React.useLayoutEffect(() => {
@@ -65,19 +65,21 @@ export default function TagManager({ navigation }) {
   };
 
   return (
-    <>
+    <SafeAreaView style={{ flex: 1 }}>
       {loading ? (
         <LoadingContainer>
           <ActivityIndicator size="large" color={Colors.secondary} />
         </LoadingContainer>
       ) : (
         <>
-          <SearchBar
-            placeholder="Procurar"
-            autoFocus={true}
-            onChangeText={text => searchFilterFunction(text)}
-            value={search}
-          />
+          <View>
+            <SearchBar
+              placeholder="Procurar"
+              autoFocus={true}
+              onChangeText={text => searchFilterFunction(text)}
+              value={search}
+            />
+          </View>
 
           {tags.length === 0 ? (
             data.length === 0 ? (
@@ -109,6 +111,6 @@ export default function TagManager({ navigation }) {
           )}
         </>
       )}
-    </>
+    </SafeAreaView>
   );
 }
