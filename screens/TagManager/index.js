@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
 import { View, SafeAreaView } from 'react-native';
 import * as firebase from 'firebase';
 import { auth } from '../../components/Firebase/firebase';
@@ -37,7 +37,7 @@ export default function TagManager({ navigation }) {
     });
   }, [uid]);
 
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => <CreateNewTag />,
     });

@@ -15,7 +15,7 @@ function TransactionStackScreen() {
     <HomeStack.Navigator>
       <HomeStack.Screen
         name="Transações"
-        options={{ headerShown: true, headerTitleAlign: 'center' }}
+        options={{ headerShown: true, headerTitleAlign: 'left' }}
         component={TransactionScreen}
       />
     </HomeStack.Navigator>

@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, SafeAreaView, ScrollView } from 'react-native';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
+import { StyleSheet, SafeAreaView, ScrollView, Button } from 'react-native';
 import * as firebase from 'firebase';
 import { auth } from '../../components/Firebase/firebase';
 import { sort } from '../../utils/filter';
@@ -20,12 +20,25 @@ import {
   RightContent,
 } from './styles';
 
-export default function ConfigScreen() {
+export default function ConfigScreen({ navigation }) {
   useStatusBar('dark-content');
 
   const { uid } = auth.currentUser;
 
   const [transactions, setTransactions] = useState([]);
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <Button
+          onPress={() => {}}
+          title="+"
+          color="#841584"
+          accessibilityLabel="Learn more about this purple button"
+        />
+      ),
+    });
+  }, [navigation]);
 
   useEffect(() => {
     const data = firebase.database().ref(`/users/${uid}/transactions`);
