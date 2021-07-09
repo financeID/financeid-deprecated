@@ -1,8 +1,8 @@
-import { format } from 'date-fns';
+import { format, addDays } from 'date-fns';
 import pt from 'date-fns/locale/pt-BR';
 
 export const formatedDate = date => {
-  const usedDate = date ? new Date(date) : new Date();
+  const usedDate = date ? addDays(new Date(date), 1) : addDays(new Date(), 1);
 
   return format(usedDate, 'dd/MM/yyyy', {
     locale: pt,

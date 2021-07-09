@@ -1,12 +1,16 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react';
-import { StyleSheet, SafeAreaView, ScrollView, Button } from 'react-native';
+import { StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 import * as firebase from 'firebase';
+import { format } from 'date-fns';
+import pt from 'date-fns/locale/pt-BR';
 import { auth } from '../../components/Firebase/firebase';
 import { sort } from '../../utils/filter';
+//import snapshotToArray from '../../utils/snapshotToArray';
 import formatedValue from '../../utils/formatValue';
 import { formatedDate } from '../../utils/formatedDate';
 import useStatusBar from '../../hooks/useStatusBar';
 import { Ionicons } from '@expo/vector-icons';
+import MonthPicker from '../../components/MonthPicker';
 
 import {
   Container,
@@ -23,30 +27,28 @@ import {
 export default function ConfigScreen({ navigation }) {
   useStatusBar('dark-content');
 
+  const dateTransformed = format(new Date(), 'yyyy-MM', {
+    locale: pt,
+  }).toString();
+
   const { uid } = auth.currentUser;
 
   const [transactions, setTransactions] = useState([]);
+  const [date, setDate] = useState(dateTransformed);
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerRight: () => (
-        <Button
-          onPress={() => {}}
-          title="+"
-          color="#841584"
-          accessibilityLabel="Learn more about this purple button"
-        />
-      ),
+      headerRight: () => <MonthPicker date={date} setDate={setDate} />,
     });
-  }, [navigation]);
+  }, [navigation, date]);
 
   useEffect(() => {
     const data = firebase.database().ref(`/users/${uid}/transactions`);
 
     data.on('value', snapshot => {
-      setTransactions(sort(snapshot));
+      setTransactions(sort(snapshot, date));
     });
-  }, [uid]);
+  }, [uid, date]);
 
   return (
     <SafeAreaView style={styles.container}>

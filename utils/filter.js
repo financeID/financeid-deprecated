@@ -1,4 +1,4 @@
-export const sort = snapshot => {
+export const sort = (snapshot, date) => {
   var filter = {
     reverse: true,
     fromDate: null,
@@ -51,6 +51,14 @@ export const sort = snapshot => {
     };
 
     sortByDate(arr);
+  }
+
+  if (date) {
+    return arr.filter(x => {
+      const dateSplit = x.date.slice(0, 7);
+
+      return dateSplit === date;
+    });
   }
 
   return arr;

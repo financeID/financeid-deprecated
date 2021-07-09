@@ -14,7 +14,7 @@ export const Container = styled.View`
 export const TransactionContainer = styled.View`
   border-bottom-width: 1px;
   border-bottom-color: #dedede;
-  padding: 10px 0 10px 5px;
+  padding: 10px 0 10px 0;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
