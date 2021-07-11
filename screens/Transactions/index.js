@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react';
-import { StyleSheet, SafeAreaView, ScrollView } from 'react-native';
+import { StyleSheet, SafeAreaView, ScrollView, View } from 'react-native';
 import * as firebase from 'firebase';
 import { format } from 'date-fns';
 import pt from 'date-fns/locale/pt-BR';
@@ -11,6 +11,7 @@ import { formatedDate } from '../../utils/formatedDate';
 import useStatusBar from '../../hooks/useStatusBar';
 import { Ionicons } from '@expo/vector-icons';
 import MonthPicker from '../../components/MonthPicker';
+import FilterTransactions from '../FilterTransactions';
 
 import {
   Container,
@@ -35,10 +36,16 @@ export default function ConfigScreen({ navigation }) {
 
   const [transactions, setTransactions] = useState([]);
   const [date, setDate] = useState(dateTransformed);
+  const [filter, setFilter] = useState(null);
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerRight: () => <MonthPicker date={date} setDate={setDate} />,
+      headerRight: () => (
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <FilterTransactions setFilter={setFilter} />
+          <MonthPicker date={date} setDate={setDate} />
+        </View>
+      ),
     });
   }, [navigation, date]);
 
@@ -46,9 +53,9 @@ export default function ConfigScreen({ navigation }) {
     const data = firebase.database().ref(`/users/${uid}/transactions`);
 
     data.on('value', snapshot => {
-      setTransactions(sort(snapshot, date));
+      setTransactions(sort(snapshot, date, filter));
     });
-  }, [uid, date]);
+  }, [uid, date, filter]);
 
   return (
     <SafeAreaView style={styles.container}>

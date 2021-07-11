@@ -1,14 +1,15 @@
-export const sort = (snapshot, date) => {
-  var filter = {
+export const sort = (snapshot, date, filter) => {
+  var filterObj = {
     reverse: true,
     fromDate: null,
     toDate: null,
-    type: null,
+    type: filter,
     tag: null,
   };
 
   let arr = [];
 
+  console.log(filter);
   snapshot.forEach(function (childSnapshot) {
     var item = childSnapshot.val();
     item.key = childSnapshot.key;
@@ -16,33 +17,23 @@ export const sort = (snapshot, date) => {
     arr.push(item);
   });
 
-  if (filter.fromDate && filter.toDate) {
+  if (filterObj.type) {
     arr = arr.filter(item => {
-      const range =
-        new Date(item.date).getTime() >= filter.fromDate.getTime() &&
-        new Date(item.date).getTime() <= filter.toDate.getTime();
-
-      return range;
-    });
-  }
-
-  if (filter.type) {
-    arr = arr.filter(item => {
-      const type = item.type === filter.type;
+      const type = item.type === filterObj.type;
 
       return type;
     });
   }
 
-  if (filter.tag) {
+  if (filterObj.tag) {
     arr = arr.filter(item => {
-      const tag = item.tag === filter.tag;
+      const tag = item.tag === filterObj.tag;
 
       return tag;
     });
   }
 
-  if (filter.reverse === true) {
+  if (filterObj.reverse === true) {
     const sortByDate = arr => {
       const sorter = (a, b) => {
         return b.created_at - a.created_at;
@@ -53,12 +44,22 @@ export const sort = (snapshot, date) => {
     sortByDate(arr);
   }
 
-  if (date) {
-    return arr.filter(x => {
-      const dateSplit = x.date.slice(0, 7);
+  if (filterObj.fromDate && filterObj.toDate) {
+    arr = arr.filter(item => {
+      const range =
+        new Date(item.date).getTime() >= filterObj.fromDate.getTime() &&
+        new Date(item.date).getTime() <= filterObj.toDate.getTime();
 
-      return dateSplit === date;
+      return range;
     });
+  } else {
+    if (date) {
+      return arr.filter(x => {
+        const dateSplit = x.date.slice(0, 7);
+
+        return dateSplit === date;
+      });
+    }
   }
 
   return arr;
