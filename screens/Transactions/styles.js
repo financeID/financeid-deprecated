@@ -6,6 +6,10 @@ export const LoadingContainer = styled.View`
   justify-content: center;
 `;
 
+export const SafeArea = styled.SafeAreaView`
+  flex: 1;
+`;
+
 export const Container = styled.View`
   flex: 1;
   margin: 0 20px;

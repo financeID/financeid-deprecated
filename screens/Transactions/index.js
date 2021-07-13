@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react';
-import { StyleSheet, SafeAreaView, ScrollView, View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import * as firebase from 'firebase';
 import { format } from 'date-fns';
 import pt from 'date-fns/locale/pt-BR';
@@ -14,6 +14,7 @@ import MonthPicker from '../../components/MonthPicker';
 import FilterTransactions from '../FilterTransactions';
 
 import {
+  SafeArea,
   Container,
   TransactionContainer,
   TransactionInfo,
@@ -58,7 +59,7 @@ export default function ConfigScreen({ navigation }) {
   }, [uid, date, filter]);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeArea>
       <ScrollView style={{ height: '100%' }}>
         <Container>
           {transactions.map(({ key, description, tag, date, type, price }) => {
@@ -86,12 +87,6 @@ export default function ConfigScreen({ navigation }) {
           })}
         </Container>
       </ScrollView>
-    </SafeAreaView>
+    </SafeArea>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});

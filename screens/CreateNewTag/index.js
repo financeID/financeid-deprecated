@@ -62,14 +62,8 @@ function ModalTester() {
 
   return (
     <>
-      {isModalVisible === true ? (
-        <MyStatusBar
-          backgroundColor="rgba(0, 0, 0, 0.75)"
-          barStyle="dark-content"
-        />
-      ) : (
-        <MyStatusBar backgroundColor="#f9f9fd" barStyle="dark-content" />
-      )}
+      <MyStatusBar backgroundColor="#f9f9fd" barStyle="dark-content" />
+
       <AddTag onPress={toggleModal}>
         <MaterialCommunityIcons
           name="plus"

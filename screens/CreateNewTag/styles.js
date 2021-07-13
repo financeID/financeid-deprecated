@@ -18,7 +18,7 @@ export const ModalContainer = {
 export const Title = styled.Text`
   margin-top: 15px;
   margin-bottom: 15px;
-  font-size: 20px;
+  font-size: 18px;
   color: ${Colors.black};
 `;
 

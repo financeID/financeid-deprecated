@@ -1,11 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Platform,
-  ScrollView,
-  TouchableOpacity,
-  Text,
-  StyleSheet,
-} from 'react-native';
+import { Platform, ScrollView, TouchableOpacity } from 'react-native';
 import Form from '../../components/Forms/Form';
 import Modal from 'react-native-modal';
 import { KeyboardAccessoryView } from '@flyerhq/react-native-keyboard-accessory-view';
@@ -23,6 +17,9 @@ import {
   Chamfered,
   FilterContainer,
   TypeFilter,
+  TextFilter,
+  SaveFilter,
+  SaveFilterText,
 } from './styles';
 
 function ModalTester({ setFilter }) {
@@ -70,7 +67,7 @@ function ModalTester({ setFilter }) {
           <Content>
             <Chamfered />
             <Header>
-              <Title>Filtro</Title>
+              <Title>Listar</Title>
 
               <TouchableOpacity
                 onPress={() => setModalVisible(!isModalVisible)}
@@ -82,57 +79,32 @@ function ModalTester({ setFilter }) {
             <FilterContainer>
               <TypeFilter
                 onPress={() => setType(null)}
-                style={
-                  type === null
-                    ? { backgroundColor: '#808080' }
-                    : { backgroundColor: '#e7e6e6' }
-                }
+                type={type}
+                model={null}
               >
-                <Text
-                  style={
-                    type === null ? { color: '#ffffff' } : { color: '#000000' }
-                  }
-                >
+                <TextFilter type={type} model={null}>
                   Todos
-                </Text>
+                </TextFilter>
               </TypeFilter>
 
               <TypeFilter
                 onPress={() => setType('income')}
-                style={
-                  type === 'income'
-                    ? { backgroundColor: '#808080' }
-                    : { backgroundColor: '#e7e6e6' }
-                }
+                type={type}
+                model={'income'}
               >
-                <Text
-                  style={
-                    type === 'income'
-                      ? { color: '#ffffff' }
-                      : { color: '#000000' }
-                  }
-                >
+                <TextFilter type={type} model={'income'}>
                   Entradas
-                </Text>
+                </TextFilter>
               </TypeFilter>
 
               <TypeFilter
                 onPress={() => setType('outcome')}
-                style={
-                  type === 'outcome'
-                    ? { backgroundColor: '#808080' }
-                    : { backgroundColor: '#e7e6e6' }
-                }
+                type={type}
+                model={'outcome'}
               >
-                <Text
-                  style={
-                    type === 'outcome'
-                      ? { color: '#ffffff' }
-                      : { color: '#000000' }
-                  }
-                >
+                <TextFilter type={type} model={'outcome'}>
                   Saídas
-                </Text>
+                </TextFilter>
               </TypeFilter>
             </FilterContainer>
           </Content>
@@ -146,12 +118,9 @@ function ModalTester({ setFilter }) {
               }}
             >
               <ViewButton>
-                <TypeFilter
-                  onPress={() => handleFilter()}
-                  style={styles.button}
-                >
-                  <Text style={styles.buttonText}>Salvar</Text>
-                </TypeFilter>
+                <SaveFilter onPress={() => handleFilter()}>
+                  <SaveFilterText>Salvar</SaveFilterText>
+                </SaveFilter>
               </ViewButton>
             </KeyboardAccessoryView>
           </ContainerKeyboard>
@@ -162,17 +131,3 @@ function ModalTester({ setFilter }) {
 }
 
 export default ModalTester;
-
-const styles = StyleSheet.create({
-  button: {
-    width: '100%',
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 45,
-  },
-  buttonText: {
-    color: '#5c5b5c',
-    fontSize: 18,
-  },
-});

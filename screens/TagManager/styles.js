@@ -40,8 +40,8 @@ export const NothingHere = styled.Text`
 `;
 
 export const SearchBar = styled.TextInput`
-  margin: 20px 20px 10px;
-  padding: 9px;
+  margin: 18px 18px 10px;
+  padding: 7px;
   border-radius: 8px;
   color: #2b2b2b;
   font-size: 18px;
