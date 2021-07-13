@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { Platform, ScrollView, TouchableOpacity } from 'react-native';
+//import * as firebase from 'firebase';
+//import { auth } from '../../components/Firebase/firebase';
+//import snapshotToArray from '../../utils/snapshotToArray';
 import Form from '../../components/Forms/Form';
 import Modal from 'react-native-modal';
 import { KeyboardAccessoryView } from '@flyerhq/react-native-keyboard-accessory-view';
@@ -49,8 +52,8 @@ function ModalTester({ setFilter }) {
       <AddTag onPress={toggleModal}>
         <Feather
           name="sliders"
-          size={Platform.OS === 'ios' ? 26 : 27}
-          color={Colors.mediumGrey}
+          size={22}
+          color={type === null ? Colors.primary : Colors.secondary}
         />
       </AddTag>
 

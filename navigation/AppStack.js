@@ -15,8 +15,16 @@ function TransactionStackScreen() {
     <HomeStack.Navigator>
       <HomeStack.Screen
         name="Transações"
-        options={{ headerShown: true, headerTitleAlign: 'left' }}
         component={TransactionScreen}
+        options={{
+          title: 'Transações',
+          headerShown: false,
+          headerTitleAlign: 'left',
+          headerStyle: {},
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }}
       />
     </HomeStack.Navigator>
   );
@@ -27,7 +35,10 @@ function ProfileStackScreen() {
     <HomeStack.Navigator>
       <HomeStack.Screen
         name="Perfil"
-        options={{ headerShown: true, headerTitleAlign: 'center' }}
+        options={{
+          headerShown: true,
+          headerTitleAlign: 'center',
+        }}
         component={ProfileScreen}
       />
     </HomeStack.Navigator>

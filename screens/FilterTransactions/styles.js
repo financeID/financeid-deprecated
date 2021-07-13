@@ -12,7 +12,7 @@ export const Content = styled.View`
 export const ModalContainer = {
   justifyContent: 'flex-end',
   margin: 0,
-  backgroundColor: 'rgba(0, 0, 0, 0.15)',
+  backgroundColor: 'rgba(0, 0, 0, 0)',
 };
 
 export const Title = styled.Text`
@@ -40,7 +40,10 @@ export const Header = styled.View`
 `;
 
 export const AddTag = styled.TouchableOpacity`
-  padding: 5px;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
 `;
 
 export const Chamfered = styled.View`

@@ -1,3 +1,4 @@
+import { Platform } from 'react-native';
 import styled from 'styled-components/native';
 import Colors from '../../utils/colors';
 
@@ -8,17 +9,41 @@ export const LoadingContainer = styled.View`
 
 export const SafeArea = styled.SafeAreaView`
   flex: 1;
+  background-color: #ffffff;
 `;
 
 export const Container = styled.View`
-  flex: 1;
   margin: 0 20px;
+`;
+
+export const Header = styled.Text`
+  color: ${Colors.primary};
+  font-size: 23px;
+  font-weight: bold;
+`;
+
+export const HeaderContainer = styled.View`
+  margin-bottom: 20px;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-top: ${Platform.OS === 'ios' ? '20px' : '40px'};
+`;
+
+export const TransactionScrollView = styled.ScrollView`
+  height: 100%;
+  background-color: #f8f8ff;
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
+  padding: 0 20px;
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.2);
+  elevation: 10;
 `;
 
 export const TransactionContainer = styled.View`
   border-bottom-width: 1px;
-  border-bottom-color: #dedede;
-  padding: 10px 0 10px 0;
+  border-bottom-color: #e6e6e6;
+  padding: 12px 0 12px 0;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;

@@ -131,8 +131,6 @@ export default function HomeScreen({ navigation }) {
 
               <View
                 style={{
-                  alignContent: 'center',
-                  justifyContent: 'center',
                   flexDirection: 'row',
                 }}
               >
@@ -143,11 +141,11 @@ export default function HomeScreen({ navigation }) {
                       alignItems: 'center',
                       justifyContent: 'center',
                       flexDirection: 'row',
-                      width: 50,
-                      height: 50,
+                      width: 40,
+                      height: 40,
                     }}
                   >
-                    <Ionicons name="refresh" size={24} color="black" />
+                    <Ionicons name="refresh" size={24} color="#353535" />
                   </TouchableOpacity>
                 )}
                 <MonthPicker date={date} setDate={setDate} />
@@ -207,7 +205,9 @@ export default function HomeScreen({ navigation }) {
               </DataContainer>
             </ControlContainer>
 
-            <Header>Para onde está indo {'\n'}seu dinheiro esse mês?</Header>
+            <Header subheader>
+              Para onde está indo {'\n'}seu dinheiro esse mês?
+            </Header>
           </Container>
 
           {tagGroup.length ? (

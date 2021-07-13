@@ -1,14 +1,13 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react';
-import { ScrollView, View } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import * as firebase from 'firebase';
 import { format } from 'date-fns';
 import pt from 'date-fns/locale/pt-BR';
 import { auth } from '../../components/Firebase/firebase';
 import { sort } from '../../utils/filter';
-//import snapshotToArray from '../../utils/snapshotToArray';
 import formatedValue from '../../utils/formatValue';
 import { formatedDate } from '../../utils/formatedDate';
-import useStatusBar from '../../hooks/useStatusBar';
+import MyStatusBar from '../../hooks/statusBar';
 import { Ionicons } from '@expo/vector-icons';
 import MonthPicker from '../../components/MonthPicker';
 import FilterTransactions from '../FilterTransactions';
@@ -16,6 +15,9 @@ import FilterTransactions from '../FilterTransactions';
 import {
   SafeArea,
   Container,
+  HeaderContainer,
+  Header,
+  TransactionScrollView,
   TransactionContainer,
   TransactionInfo,
   TransactionText,
@@ -27,8 +29,6 @@ import {
 } from './styles';
 
 export default function ConfigScreen({ navigation }) {
-  useStatusBar('dark-content');
-
   const dateTransformed = format(new Date(), 'yyyy-MM', {
     locale: pt,
   }).toString();
@@ -38,6 +38,14 @@ export default function ConfigScreen({ navigation }) {
   const [transactions, setTransactions] = useState([]);
   const [date, setDate] = useState(dateTransformed);
   const [filter, setFilter] = useState(null);
+
+  const dateTransformedToMonth = format(
+    new Date(date + '-02'),
+    "MMMM 'de' yyyy",
+    {
+      locale: pt,
+    },
+  );
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -59,9 +67,40 @@ export default function ConfigScreen({ navigation }) {
   }, [uid, date, filter]);
 
   return (
-    <SafeArea>
-      <ScrollView style={{ height: '100%' }}>
+    <>
+      <MyStatusBar backgroundColor="#ffffff" barStyle="dark-content" />
+      <SafeArea>
         <Container>
+          <HeaderContainer>
+            <Header>
+              Transações de {'\n'}
+              {dateTransformedToMonth}
+            </Header>
+            <View
+              style={{
+                flexDirection: 'row',
+              }}
+            >
+              {dateTransformed !== date && (
+                <TouchableOpacity
+                  onPress={() => setDate(dateTransformed)}
+                  style={{
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexDirection: 'row',
+                    width: 40,
+                    height: 40,
+                  }}
+                >
+                  <Ionicons name="refresh" size={24} color="#353535" />
+                </TouchableOpacity>
+              )}
+              <FilterTransactions setFilter={setFilter} />
+              <MonthPicker date={date} setDate={setDate} />
+            </View>
+          </HeaderContainer>
+        </Container>
+        <TransactionScrollView>
           {transactions.map(({ key, description, tag, date, type, price }) => {
             return (
               <TransactionContainer key={key}>
@@ -85,8 +124,8 @@ export default function ConfigScreen({ navigation }) {
               </TransactionContainer>
             );
           })}
-        </Container>
-      </ScrollView>
-    </SafeArea>
+        </TransactionScrollView>
+      </SafeArea>
+    </>
   );
 }

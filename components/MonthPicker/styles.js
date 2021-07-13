@@ -1,15 +1,16 @@
 import styled from 'styled-components/native';
 
 export const Picker = styled.View`
-  width: 60px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
+  margin-left: 3px;
 `;
 
 export const iconContainer = {
-  width: 60,
+  width: 40,
   alignItems: 'center',
   justifyContent: 'center',
-  height: 50,
+  height: 40,
   margin: 0,
 };
 

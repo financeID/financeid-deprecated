@@ -13,10 +13,18 @@ export const Container = styled.View`
 `;
 
 export const Header = styled.Text`
-  margin-top: 20px;
   color: ${Colors.primary};
   font-size: 23px;
   font-weight: bold;
+  margin-top: ${props => (props.subheader ? '30px' : '0px')};
+`;
+
+export const HeaderContainer = styled.View`
+  padding-top: 20px;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-top: ${Platform.OS === 'ios' ? '0px' : '20px'};
 `;
 
 export const ControlContainer = styled.View`
@@ -92,13 +100,6 @@ export const BoxTagPriceText = styled.Text`
   margin-bottom: 9px;
   font-weight: bold;
   color: ${Colors.mediumGrey};
-`;
-
-export const HeaderContainer = styled.View`
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: ${Platform.OS === 'ios' ? '0px' : '20px'};
 `;
 
 export const NoExpenses = styled.Text`

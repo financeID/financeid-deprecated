@@ -5,6 +5,7 @@ import { StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import RNPickerSelect from 'react-native-picker-select';
 import usedMonthsToArray from '../../utils/usedMonthsToArray';
+import Colors from '../../utils/colors';
 import { Picker, iconContainer, placeholder } from './styles';
 
 export default function MonthPicker({ date, setDate }) {
@@ -37,7 +38,7 @@ export default function MonthPicker({ date, setDate }) {
         InputAccessoryView={() => null}
         items={usedMonths}
         Icon={() => {
-          return <Ionicons name="filter" size={24} color="black" />;
+          return <Ionicons name="filter" size={23} color={Colors.primary} />;
         }}
       />
     </Picker>
