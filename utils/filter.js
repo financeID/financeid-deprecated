@@ -3,8 +3,8 @@ export const sort = (snapshot, date, filter) => {
     reverse: true,
     fromDate: null,
     toDate: null,
-    type: filter,
-    tag: null,
+    type: filter.type,
+    tag: filter.tag,
   };
 
   let arr = [];

@@ -5,7 +5,7 @@ export const Content = styled.View`
   background-color: #fff;
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
-  height: 220px;
+  height: 250px;
   padding: 14px;
 `;
 

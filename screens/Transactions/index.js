@@ -37,7 +37,10 @@ export default function ConfigScreen({ navigation }) {
 
   const [transactions, setTransactions] = useState([]);
   const [date, setDate] = useState(dateTransformed);
-  const [filter, setFilter] = useState(null);
+  const [filter, setFilter] = useState({
+    type: null,
+    tag: null,
+  });
 
   const dateTransformedToMonth = format(
     new Date(date + '-02'),

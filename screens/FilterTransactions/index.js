@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { Platform, ScrollView, TouchableOpacity } from 'react-native';
-//import * as firebase from 'firebase';
-//import { auth } from '../../components/Firebase/firebase';
-//import snapshotToArray from '../../utils/snapshotToArray';
+import React, { useState, useEffect } from 'react';
+import { Platform, ScrollView, TouchableOpacity, View } from 'react-native';
+import * as firebase from 'firebase';
+import { auth } from '../../components/Firebase/firebase';
+import snapshotToArray from '../../utils/snapshotToArray';
 import Form from '../../components/Forms/Form';
 import Modal from 'react-native-modal';
 import { KeyboardAccessoryView } from '@flyerhq/react-native-keyboard-accessory-view';
@@ -28,13 +28,28 @@ import {
 function ModalTester({ setFilter }) {
   const [isModalVisible, setModalVisible] = useState(false);
   const [type, setType] = useState(null);
+  const [tag, setTag] = useState(null);
+  const [tags, setTags] = useState([]);
+
+  const { uid } = auth.currentUser;
+
+  useEffect(() => {
+    const data = firebase.database().ref('users/' + uid + '/tags/');
+
+    data.orderByChild('value').on('value', snapshot => {
+      setTags(snapshotToArray(snapshot));
+    });
+  }, [uid]);
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
 
   const handleFilter = () => {
-    setFilter(type);
+    setFilter({
+      type: type,
+      tag: tag,
+    });
 
     setModalVisible(!isModalVisible);
   };
@@ -58,6 +73,8 @@ function ModalTester({ setFilter }) {
       </AddTag>
 
       <Modal
+        scrollHorizontal
+        propagateSwipe
         onBackButtonPress={() => setModalVisible(!isModalVisible)}
         onBackdropPress={() => setModalVisible(!isModalVisible)}
         onSwipeComplete={() => setModalVisible(!isModalVisible)}
@@ -110,6 +127,38 @@ function ModalTester({ setFilter }) {
                 </TextFilter>
               </TypeFilter>
             </FilterContainer>
+
+            <View>
+              <Title>Categoria</Title>
+              <ScrollView
+                horizontal
+                onContentSizeChange={0}
+                showsHorizontalScrollIndicator={false}
+              >
+                <TypeFilter
+                  onPress={() => setTag(null)}
+                  type={tag}
+                  model={null}
+                >
+                  <TextFilter type={tag} model={null}>
+                    X
+                  </TextFilter>
+                </TypeFilter>
+                {tags.map(t => (
+                  <FilterContainer key={t.key}>
+                    <TypeFilter
+                      onPress={() => setTag(t.name)}
+                      type={tag}
+                      model={t.name}
+                    >
+                      <TextFilter type={tag} model={t.name}>
+                        {t.name}
+                      </TextFilter>
+                    </TypeFilter>
+                  </FilterContainer>
+                ))}
+              </ScrollView>
+            </View>
           </Content>
 
           <ContainerKeyboard>
