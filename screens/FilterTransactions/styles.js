@@ -59,6 +59,7 @@ export const FilterContainer = styled.View`
 `;
 
 export const TypeFilter = styled.TouchableOpacity`
+  flex-direction: row;
   padding: 5px 10px;
   margin-right: 5px;
   border-radius: 50px;
@@ -67,6 +68,8 @@ export const TypeFilter = styled.TouchableOpacity`
 `;
 
 export const TextFilter = styled.Text`
+  justify-content: center;
+  align-items: flex-end;
   color: ${props => (props.type === props.model ? '#ffffff' : '#000000')};
 `;
 

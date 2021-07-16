@@ -10,7 +10,7 @@ import TagManager from '../screens/TagManager';
 const HomeStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-function TransactionStackScreen() {
+/*function TransactionStackScreen() {
   return (
     <HomeStack.Navigator>
       <HomeStack.Screen
@@ -28,7 +28,7 @@ function TransactionStackScreen() {
       />
     </HomeStack.Navigator>
   );
-}
+}*/
 
 function ProfileStackScreen() {
   return (
@@ -65,7 +65,7 @@ function HomeStackScreen() {
       }}
     >
       <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Transações" component={TransactionStackScreen} />
+      <Tab.Screen name="Transações" component={TransactionScreen} />
       <Tab.Screen name="Perfil" component={ProfileStackScreen} />
     </Tab.Navigator>
   );

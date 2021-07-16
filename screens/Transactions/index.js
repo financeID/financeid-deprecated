@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import * as firebase from 'firebase';
 import { format } from 'date-fns';
@@ -28,7 +28,7 @@ import {
   RightContent,
 } from './styles';
 
-export default function ConfigScreen({ navigation }) {
+export default function ConfigScreen({ navigation: { setParams }, route }) {
   const dateTransformed = format(new Date(), 'yyyy-MM', {
     locale: pt,
   }).toString();
@@ -37,6 +37,7 @@ export default function ConfigScreen({ navigation }) {
 
   const [transactions, setTransactions] = useState([]);
   const [date, setDate] = useState(dateTransformed);
+  const [tagFromHome, setTagFromHome] = useState(null);
   const [filter, setFilter] = useState({
     type: null,
     tag: null,
@@ -50,24 +51,17 @@ export default function ConfigScreen({ navigation }) {
     },
   );
 
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <FilterTransactions setFilter={setFilter} />
-          <MonthPicker date={date} setDate={setDate} />
-        </View>
-      ),
-    });
-  }, [navigation, date]);
-
   useEffect(() => {
     const data = firebase.database().ref(`/users/${uid}/transactions`);
 
+    const TagName = route.params ? route.params.TagName : null;
+
+    setTagFromHome(TagName);
+
     data.on('value', snapshot => {
-      setTransactions(sort(snapshot, date, filter));
+      setTransactions(sort(snapshot, date, filter, TagName));
     });
-  }, [uid, date, filter]);
+  }, [uid, date, filter, route.params]);
 
   return (
     <>
@@ -98,11 +92,20 @@ export default function ConfigScreen({ navigation }) {
                   <Ionicons name="refresh" size={24} color="#353535" />
                 </TouchableOpacity>
               )}
-              <FilterTransactions setFilter={setFilter} />
-              <MonthPicker date={date} setDate={setDate} />
+              <FilterTransactions
+                setFilter={setFilter}
+                setParams={setParams}
+                tagFromHome={tagFromHome}
+              />
+              <MonthPicker
+                date={date}
+                setDate={setDate}
+                rangeDate={route.params.RangeDate}
+              />
             </View>
           </HeaderContainer>
         </Container>
+
         <TransactionScrollView>
           {transactions.map(({ key, description, tag, date, type, price }) => {
             return (

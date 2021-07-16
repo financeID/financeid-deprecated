@@ -25,27 +25,30 @@ import {
   SaveFilterText,
 } from './styles';
 
-function ModalTester({ setFilter }) {
+function FilterTransactions({ setFilter, setParams, tagFromHome }) {
   const [isModalVisible, setModalVisible] = useState(false);
+  const [tags, setTags] = useState([]);
   const [type, setType] = useState(null);
   const [tag, setTag] = useState(null);
-  const [tags, setTags] = useState([]);
 
   const { uid } = auth.currentUser;
 
   useEffect(() => {
+    setTag(tagFromHome);
     const data = firebase.database().ref('users/' + uid + '/tags/');
 
     data.orderByChild('value').on('value', snapshot => {
       setTags(snapshotToArray(snapshot));
     });
-  }, [uid]);
+  }, [uid, tagFromHome]);
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
 
   const handleFilter = () => {
+    setParams({ TagName: tag });
+
     setFilter({
       type: type,
       tag: tag,
@@ -68,7 +71,9 @@ function ModalTester({ setFilter }) {
         <Feather
           name="sliders"
           size={22}
-          color={type === null ? Colors.primary : Colors.secondary}
+          color={
+            type === null && tag === null ? Colors.primary : Colors.secondary
+          }
         />
       </AddTag>
 
@@ -140,8 +145,15 @@ function ModalTester({ setFilter }) {
                   type={tag}
                   model={null}
                 >
+                  <Feather
+                    name="x"
+                    size={16}
+                    color={tag === null ? '#ffffff' : '#000000'}
+                    style={{ paddingRight: 2 }}
+                  />
                   <TextFilter type={tag} model={null}>
-                    X
+                    Limpar
+                    {console.log(tag)}
                   </TextFilter>
                 </TypeFilter>
                 {tags.map(t => (
@@ -182,4 +194,4 @@ function ModalTester({ setFilter }) {
   );
 }
 
-export default ModalTester;
+export default FilterTransactions;

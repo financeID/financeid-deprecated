@@ -220,30 +220,39 @@ export default function HomeScreen({ navigation }) {
                 {tagGroup.map(({ tag, price }, i) => {
                   return (
                     <View key={price}>
-                      <BoxTag
-                        style={
-                          i === tagGroup.length - 1 ? { marginRight: 23 } : {}
-                        }
+                      <TouchableOpacity
+                        onPress={() => {
+                          navigation.navigate('Transações', {
+                            TagName: tag,
+                            RangeDate: date,
+                          });
+                        }}
                       >
-                        <BoxTagText numberOfLines={1}>{tag}</BoxTagText>
-                        <BoxTagPriceText numberOfLines={1}>
-                          {formatValue(price)}
-                        </BoxTagPriceText>
+                        <BoxTag
+                          style={
+                            i === tagGroup.length - 1 ? { marginRight: 23 } : {}
+                          }
+                        >
+                          <BoxTagText numberOfLines={1}>{tag}</BoxTagText>
+                          <BoxTagPriceText numberOfLines={1}>
+                            {formatValue(price)}
+                          </BoxTagPriceText>
 
-                        <StackedBarChart
-                          style={{ height: 4 }}
-                          keys={['outcomes', 'incomes']}
-                          colors={[Colors.outcome, '#dddddd']}
-                          data={[
-                            {
-                              incomes: balance.income,
-                              outcomes: price,
-                            },
-                          ]}
-                          showGrid={false}
-                          horizontal={true}
-                        />
-                      </BoxTag>
+                          <StackedBarChart
+                            style={{ height: 4 }}
+                            keys={['outcomes', 'incomes']}
+                            colors={[Colors.outcome, '#dddddd']}
+                            data={[
+                              {
+                                incomes: balance.income,
+                                outcomes: price,
+                              },
+                            ]}
+                            showGrid={false}
+                            horizontal={true}
+                          />
+                        </BoxTag>
+                      </TouchableOpacity>
                     </View>
                   );
                 })}

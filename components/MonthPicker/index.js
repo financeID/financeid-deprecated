@@ -8,7 +8,7 @@ import usedMonthsToArray from '../../utils/usedMonthsToArray';
 import Colors from '../../utils/colors';
 import { Picker, iconContainer, placeholder } from './styles';
 
-export default function MonthPicker({ date, setDate }) {
+export default function MonthPicker({ date, setDate, rangeDate }) {
   const { uid } = auth.currentUser;
 
   const [usedMonths, setUsedMonths] = useState([]);
@@ -29,7 +29,7 @@ export default function MonthPicker({ date, setDate }) {
           iconContainer,
           placeholder,
         }}
-        value={date}
+        value={rangeDate ? rangeDate : date}
         placeholder={{}}
         useNativeAndroidPickerStyle={false}
         onValueChange={value => {

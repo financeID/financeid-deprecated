@@ -1,10 +1,10 @@
-export const sort = (snapshot, date, filter) => {
+export const sort = (snapshot, date, filter, TagName) => {
   var filterObj = {
     reverse: true,
     fromDate: null,
     toDate: null,
     type: filter.type,
-    tag: filter.tag,
+    tag: filter.tag ? filter.tag : TagName,
   };
 
   let arr = [];
