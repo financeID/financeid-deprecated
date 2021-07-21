@@ -8,11 +8,10 @@ import usedMonthsToArray from '../../utils/usedMonthsToArray';
 import Colors from '../../utils/colors';
 import { Picker, iconContainer, placeholder } from './styles';
 
-export default function MonthPicker({ date, setDate, rangeDate }) {
+export default function MonthPicker({ date, setDate }) {
   const { uid } = auth.currentUser;
 
   const [usedMonths, setUsedMonths] = useState([]);
-
   useEffect(() => {
     const data = firebase.database().ref(`/users/${uid}/transactions`);
 
@@ -20,7 +19,6 @@ export default function MonthPicker({ date, setDate, rangeDate }) {
       setUsedMonths(usedMonthsToArray(snapshot));
     });
   }, [uid]);
-
   return (
     <Picker>
       <RNPickerSelect
@@ -29,7 +27,7 @@ export default function MonthPicker({ date, setDate, rangeDate }) {
           iconContainer,
           placeholder,
         }}
-        value={rangeDate ? rangeDate : date}
+        value={date}
         placeholder={{}}
         useNativeAndroidPickerStyle={false}
         onValueChange={value => {

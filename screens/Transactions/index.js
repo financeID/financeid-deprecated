@@ -37,7 +37,6 @@ export default function ConfigScreen({ navigation: { setParams }, route }) {
 
   const [transactions, setTransactions] = useState([]);
   const [date, setDate] = useState(dateTransformed);
-  const [tagFromHome, setTagFromHome] = useState(null);
   const [filter, setFilter] = useState({
     type: null,
     tag: null,
@@ -54,12 +53,8 @@ export default function ConfigScreen({ navigation: { setParams }, route }) {
   useEffect(() => {
     const data = firebase.database().ref(`/users/${uid}/transactions`);
 
-    const TagName = route.params ? route.params.TagName : null;
-
-    setTagFromHome(TagName);
-
     data.on('value', snapshot => {
-      setTransactions(sort(snapshot, date, filter, TagName));
+      setTransactions(sort(snapshot, date, filter));
     });
   }, [uid, date, filter, route.params]);
 
@@ -92,16 +87,8 @@ export default function ConfigScreen({ navigation: { setParams }, route }) {
                   <Ionicons name="refresh" size={24} color="#353535" />
                 </TouchableOpacity>
               )}
-              <FilterTransactions
-                setFilter={setFilter}
-                setParams={setParams}
-                tagFromHome={tagFromHome}
-              />
-              <MonthPicker
-                date={date}
-                setDate={setDate}
-                rangeDate={route.params.RangeDate}
-              />
+              <FilterTransactions setFilter={setFilter} setParams={setParams} />
+              <MonthPicker date={date} setDate={setDate} />
             </View>
           </HeaderContainer>
         </Container>

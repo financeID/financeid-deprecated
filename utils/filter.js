@@ -1,15 +1,14 @@
-export const sort = (snapshot, date, filter, TagName) => {
+export const sort = (snapshot, date, filter) => {
   var filterObj = {
     reverse: true,
     fromDate: null,
     toDate: null,
     type: filter.type,
-    tag: filter.tag ? filter.tag : TagName,
+    tag: filter.tag,
   };
 
   let arr = [];
 
-  console.log(filter);
   snapshot.forEach(function (childSnapshot) {
     var item = childSnapshot.val();
     item.key = childSnapshot.key;

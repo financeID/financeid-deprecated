@@ -25,7 +25,7 @@ import {
   SaveFilterText,
 } from './styles';
 
-function FilterTransactions({ setFilter, setParams, tagFromHome }) {
+function FilterTransactions({ setFilter }) {
   const [isModalVisible, setModalVisible] = useState(false);
   const [tags, setTags] = useState([]);
   const [type, setType] = useState(null);
@@ -34,21 +34,18 @@ function FilterTransactions({ setFilter, setParams, tagFromHome }) {
   const { uid } = auth.currentUser;
 
   useEffect(() => {
-    setTag(tagFromHome);
     const data = firebase.database().ref('users/' + uid + '/tags/');
 
     data.orderByChild('value').on('value', snapshot => {
       setTags(snapshotToArray(snapshot));
     });
-  }, [uid, tagFromHome]);
+  }, [uid]);
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
 
   const handleFilter = () => {
-    setParams({ TagName: tag });
-
     setFilter({
       type: type,
       tag: tag,
@@ -134,7 +131,9 @@ function FilterTransactions({ setFilter, setParams, tagFromHome }) {
             </FilterContainer>
 
             <View>
-              <Title>Categoria</Title>
+              <Title>
+                Categoria {tag ? '-' : ''} {tag}
+              </Title>
               <ScrollView
                 horizontal
                 onContentSizeChange={0}
@@ -153,7 +152,6 @@ function FilterTransactions({ setFilter, setParams, tagFromHome }) {
                   />
                   <TextFilter type={tag} model={null}>
                     Limpar
-                    {console.log(tag)}
                   </TextFilter>
                 </TypeFilter>
                 {tags.map(t => (
