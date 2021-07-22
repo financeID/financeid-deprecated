@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import * as Yup from 'yup';
 import * as firebase from 'firebase';
+import 'firebase/firestore';
 import Colors from '../utils/colors';
 import SafeView from '../components/SafeView';
 import Form from '../components/Forms/Form';
@@ -71,6 +72,11 @@ export default function RegisterScreen({ navigation }) {
             firstName: name,
             email: email,
           });
+
+        firebase.firestore().collection('users').doc(res.user.uid).set({
+          name: name,
+          email: email,
+        });
 
         firebase
           .database()

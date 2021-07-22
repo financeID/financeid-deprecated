@@ -5,6 +5,7 @@ import Colors from '../../utils/colors';
 export const LoadingContainer = styled.View`
   flex: 1;
   justify-content: center;
+  background-color: #f8f8ff;
 `;
 
 export const SafeArea = styled.SafeAreaView`

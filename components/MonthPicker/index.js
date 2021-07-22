@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import * as firebase from 'firebase';
+import 'firebase/firestore';
 import { auth } from '../../components/Firebase/firebase';
 import { StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
@@ -12,12 +13,15 @@ export default function MonthPicker({ date, setDate }) {
   const { uid } = auth.currentUser;
 
   const [usedMonths, setUsedMonths] = useState([]);
-  useEffect(() => {
-    const data = firebase.database().ref(`/users/${uid}/transactions`);
 
-    data.on('value', snapshot => {
-      setUsedMonths(usedMonthsToArray(snapshot));
-    });
+  useEffect(() => {
+    firebase
+      .firestore()
+      .collection('transactions')
+      .where('userReference', '==', uid)
+      .onSnapshot(querySnapshot => {
+        setUsedMonths(usedMonthsToArray(querySnapshot));
+      });
   }, [uid]);
   return (
     <Picker>

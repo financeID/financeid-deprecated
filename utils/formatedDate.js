@@ -1,6 +1,10 @@
 import { format, addDays } from 'date-fns';
 import pt from 'date-fns/locale/pt-BR';
 
+export const dateISO8601 = date => {
+  return format(date, 'yyyy-MM-dd');
+};
+
 export const formatedDate = date => {
   const usedDate = date ? addDays(new Date(date), 1) : new Date();
 

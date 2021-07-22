@@ -1,12 +1,12 @@
 import { min, max, eachMonthOfInterval, format } from 'date-fns';
 import pt from 'date-fns/locale/pt-BR';
 
-var usedMonthsToArray = function (snapshot) {
-  var returnArr = [];
+const usedMonthsToArray = function (snapshot) {
+  let returnArr = [];
 
   snapshot.forEach(function (childSnapshot) {
-    var item = childSnapshot.val();
-    item.key = childSnapshot.key;
+    let item = childSnapshot.data();
+    item.key = childSnapshot.id;
 
     returnArr.push(item);
   });

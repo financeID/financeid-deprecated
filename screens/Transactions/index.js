@@ -1,19 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity, ActivityIndicator } from 'react-native';
 import * as firebase from 'firebase';
-import { format } from 'date-fns';
+import 'firebase/firestore';
+import { format, startOfMonth, endOfMonth } from 'date-fns';
 import pt from 'date-fns/locale/pt-BR';
 import { auth } from '../../components/Firebase/firebase';
-import { sort } from '../../utils/filter';
 import formatedValue from '../../utils/formatValue';
-import { formatedDate } from '../../utils/formatedDate';
+import { dateISO8601, formatedDate } from '../../utils/formatedDate';
 import MyStatusBar from '../../hooks/statusBar';
 import { Ionicons } from '@expo/vector-icons';
 import MonthPicker from '../../components/MonthPicker';
 import FilterTransactions from '../FilterTransactions';
+import Colors from '../../utils/colors';
 
 import {
   SafeArea,
+  LoadingContainer,
   Container,
   HeaderContainer,
   Header,
@@ -28,19 +30,16 @@ import {
   RightContent,
 } from './styles';
 
-export default function ConfigScreen({ navigation: { setParams }, route }) {
+export default function ConfigScreen({ navigation: { setParams } }) {
   const dateTransformed = format(new Date(), 'yyyy-MM', {
     locale: pt,
   }).toString();
 
   const { uid } = auth.currentUser;
 
+  const [loading, setLoading] = useState(false);
   const [transactions, setTransactions] = useState([]);
   const [date, setDate] = useState(dateTransformed);
-  const [filter, setFilter] = useState({
-    type: null,
-    tag: null,
-  });
 
   const dateTransformedToMonth = format(
     new Date(date + '-02'),
@@ -50,13 +49,35 @@ export default function ConfigScreen({ navigation: { setParams }, route }) {
     },
   );
 
-  useEffect(() => {
-    const data = firebase.database().ref(`/users/${uid}/transactions`);
+  const rangeDate = date + '-02';
 
-    data.on('value', snapshot => {
-      setTransactions(sort(snapshot, date, filter));
-    });
-  }, [uid, date, filter, route.params]);
+  useEffect(() => {
+    setLoading(true);
+
+    const startDate = dateISO8601(startOfMonth(new Date(rangeDate)));
+    const endDate = dateISO8601(endOfMonth(new Date(rangeDate)));
+
+    firebase
+      .firestore()
+      .collection('transactions')
+      .where('userReference', '==', uid)
+      .where('date', '<=', endDate)
+      .where('date', '>=', startDate)
+      //.where('type', '==', typee)
+      .onSnapshot(querySnapshot => {
+        let returnArr = [];
+
+        querySnapshot.forEach(doc => {
+          let item = doc.data();
+          item.key = doc.id;
+
+          returnArr.push(item);
+        });
+
+        setTransactions(returnArr);
+        setLoading(false);
+      });
+  }, [uid, date, rangeDate]);
 
   return (
     <>
@@ -87,37 +108,48 @@ export default function ConfigScreen({ navigation: { setParams }, route }) {
                   <Ionicons name="refresh" size={24} color="#353535" />
                 </TouchableOpacity>
               )}
-              <FilterTransactions setFilter={setFilter} setParams={setParams} />
+              <FilterTransactions setParams={setParams} />
               <MonthPicker date={date} setDate={setDate} />
             </View>
           </HeaderContainer>
         </Container>
-
-        <TransactionScrollView>
-          {transactions.map(({ key, description, tag, date, type, price }) => {
-            return (
-              <TransactionContainer key={key}>
-                <TransactionInfo>
-                  <TransactionText>{description}</TransactionText>
-                  <InfoView>
-                    <TransactionDate>
-                      {formatedDate(new Date(date))}
-                      {' - '}
-                    </TransactionDate>
-                    <TransactionTag>{tag}</TransactionTag>
-                  </InfoView>
-                </TransactionInfo>
-                <RightContent>
-                  <TransactionPrice type={type}>
-                    {type === 'outcome' && ' - '}
-                    {formatedValue(Number(price))}
-                  </TransactionPrice>
-                  <Ionicons name="chevron-forward" size={24} color="#dedede" />
-                </RightContent>
-              </TransactionContainer>
-            );
-          })}
-        </TransactionScrollView>
+        {loading ? (
+          <LoadingContainer>
+            <ActivityIndicator size="large" color={Colors.secondary} />
+          </LoadingContainer>
+        ) : (
+          <TransactionScrollView>
+            {transactions.map(
+              ({ key, description, tag, date, type, price }) => {
+                return (
+                  <TransactionContainer key={key}>
+                    <TransactionInfo>
+                      <TransactionText>{description}</TransactionText>
+                      <InfoView>
+                        <TransactionDate>
+                          {formatedDate(new Date(date))}
+                          {' - '}
+                        </TransactionDate>
+                        <TransactionTag>{tag}</TransactionTag>
+                      </InfoView>
+                    </TransactionInfo>
+                    <RightContent>
+                      <TransactionPrice type={type}>
+                        {type === 'outcome' && ' - '}
+                        {formatedValue(Number(price))}
+                      </TransactionPrice>
+                      <Ionicons
+                        name="chevron-forward"
+                        size={24}
+                        color="#dedede"
+                      />
+                    </RightContent>
+                  </TransactionContainer>
+                );
+              },
+            )}
+          </TransactionScrollView>
+        )}
       </SafeArea>
     </>
   );

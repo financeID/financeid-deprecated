@@ -5,6 +5,7 @@ import { KeyboardAccessoryView } from '@flyerhq/react-native-keyboard-accessory-
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
 import * as Yup from 'yup';
 import * as firebase from 'firebase';
+import 'firebase/firestore';
 import { auth } from '../../components/Firebase/firebase';
 import Colors from '../../utils/colors';
 import Form from '../../components/Forms/Form';
@@ -53,15 +54,17 @@ export default function AddTransactions({ navigation, route }) {
 
     const dateTranformed = formatedDatePtBR(date);
 
-    const data = firebase.database().ref(`/users/${uid}/transactions/`).push();
-
     const valueTransformed = value.replace(/,/g, '');
     const typeTransformed = type === 0 ? 'income' : 'outcome';
     const createdAt = new Date().getTime();
 
-    data
+    firebase
+      .firestore()
+      .collection('transactions')
+      .doc()
       .set({
-        created_at: createdAt,
+        userReference: uid,
+        createdAt: createdAt,
         description: description.trim(),
         price: valueTransformed,
         date: dateTranformed,

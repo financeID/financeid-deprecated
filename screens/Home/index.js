@@ -6,13 +6,14 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import * as firebase from 'firebase';
-import { format } from 'date-fns';
+import 'firebase/firestore';
+import { format, startOfMonth, endOfMonth } from 'date-fns';
 import pt from 'date-fns/locale/pt-BR';
 import { auth } from '../../components/Firebase/firebase';
 import { Ionicons } from '@expo/vector-icons';
 import MyStatusBar from '../../hooks/statusBar';
-import snapshotToArray from '../../utils/snapshotToArray';
 import formatValue from '../../utils/formatValue';
+import { dateISO8601 } from '../../utils/formatedDate';
 import { StackedBarChart } from 'react-native-svg-charts';
 import FlashMessage from 'react-native-flash-message';
 import Colors from '../../utils/colors';
@@ -63,16 +64,34 @@ export default function HomeScreen({ navigation }) {
     },
   );
 
+  const rangeDate = date + '-02';
+
   useEffect(() => {
     setLoading(true);
 
-    const data = firebase.database().ref(`/users/${uid}/transactions`);
+    const startDate = dateISO8601(startOfMonth(new Date(rangeDate)));
+    const endDate = dateISO8601(endOfMonth(new Date(rangeDate)));
 
-    data.on('value', snapshot => {
-      setTransactions(snapshotToArray(snapshot, date));
-      setLoading(false);
-    });
-  }, [date, uid]);
+    firebase
+      .firestore()
+      .collection('transactions')
+      .where('userReference', '==', uid)
+      .where('date', '<=', endDate)
+      .where('date', '>=', startDate)
+      .onSnapshot(querySnapshot => {
+        let returnArr = [];
+
+        querySnapshot.forEach(doc => {
+          let item = doc.data();
+          item.key = doc.id;
+
+          returnArr.push(item);
+        });
+
+        setTransactions(returnArr);
+        setLoading(false);
+      });
+  }, [uid, date, rangeDate]);
 
   const balance = transactions.reduce(
     (accumulator, transaction) => {
