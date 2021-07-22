@@ -78,7 +78,7 @@ export default function ConfigScreen() {
         break;
     }
 
-    if (tagFilter !== null) {
+    if (tagFilter) {
       query = query.where('tag', '==', tagFilter);
     }
 
