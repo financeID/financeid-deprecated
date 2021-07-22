@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, TouchableOpacity, ActivityIndicator } from 'react-native';
 import * as firebase from 'firebase';
 import 'firebase/firestore';
-import { format, startOfMonth, endOfMonth } from 'date-fns';
+import { format, startOfMonth, endOfMonth, addDays } from 'date-fns';
 import pt from 'date-fns/locale/pt-BR';
 import { auth } from '../../components/Firebase/firebase';
 import formatedValue from '../../utils/formatValue';
@@ -30,7 +30,7 @@ import {
   RightContent,
 } from './styles';
 
-export default function ConfigScreen({ navigation: { setParams } }) {
+export default function ConfigScreen() {
   const dateTransformed = format(new Date(), 'yyyy-MM', {
     locale: pt,
   }).toString();
@@ -40,6 +40,7 @@ export default function ConfigScreen({ navigation: { setParams } }) {
   const [loading, setLoading] = useState(false);
   const [transactions, setTransactions] = useState([]);
   const [date, setDate] = useState(dateTransformed);
+  const [typeFilter, setTypeFilter] = useState(null);
 
   const dateTransformedToMonth = format(
     new Date(date + '-02'),
@@ -57,27 +58,39 @@ export default function ConfigScreen({ navigation: { setParams } }) {
     const startDate = dateISO8601(startOfMonth(new Date(rangeDate)));
     const endDate = dateISO8601(endOfMonth(new Date(rangeDate)));
 
-    firebase
+    let query = firebase
       .firestore()
       .collection('transactions')
       .where('userReference', '==', uid)
       .where('date', '<=', endDate)
       .where('date', '>=', startDate)
-      //.where('type', '==', typee)
-      .onSnapshot(querySnapshot => {
-        let returnArr = [];
+      .orderBy('date', 'desc');
 
-        querySnapshot.forEach(doc => {
-          let item = doc.data();
-          item.key = doc.id;
+    switch (typeFilter) {
+      case 'income':
+        query = query.where('type', '==', 'income');
+        break;
+      case 'outcome':
+        query = query.where('type', '==', 'outcome');
+        break;
+      default:
+        break;
+    }
 
-          returnArr.push(item);
-        });
+    query.onSnapshot(querySnapshot => {
+      let returnArr = [];
 
-        setTransactions(returnArr);
-        setLoading(false);
+      querySnapshot.forEach(doc => {
+        let item = doc.data();
+        item.key = doc.id;
+
+        returnArr.push(item);
       });
-  }, [uid, date, rangeDate]);
+
+      setTransactions(returnArr);
+      setLoading(false);
+    });
+  }, [uid, date, rangeDate, typeFilter]);
 
   return (
     <>
@@ -108,7 +121,10 @@ export default function ConfigScreen({ navigation: { setParams } }) {
                   <Ionicons name="refresh" size={24} color="#353535" />
                 </TouchableOpacity>
               )}
-              <FilterTransactions setParams={setParams} />
+              <FilterTransactions
+                typeFilter={typeFilter}
+                setTypeFilter={setTypeFilter}
+              />
               <MonthPicker date={date} setDate={setDate} />
             </View>
           </HeaderContainer>
@@ -127,7 +143,7 @@ export default function ConfigScreen({ navigation: { setParams } }) {
                       <TransactionText>{description}</TransactionText>
                       <InfoView>
                         <TransactionDate>
-                          {formatedDate(new Date(date))}
+                          {formatedDate(addDays(new Date(date), 1))}
                           {' - '}
                         </TransactionDate>
                         <TransactionTag>{tag}</TransactionTag>

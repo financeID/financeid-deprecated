@@ -25,10 +25,10 @@ import {
   SaveFilterText,
 } from './styles';
 
-function FilterTransactions({ setFilter }) {
+function FilterTransactions({ typeFilter, setTypeFilter }) {
   const [isModalVisible, setModalVisible] = useState(false);
   const [tags, setTags] = useState([]);
-  const [type, setType] = useState(null);
+  const [type, setType] = useState(typeFilter);
   const [tag, setTag] = useState(null);
 
   const { uid } = auth.currentUser;
@@ -46,11 +46,7 @@ function FilterTransactions({ setFilter }) {
   };
 
   const handleFilter = () => {
-    setFilter({
-      type: type,
-      tag: tag,
-    });
-
+    setTypeFilter(type);
     setModalVisible(!isModalVisible);
   };
 

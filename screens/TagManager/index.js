@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react';
 import { View, SafeAreaView } from 'react-native';
 import * as firebase from 'firebase';
+import 'firebase/firestore';
 import { auth } from '../../components/Firebase/firebase';
 import { ActivityIndicator } from 'react-native';
-import snapshotToArray from '../../utils/snapshotToArray';
 import { Ionicons } from '@expo/vector-icons';
 import Colors from '../../utils/colors';
 import CreateNewTag from '../CreateNewTag';
@@ -28,13 +28,24 @@ export default function TagManager({ navigation }) {
   const { uid } = auth.currentUser;
 
   useEffect(() => {
-    const data = firebase.database().ref('users/' + uid + '/tags/');
+    firebase
+      .firestore()
+      .collection('tags')
+      .where('userReference', '==', uid)
+      .onSnapshot(querySnapshot => {
+        let returnArr = [];
 
-    data.orderByChild('value').on('value', snapshot => {
-      setTags(snapshotToArray(snapshot));
-      setData(snapshotToArray(snapshot));
-      setLoading(false);
-    });
+        querySnapshot.forEach(doc => {
+          let item = doc.data();
+          item.key = doc.id;
+
+          returnArr.push(item);
+        });
+
+        setTags(returnArr);
+        setData(returnArr);
+        setLoading(false);
+      });
   }, [uid]);
 
   useLayoutEffect(() => {
@@ -59,9 +70,9 @@ export default function TagManager({ navigation }) {
   };
 
   const removeTag = key => {
-    const tag = firebase.database().ref('users/' + uid + '/tags/' + key);
+    const tag = firebase.firestore().collection('tags').doc(key);
 
-    tag.remove();
+    tag.delete();
   };
 
   return (

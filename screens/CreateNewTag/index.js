@@ -3,6 +3,7 @@ import { Platform, ScrollView, TouchableOpacity } from 'react-native';
 import * as firebase from 'firebase';
 import { auth } from '../../components/Firebase/firebase';
 import * as Yup from 'yup';
+import 'firebase/firestore';
 import Form from '../../components/Forms/Form';
 import FormField from '../../components/Forms/FormField';
 import Modal from 'react-native-modal';
@@ -40,13 +41,16 @@ function ModalTester() {
   const handleTransactions = values => {
     const { uid } = auth.currentUser;
     const { description } = values;
-    const data = firebase.database().ref(`/users/${uid}/tags/`).push();
 
-    data
+    firebase
+      .firestore()
+      .collection('tags')
+      .doc()
       .set({
         name: description.trim().toLowerCase(),
-        value: description.trim().toLowerCase(),
         icon: description.trim().toLowerCase(),
+        color: description.trim().toLowerCase(),
+        userReference: uid,
       })
       .then(() => {
         setModalVisible(!isModalVisible);
