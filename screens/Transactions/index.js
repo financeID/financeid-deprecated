@@ -41,6 +41,7 @@ export default function ConfigScreen() {
   const [transactions, setTransactions] = useState([]);
   const [date, setDate] = useState(dateTransformed);
   const [typeFilter, setTypeFilter] = useState(null);
+  const [tagFilter, setTagFilter] = useState(null);
 
   const dateTransformedToMonth = format(
     new Date(date + '-02'),
@@ -77,6 +78,10 @@ export default function ConfigScreen() {
         break;
     }
 
+    if (tagFilter !== null) {
+      query = query.where('tag', '==', tagFilter);
+    }
+
     query.onSnapshot(querySnapshot => {
       let returnArr = [];
 
@@ -90,7 +95,7 @@ export default function ConfigScreen() {
       setTransactions(returnArr);
       setLoading(false);
     });
-  }, [uid, date, rangeDate, typeFilter]);
+  }, [uid, date, rangeDate, typeFilter, tagFilter]);
 
   return (
     <>
@@ -124,6 +129,8 @@ export default function ConfigScreen() {
               <FilterTransactions
                 typeFilter={typeFilter}
                 setTypeFilter={setTypeFilter}
+                tagFilter={tagFilter}
+                setTagFilter={setTagFilter}
               />
               <MonthPicker date={date} setDate={setDate} />
             </View>

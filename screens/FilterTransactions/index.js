@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Platform, ScrollView, TouchableOpacity, View } from 'react-native';
 import * as firebase from 'firebase';
+import 'firebase/firestore';
 import { auth } from '../../components/Firebase/firebase';
-import snapshotToArray from '../../utils/snapshotToArray';
 import Form from '../../components/Forms/Form';
 import Modal from 'react-native-modal';
 import { KeyboardAccessoryView } from '@flyerhq/react-native-keyboard-accessory-view';
@@ -25,20 +25,36 @@ import {
   SaveFilterText,
 } from './styles';
 
-function FilterTransactions({ typeFilter, setTypeFilter }) {
+function FilterTransactions({
+  typeFilter,
+  setTypeFilter,
+  tagFilter,
+  setTagFilter,
+}) {
   const [isModalVisible, setModalVisible] = useState(false);
   const [tags, setTags] = useState([]);
   const [type, setType] = useState(typeFilter);
-  const [tag, setTag] = useState(null);
+  const [tag, setTag] = useState(tagFilter);
 
   const { uid } = auth.currentUser;
 
   useEffect(() => {
-    const data = firebase.database().ref('users/' + uid + '/tags/');
+    firebase
+      .firestore()
+      .collection('tags')
+      .where('userReference', '==', uid)
+      .onSnapshot(querySnapshot => {
+        let returnArr = [];
 
-    data.orderByChild('value').on('value', snapshot => {
-      setTags(snapshotToArray(snapshot));
-    });
+        querySnapshot.forEach(doc => {
+          let item = doc.data();
+          item.key = doc.id;
+
+          returnArr.push(item);
+        });
+
+        setTags(returnArr);
+      });
   }, [uid]);
 
   const toggleModal = () => {
@@ -47,6 +63,7 @@ function FilterTransactions({ typeFilter, setTypeFilter }) {
 
   const handleFilter = () => {
     setTypeFilter(type);
+    setTagFilter(tag);
     setModalVisible(!isModalVisible);
   };
 
