@@ -9,7 +9,7 @@ import usedMonthsToArray from '../../utils/usedMonthsToArray';
 import Colors from '../../utils/colors';
 import { Picker, iconContainer, placeholder } from './styles';
 
-export default function MonthPicker({ date, setDate }) {
+function MonthPicker({ date, setDate }) {
   const { uid } = auth.currentUser;
 
   const [usedMonths, setUsedMonths] = useState([]);
@@ -59,3 +59,5 @@ const pickerSelectStyles = StyleSheet.create({
     height: 50,
   },
 });
+
+export default MonthPicker;

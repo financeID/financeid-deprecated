@@ -114,7 +114,9 @@ export default function ConfigScreen() {
             >
               {dateTransformed !== date && (
                 <TouchableOpacity
-                  onPress={() => setDate(dateTransformed)}
+                  onPress={() => {
+                    setDate(dateTransformed);
+                  }}
                   style={{
                     alignItems: 'center',
                     justifyContent: 'center',

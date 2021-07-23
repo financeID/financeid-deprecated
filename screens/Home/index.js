@@ -119,10 +119,10 @@ export default function HomeScreen({ navigation }) {
 
   const tagGroup = [];
 
-  transactions.reduce((accumulator, { type, tag, price }) => {
+  transactions.reduce((accumulator, { key, type, tag, price }) => {
     if (type === 'outcome') {
       if (!accumulator[tag]) {
-        accumulator[tag] = { tag: tag, price: 0, type: type };
+        accumulator[tag] = { key: key, tag: tag, price: 0, type: type };
         tagGroup.push(accumulator[tag]);
       }
 
@@ -147,7 +147,6 @@ export default function HomeScreen({ navigation }) {
                 Controle de {'\n'}
                 {dateTransformedToMonth}
               </Header>
-
               <View
                 style={{
                   flexDirection: 'row',
@@ -236,42 +235,33 @@ export default function HomeScreen({ navigation }) {
                 onContentSizeChange={0}
                 showsHorizontalScrollIndicator={false}
               >
-                {tagGroup.map(({ tag, price }, i) => {
+                {tagGroup.map(({ key, tag, price }, i) => {
                   return (
-                    <View key={price}>
-                      <TouchableOpacity
-                        onPress={() => {
-                          navigation.navigate('Transações', {
-                            TagName: tag,
-                            RangeDate: date,
-                          });
-                        }}
+                    <View key={key}>
+                      <BoxTag
+                        style={
+                          i === tagGroup.length - 1 ? { marginRight: 23 } : {}
+                        }
                       >
-                        <BoxTag
-                          style={
-                            i === tagGroup.length - 1 ? { marginRight: 23 } : {}
-                          }
-                        >
-                          <BoxTagText numberOfLines={1}>{tag}</BoxTagText>
-                          <BoxTagPriceText numberOfLines={1}>
-                            {formatValue(price)}
-                          </BoxTagPriceText>
+                        <BoxTagText numberOfLines={1}>{tag}</BoxTagText>
+                        <BoxTagPriceText numberOfLines={1}>
+                          {formatValue(price)}
+                        </BoxTagPriceText>
 
-                          <StackedBarChart
-                            style={{ height: 4 }}
-                            keys={['outcomes', 'incomes']}
-                            colors={[Colors.outcome, '#dddddd']}
-                            data={[
-                              {
-                                incomes: balance.income,
-                                outcomes: price,
-                              },
-                            ]}
-                            showGrid={false}
-                            horizontal={true}
-                          />
-                        </BoxTag>
-                      </TouchableOpacity>
+                        <StackedBarChart
+                          style={{ height: 4 }}
+                          keys={['outcomes', 'incomes']}
+                          colors={[Colors.outcome, '#dddddd']}
+                          data={[
+                            {
+                              incomes: balance.income,
+                              outcomes: price,
+                            },
+                          ]}
+                          showGrid={false}
+                          horizontal={true}
+                        />
+                      </BoxTag>
                     </View>
                   );
                 })}
