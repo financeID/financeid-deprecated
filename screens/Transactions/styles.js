@@ -45,9 +45,13 @@ export const TransactionContainer = styled.View`
   border-bottom-width: 1px;
   border-bottom-color: #e6e6e6;
   padding: 12px 0 12px 0;
-  flex-direction: row;
+`;
+
+export const ViewTransactionButton = styled.TouchableOpacity`
   justify-content: space-between;
   align-items: center;
+  flex-direction: row;
+  flex: 1;
 `;
 
 export const TransactionInfo = styled.View`

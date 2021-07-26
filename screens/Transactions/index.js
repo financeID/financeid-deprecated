@@ -28,9 +28,10 @@ import {
   InfoView,
   TransactionPrice,
   RightContent,
+  ViewTransactionButton,
 } from './styles';
 
-export default function ConfigScreen() {
+export default function ConfigScreen({ navigation }) {
   const dateTransformed = format(new Date(), 'yyyy-MM', {
     locale: pt,
   }).toString();
@@ -148,27 +149,36 @@ export default function ConfigScreen() {
               ({ key, description, tag, date, type, price }) => {
                 return (
                   <TransactionContainer key={key}>
-                    <TransactionInfo>
-                      <TransactionText>{description}</TransactionText>
-                      <InfoView>
-                        <TransactionDate>
-                          {formatedDate(addDays(new Date(date), 1))}
-                          {' - '}
-                        </TransactionDate>
-                        <TransactionTag>{tag}</TransactionTag>
-                      </InfoView>
-                    </TransactionInfo>
-                    <RightContent>
-                      <TransactionPrice type={type}>
-                        {type === 'outcome' && ' - '}
-                        {formatedValue(Number(price))}
-                      </TransactionPrice>
-                      <Ionicons
-                        name="chevron-forward"
-                        size={24}
-                        color="#dedede"
-                      />
-                    </RightContent>
+                    <ViewTransactionButton
+                      onPress={() =>
+                        navigation.navigate('ViewTransaction', {
+                          key: key,
+                          description: description,
+                        })
+                      }
+                    >
+                      <TransactionInfo>
+                        <TransactionText>{description}</TransactionText>
+                        <InfoView>
+                          <TransactionDate>
+                            {formatedDate(addDays(new Date(date), 1))}
+                            {' - '}
+                          </TransactionDate>
+                          <TransactionTag>{tag}</TransactionTag>
+                        </InfoView>
+                      </TransactionInfo>
+                      <RightContent>
+                        <TransactionPrice type={type}>
+                          {type === 'outcome' && ' - '}
+                          {formatedValue(Number(price))}
+                        </TransactionPrice>
+                        <Ionicons
+                          name="chevron-forward"
+                          size={24}
+                          color="#dedede"
+                        />
+                      </RightContent>
+                    </ViewTransactionButton>
                   </TransactionContainer>
                 );
               },
