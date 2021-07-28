@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react';
 import * as firebase from 'firebase';
-import 'firebase/firestore';
+import { showMessage } from 'react-native-flash-message';
 import { ScrollView, View, Text, Alert } from 'react-native';
-import 'firebase/firestore';
 import { auth } from '../../components/Firebase/firebase';
 import { Feather } from '@expo/vector-icons';
 import Colors from '../../utils/colors';
@@ -57,7 +56,7 @@ export default function ViewTransaction({ navigation, route }) {
     const createTwoButtonAlert = () => {
       Alert.alert(
         'Tem certeza?',
-        '',
+        'Se sim, clique em excluir',
         [
           {
             text: 'Cancelar',
@@ -68,7 +67,16 @@ export default function ViewTransaction({ navigation, route }) {
             text: 'Excluir',
             onPress: () => {
               deleteTransaction(route.params.key);
+
               navigation.goBack();
+
+              showMessage({
+                animationDuration: 400,
+                message: 'Transação deletada',
+                backgroundColor: Colors.income,
+                autoHide: true,
+                position: 'bottom',
+              });
             },
           },
         ],

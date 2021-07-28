@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View, TouchableOpacity, ActivityIndicator, Text } from 'react-native';
+import { View, TouchableOpacity, ActivityIndicator } from 'react-native';
 import * as firebase from 'firebase';
 import 'firebase/firestore';
+import FlashMessage from 'react-native-flash-message';
 import { format, startOfMonth, endOfMonth, addDays } from 'date-fns';
 import pt from 'date-fns/locale/pt-BR';
 import { auth } from '../../components/Firebase/firebase';
@@ -186,6 +187,8 @@ export default function ConfigScreen({ navigation }) {
             )}
           </TransactionScrollView>
         )}
+
+        <FlashMessage position="bottom" />
       </SafeArea>
     </>
   );

@@ -82,5 +82,5 @@ export const TransactionPrice = styled.Text`
 export const RightContentButton = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
-  padding-right: 3px;
+  padding: 5px;
 `;

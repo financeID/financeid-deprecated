@@ -15,7 +15,6 @@ import MyStatusBar from '../../hooks/statusBar';
 import formatValue from '../../utils/formatValue';
 import { dateISO8601 } from '../../utils/formatedDate';
 import { StackedBarChart } from 'react-native-svg-charts';
-import FlashMessage from 'react-native-flash-message';
 import Colors from '../../utils/colors';
 import ProgressIncome from '../../components/ProgressIncome';
 import ProgressOutcome from '../../components/ProgressOutcome';
@@ -282,7 +281,6 @@ export default function HomeScreen({ navigation }) {
       )}
 
       <FixedButton navigation={navigation} />
-      <FlashMessage position="top" />
     </>
   );
 }
