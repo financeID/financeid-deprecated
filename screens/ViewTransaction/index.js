@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react';
 import * as firebase from 'firebase';
 import 'firebase/firestore';
-import { ScrollView, View, Text } from 'react-native';
+import { ScrollView, View, Text, Alert } from 'react-native';
 import 'firebase/firestore';
 import { auth } from '../../components/Firebase/firebase';
-
+import { Feather } from '@expo/vector-icons';
+import Colors from '../../utils/colors';
 import { Container } from './styles';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default function ViewTransaction({ navigation, route }) {
   const { uid } = auth.currentUser;
@@ -34,7 +36,45 @@ export default function ViewTransaction({ navigation, route }) {
   useLayoutEffect(() => {
     navigation.setOptions({
       title: route.params.description,
+      headerRight: () => (
+        <TouchableOpacity
+          onPress={() => createTwoButtonAlert()}
+          style={{ padding: 10 }}
+        >
+          <Feather name="trash" size={22} color={Colors.primary} />
+        </TouchableOpacity>
+      ),
     });
+
+    const deleteTransaction = () => {
+      firebase
+        .firestore()
+        .collection('transactions')
+        .doc(route.params.key)
+        .delete();
+    };
+
+    const createTwoButtonAlert = () => {
+      Alert.alert(
+        'Tem certeza?',
+        '',
+        [
+          {
+            text: 'Cancelar',
+            onPress: () => {},
+            style: 'cancel',
+          },
+          {
+            text: 'Excluir',
+            onPress: () => {
+              deleteTransaction(route.params.key);
+              navigation.goBack();
+            },
+          },
+        ],
+        { cancelable: false },
+      );
+    };
   }, [navigation, route]);
 
   return (

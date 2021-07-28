@@ -45,17 +45,13 @@ export const TransactionContainer = styled.View`
   border-bottom-width: 1px;
   border-bottom-color: #e6e6e6;
   padding: 12px 0 12px 0;
-`;
-
-export const ViewTransactionButton = styled.TouchableOpacity`
-  justify-content: space-between;
-  align-items: center;
   flex-direction: row;
-  flex: 1;
+  justify-content: space-between;
 `;
 
 export const TransactionInfo = styled.View`
   flex-direction: column;
+  padding: 1px;
 `;
 
 export const TransactionText = styled.Text`
@@ -83,7 +79,7 @@ export const TransactionPrice = styled.Text`
   padding-right: 10px;
 `;
 
-export const RightContent = styled.View`
+export const RightContentButton = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
   padding-right: 3px;

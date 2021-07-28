@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, TouchableOpacity, ActivityIndicator, Text } from 'react-native';
 import * as firebase from 'firebase';
 import 'firebase/firestore';
 import { format, startOfMonth, endOfMonth, addDays } from 'date-fns';
@@ -27,8 +27,7 @@ import {
   TransactionTag,
   InfoView,
   TransactionPrice,
-  RightContent,
-  ViewTransactionButton,
+  RightContentButton,
 } from './styles';
 
 export default function ConfigScreen({ navigation }) {
@@ -38,7 +37,7 @@ export default function ConfigScreen({ navigation }) {
 
   const { uid } = auth.currentUser;
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [transactions, setTransactions] = useState([]);
   const [date, setDate] = useState(dateTransformed);
   const [typeFilter, setTypeFilter] = useState(null);
@@ -55,8 +54,6 @@ export default function ConfigScreen({ navigation }) {
   const rangeDate = date + '-02';
 
   useEffect(() => {
-    setLoading(true);
-
     const startDate = dateISO8601(startOfMonth(new Date(rangeDate)));
     const endDate = dateISO8601(endOfMonth(new Date(rangeDate)));
 
@@ -65,8 +62,7 @@ export default function ConfigScreen({ navigation }) {
       .collection('transactions')
       .where('userReference', '==', uid)
       .where('date', '<=', endDate)
-      .where('date', '>=', startDate)
-      .orderBy('date', 'desc');
+      .where('date', '>=', startDate);
 
     switch (typeFilter) {
       case 'income':
@@ -108,6 +104,7 @@ export default function ConfigScreen({ navigation }) {
               Transações de {'\n'}
               {dateTransformedToMonth}
             </Header>
+
             <View
               style={{
                 flexDirection: 'row',
@@ -139,6 +136,7 @@ export default function ConfigScreen({ navigation }) {
             </View>
           </HeaderContainer>
         </Container>
+
         {loading ? (
           <LoadingContainer>
             <ActivityIndicator size="large" color={Colors.secondary} />
@@ -149,36 +147,39 @@ export default function ConfigScreen({ navigation }) {
               ({ key, description, tag, date, type, price }) => {
                 return (
                   <TransactionContainer key={key}>
-                    <ViewTransactionButton
-                      onPress={() =>
-                        navigation.navigate('ViewTransaction', {
-                          key: key,
-                          description: description,
-                        })
-                      }
+                    <TransactionInfo>
+                      <TransactionText>{description}</TransactionText>
+                      <InfoView>
+                        <TransactionDate>
+                          {formatedDate(addDays(new Date(date), 1))}
+                          {' - '}
+                        </TransactionDate>
+                        <TransactionTag>{tag}</TransactionTag>
+                      </InfoView>
+                    </TransactionInfo>
+
+                    <View
+                      style={{ flexDirection: 'row', alignItems: 'center' }}
                     >
-                      <TransactionInfo>
-                        <TransactionText>{description}</TransactionText>
-                        <InfoView>
-                          <TransactionDate>
-                            {formatedDate(addDays(new Date(date), 1))}
-                            {' - '}
-                          </TransactionDate>
-                          <TransactionTag>{tag}</TransactionTag>
-                        </InfoView>
-                      </TransactionInfo>
-                      <RightContent>
-                        <TransactionPrice type={type}>
-                          {type === 'outcome' && ' - '}
-                          {formatedValue(Number(price))}
-                        </TransactionPrice>
+                      <TransactionPrice type={type}>
+                        {type === 'outcome' && ' - '}
+                        {formatedValue(Number(price))}
+                      </TransactionPrice>
+                      <RightContentButton
+                        onPress={() =>
+                          navigation.navigate('ViewTransaction', {
+                            key: key,
+                            description: description,
+                          })
+                        }
+                      >
                         <Ionicons
                           name="chevron-forward"
                           size={24}
                           color="#dedede"
                         />
-                      </RightContent>
-                    </ViewTransactionButton>
+                      </RightContentButton>
+                    </View>
                   </TransactionContainer>
                 );
               },
