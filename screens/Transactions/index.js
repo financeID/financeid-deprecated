@@ -12,6 +12,7 @@ import MyStatusBar from '../../hooks/statusBar';
 import { Ionicons } from '@expo/vector-icons';
 import MonthPicker from '../../components/MonthPicker';
 import FilterTransactions from '../FilterTransactions';
+import ViewTransaction from '../ViewTransaction';
 import Colors from '../../utils/colors';
 
 import {
@@ -174,11 +175,7 @@ export default function ConfigScreen({ navigation }) {
                           })
                         }
                       >
-                        <Ionicons
-                          name="chevron-forward"
-                          size={24}
-                          color="#dedede"
-                        />
+                        <ViewTransaction />
                       </RightContentButton>
                     </View>
                   </TransactionContainer>

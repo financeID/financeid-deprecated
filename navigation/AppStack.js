@@ -6,7 +6,7 @@ import TransactionScreen from '../screens/Transactions';
 import ProfileScreen from '../screens/ProfileScreen';
 import AddTransactions from '../screens/AddTransactions';
 import TagManager from '../screens/TagManager';
-import ViewTransaction from '../screens/ViewTransaction';
+//import ViewTransaction from '../screens/ViewTransaction';
 
 const HomeStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -93,11 +93,11 @@ export default function AppStack() {
         name="TagManager"
         component={TagManager}
       />
-      <HomeStack.Screen
+      {/*<HomeStack.Screen
         options={{ title: 'ViewTransaction', headerBackTitle: 'Voltar' }}
         name="ViewTransaction"
         component={ViewTransaction}
-      />
+      />*/}
     </HomeStack.Navigator>
   );
 }

@@ -101,8 +101,8 @@ export default function TagManager({ navigation }) {
           ) : (
             <Scroll vertical keyboardShouldPersistTaps="always">
               {tags.map(tag => (
-                <>
-                  <ListContainer key={tag.key} onPress={() => buttonLink(tag)}>
+                <View key={tag.key}>
+                  <ListContainer onPress={() => buttonLink(tag)}>
                     <ListTitleContainer>
                       <ListTitle>{tag.name}</ListTitle>
                     </ListTitleContainer>
@@ -116,7 +116,7 @@ export default function TagManager({ navigation }) {
                     </RemoveTag>
                   </ListContainer>
                   <BorderBottom />
-                </>
+                </View>
               ))}
             </Scroll>
           )}
