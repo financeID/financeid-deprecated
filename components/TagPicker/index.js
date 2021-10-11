@@ -1,21 +1,31 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useFormikContext } from 'formik';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import FormErrorMessage from '../../components/Forms/FormErrorMessage';
 import { ButtonContainer, Input, Icon, PlaceHolder, Line } from './styles';
 
-export default function TagPicker({ navigation, name, tag, placeholder }) {
+export default function TagPicker({
+  navigation,
+  name,
+  tag,
+  placeholder,
+  goTo,
+}) {
+  const [currentTag, setCurrentTag] = useState();
   const { setFieldValue, errors, touched } = useFormikContext();
 
   useEffect(() => {
-    const setTag = tag ? tag : null;
+    setCurrentTag(tag);
+    const setTag = currentTag ? currentTag : null;
 
     setFieldValue(name, setTag);
-  }, [setFieldValue, name, tag]);
+  }, [setFieldValue, name, tag, currentTag]);
 
   return (
     <React.Fragment>
-      <ButtonContainer onPress={() => navigation.navigate('TagManager')}>
+      <ButtonContainer
+        onPress={() => navigation.navigate('TagManager', { goto: goTo })}
+      >
         <Input>{tag ? tag : <PlaceHolder>{placeholder}</PlaceHolder>}</Input>
 
         <Icon>

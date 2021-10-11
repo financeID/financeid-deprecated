@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, TouchableOpacity, ActivityIndicator } from 'react-native';
 import * as firebase from 'firebase';
 import 'firebase/firestore';
-import FlashMessage from 'react-native-flash-message';
-import { format, startOfMonth, endOfMonth, addDays } from 'date-fns';
+import { format, startOfMonth, endOfMonth } from 'date-fns';
 import pt from 'date-fns/locale/pt-BR';
 import { auth } from '../../components/Firebase/firebase';
 import formatedValue from '../../utils/formatValue';
@@ -12,7 +11,6 @@ import MyStatusBar from '../../hooks/statusBar';
 import { Ionicons } from '@expo/vector-icons';
 import MonthPicker from '../../components/MonthPicker';
 import FilterTransactions from '../FilterTransactions';
-import ViewTransaction from '../ViewTransaction';
 import Colors from '../../utils/colors';
 
 import {
@@ -153,7 +151,7 @@ export default function ConfigScreen({ navigation }) {
                       <TransactionText>{description}</TransactionText>
                       <InfoView>
                         <TransactionDate>
-                          {formatedDate(addDays(new Date(date), 1))}
+                          {formatedDate(new Date(date))}
                           {' - '}
                         </TransactionDate>
                         <TransactionTag>{tag}</TransactionTag>
@@ -175,7 +173,11 @@ export default function ConfigScreen({ navigation }) {
                           })
                         }
                       >
-                        <ViewTransaction />
+                        <Ionicons
+                          name="chevron-forward"
+                          size={24}
+                          color="#dedede"
+                        />
                       </RightContentButton>
                     </View>
                   </TransactionContainer>
@@ -184,8 +186,6 @@ export default function ConfigScreen({ navigation }) {
             )}
           </TransactionScrollView>
         )}
-
-        <FlashMessage position="bottom" />
       </SafeArea>
     </>
   );

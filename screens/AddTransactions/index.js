@@ -29,7 +29,7 @@ const validationSchema = Yup.object().shape({
     .label('Value'),
   date: Yup.string()
     .min(10, 'Insira uma data')
-    .required('A data é1 obrigatória')
+    .required('A data é obrigatória')
     .label('Date'),
   tag: Yup.string()
     .required('Selecione uma tag')
@@ -147,6 +147,7 @@ export default function AddTransactions({ navigation, route }) {
             tag={Tag}
             name="tag"
             navigation={navigation}
+            goTo="AddIncome"
           />
           <Calendar name="date" />
         </ScrollView>

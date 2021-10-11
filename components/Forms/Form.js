@@ -9,6 +9,7 @@ export default function Form({
 }) {
   return (
     <Formik
+      enableReinitialize={true}
       initialValues={initialValues}
       validationSchema={validationSchema}
       validateOnChange={false}

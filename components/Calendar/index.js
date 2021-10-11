@@ -1,22 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { useFormikContext } from 'formik';
+import { subDays } from 'date-fns';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import FormErrorMessage from '../../components/Forms/FormErrorMessage';
 import TextInput from '../../components/AppTextInput';
 import { formatedDate as Format } from '../../utils/formatedDate';
 
-export default function DatePickerModal({ name }) {
+export default function DatePickerModal({ name, getDate }) {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [date, setDate] = useState('');
+  const [currentDate, setCurrentDate] = useState();
 
   const { setFieldValue, errors, touched } = useFormikContext();
 
   useEffect(() => {
-    const formatedDate = Format();
+    setCurrentDate(getDate);
+    const formatedDate = Format(currentDate);
 
     setFieldValue(name, formatedDate);
     setDate(formatedDate);
-  }, [name, setFieldValue]);
+  }, [currentDate, getDate, name, setFieldValue]);
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -27,7 +30,7 @@ export default function DatePickerModal({ name }) {
   };
 
   const handleConfirm = date => {
-    const formatedDate = Format(date);
+    const formatedDate = Format(subDays(new Date(date), 1));
 
     setFieldValue(name, formatedDate);
     setDate(formatedDate);

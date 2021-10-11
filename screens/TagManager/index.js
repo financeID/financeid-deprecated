@@ -19,11 +19,13 @@ import {
   BorderBottom,
 } from './styles';
 
-export default function TagManager({ navigation }) {
+export default function TagManager({ navigation, route }) {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [tags, setTags] = useState([]);
   const [data, setData] = useState([]);
+
+  const goto = route.params.goto;
 
   const { uid } = auth.currentUser;
 
@@ -66,7 +68,7 @@ export default function TagManager({ navigation }) {
   };
 
   const buttonLink = l => {
-    navigation.navigate('AddIncome', { Tag: l.name });
+    navigation.navigate(goto, { Tag: l.name });
   };
 
   const removeTag = key => {
