@@ -24,7 +24,7 @@ const usedMonthsToArray = function (snapshot) {
   const minDateNaN =
     isNaN(todayMinDate) !== isNaN() ? todayMinDate : new Date();
 
-  const todayMaxDate = maxDate < new Date() ? new Date() : maxDate;
+  const todayMaxDate = maxDate < new Date() ? new Date() : addDays(maxDate, 1);
   const maxDateNaN =
     isNaN(todayMaxDate) !== isNaN() ? todayMaxDate : new Date();
 
