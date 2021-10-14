@@ -4,6 +4,8 @@ import * as firebase from 'firebase';
 import { auth } from '../../components/Firebase/firebase';
 import * as Yup from 'yup';
 import 'firebase/firestore';
+import { showMessage } from 'react-native-flash-message';
+import showToast from '../../utils/toastAndroid';
 import Form from '../../components/Forms/Form';
 import FormField from '../../components/Forms/FormField';
 import Modal from 'react-native-modal';
@@ -32,6 +34,7 @@ const validationSchema = Yup.object().shape({
 });
 
 function ModalTester() {
+  const [buttonLoading, setButtonLoading] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
 
   const toggleModal = () => {
@@ -39,6 +42,8 @@ function ModalTester() {
   };
 
   const handleTransactions = values => {
+    setButtonLoading(true);
+
     const { uid } = auth.currentUser;
     const { description } = values;
 
@@ -52,8 +57,26 @@ function ModalTester() {
         color: description.trim().toLowerCase(),
         userReference: uid,
       })
+
       .then(() => {
         setModalVisible(!isModalVisible);
+
+        setButtonLoading(false);
+
+        Platform.OS === 'ios'
+          ? showMessage({
+              animationDuration: 500,
+              message: 'Tag adicionada',
+              backgroundColor: Colors.income,
+              autoHide: true,
+              position: 'bottom',
+            })
+          : showToast({
+              message: 'Tag adicionada',
+            });
+      })
+      .catch(error => {
+        console.log('Error getting documents: ', error);
       });
   };
 
@@ -72,7 +95,7 @@ function ModalTester() {
         <MaterialCommunityIcons
           name="plus"
           size={Platform.OS === 'ios' ? 26 : 27}
-          color={Colors.mediumGrey}
+          color={Colors.primary}
         />
       </AddTag>
 
@@ -121,7 +144,10 @@ function ModalTester() {
               }}
             >
               <ViewButton>
-                <FormButtonTransactions title={'Salvar'} />
+                <FormButtonTransactions
+                  disabled={buttonLoading}
+                  title={buttonLoading ? 'Salvando...' : 'Salvar'}
+                />
               </ViewButton>
             </KeyboardAccessoryView>
           </ContainerKeyboard>

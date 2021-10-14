@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react';
-import { View, SafeAreaView } from 'react-native';
+import { Platform, View, SafeAreaView } from 'react-native';
 import * as firebase from 'firebase';
 import 'firebase/firestore';
+import { showMessage } from 'react-native-flash-message';
+import showToast from '../../utils/toastAndroid';
 import { auth } from '../../components/Firebase/firebase';
 import { ActivityIndicator } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
@@ -34,6 +36,7 @@ export default function TagManager({ navigation, route }) {
       .firestore()
       .collection('tags')
       .where('userReference', '==', uid)
+      .orderBy('name')
       .onSnapshot(
         querySnapshot => {
           let returnArr = [];
@@ -80,6 +83,18 @@ export default function TagManager({ navigation, route }) {
     const tag = firebase.firestore().collection('tags').doc(key);
 
     tag.delete();
+
+    Platform.OS === 'ios'
+      ? showMessage({
+          animationDuration: 500,
+          message: 'Tag removida',
+          backgroundColor: Colors.income,
+          autoHide: true,
+          position: 'bottom',
+        })
+      : showToast({
+          message: 'Tag removida',
+        });
   };
 
   return (
@@ -93,7 +108,6 @@ export default function TagManager({ navigation, route }) {
           <View>
             <SearchBar
               placeholder="Procurar"
-              autoFocus={true}
               onChangeText={text => searchFilterFunction(text)}
               value={search}
             />

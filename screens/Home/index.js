@@ -71,21 +71,27 @@ export default function HomeScreen({ navigation }) {
     const startDate = dateISO8601(startOfMonth(new Date(rangeDate)));
     const endDate = dateISO8601(endOfMonth(new Date(rangeDate)));
 
-    firebase
+    const unsubscribe = firebase
       .firestore()
       .collection('transactions')
       .where('userReference', '==', uid)
       .where('date', '>=', startDate)
       .where('date', '<=', endDate)
       .onSnapshot(querySnapshot => {
-        const data = querySnapshot.docs.map(doc => ({
-          key: doc.id,
-          ...doc.data(),
-        }));
+        let returnArr = [];
 
-        setTransactions(data);
+        querySnapshot.forEach(doc => {
+          let item = doc.data();
+          item.key = doc.id;
+
+          returnArr.push(item);
+        });
+
+        setTransactions(returnArr);
         setLoading(false);
       });
+
+    return () => unsubscribe();
   }, [uid, date, rangeDate]);
 
   const balance = transactions.reduce(

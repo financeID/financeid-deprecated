@@ -10,7 +10,7 @@ import { dateISO8601, formatedDate } from '../../utils/formatedDate';
 import MyStatusBar from '../../hooks/statusBar';
 import { Ionicons } from '@expo/vector-icons';
 import MonthPicker from '../../components/MonthPicker';
-import FilterTransactions from '../FilterTransactions';
+//import FilterTransactions from '../FilterTransactions';
 import Colors from '../../utils/colors';
 
 import {
@@ -40,8 +40,8 @@ export default function ConfigScreen({ navigation }) {
   const [loading, setLoading] = useState(false);
   const [transactions, setTransactions] = useState([]);
   const [date, setDate] = useState(dateTransformed);
-  const [typeFilter, setTypeFilter] = useState(null);
-  const [tagFilter, setTagFilter] = useState(null);
+  //const [typeFilter, setTypeFilter] = useState(null);
+  //const [tagFilter, setTagFilter] = useState(null);
 
   const dateTransformedToMonth = format(
     new Date(date + '-02'),
@@ -59,38 +59,46 @@ export default function ConfigScreen({ navigation }) {
   useEffect(() => {
     setLoading(true);
 
-    let query = firebase
+    let unsubscribe = firebase
       .firestore()
       .collection('transactions')
       .where('userReference', '==', uid)
       .where('date', '>=', startDate)
-      .where('date', '<=', endDate);
+      .where('date', '<=', endDate)
 
-    switch (typeFilter) {
+      /*switch (typeFilter) {
       case 'income':
-        query = query.where('type', '==', 'income');
+        unsubscribe = unsubscribe.where('type', '==', 'income');
         break;
       case 'outcome':
-        query = query.where('type', '==', 'outcome');
+        unsubscribe = unsubscribe.where('type', '==', 'outcome');
         break;
       default:
         break;
     }
 
     if (tagFilter) {
-      query = query.where('tag', '==', tagFilter);
+      unsubscribe = unsubscribe.where('tag', '==', tagFilter);
     }
 
-    query.onSnapshot(querySnapshot => {
-      const data = querySnapshot.docs.map(doc => ({
-        key: doc.id,
-        ...doc.data(),
-      }));
+    unsubscribe*/ .onSnapshot(
+        querySnapshot => {
+          let returnArr = [];
 
-      setTransactions(data);
-      setLoading(false);
-    });
-  }, [uid, date, rangeDate, typeFilter, tagFilter, startDate, endDate]);
+          querySnapshot.forEach(doc => {
+            let item = doc.data();
+            item.key = doc.id;
+
+            returnArr.push(item);
+          });
+
+          setTransactions(returnArr);
+          setLoading(false);
+        },
+      );
+
+    return () => unsubscribe();
+  }, [uid, date, rangeDate, startDate, endDate]);
 
   return (
     <>
@@ -124,12 +132,12 @@ export default function ConfigScreen({ navigation }) {
                   <Ionicons name="refresh" size={24} color="#353535" />
                 </TouchableOpacity>
               )}
-              <FilterTransactions
+              {/*<FilterTransactions
                 typeFilter={typeFilter}
                 setTypeFilter={setTypeFilter}
                 tagFilter={tagFilter}
                 setTagFilter={setTagFilter}
-              />
+              />*/}
               <MonthPicker date={date} setDate={setDate} />
             </View>
           </HeaderContainer>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Platform, ScrollView } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
+import showToast from '../../utils/toastAndroid';
 import { KeyboardAccessoryView } from '@flyerhq/react-native-keyboard-accessory-view';
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
 import * as Yup from 'yup';
@@ -43,6 +44,7 @@ export default function AddTransactions({ navigation, route }) {
   const { uid } = auth.currentUser;
   const { Type } = route.params;
 
+  const [buttonLoading, setButtonLoading] = useState(false);
   const [type, setType] = useState(Type);
 
   const { Tag } = route.params;
@@ -50,6 +52,7 @@ export default function AddTransactions({ navigation, route }) {
   const onType = type === 0 ? 'Adicionar entrada' : 'Adicionar saída';
 
   const handleTransactions = values => {
+    setButtonLoading(true);
     const { description, value, date, tag } = values;
 
     const dateTranformed = formatedDatePtBR(date);
@@ -72,18 +75,24 @@ export default function AddTransactions({ navigation, route }) {
       .then(() => {
         navigation.navigate('Home');
 
+        setButtonLoading(false);
+
         const typeMsg =
           type === 0
             ? 'Entrada adicionada com sucesso'
             : 'Despesa adicionada com sucesso';
 
-        showMessage({
-          animationDuration: 500,
-          message: typeMsg,
-          backgroundColor: Colors.income,
-          autoHide: true,
-          position: 'top',
-        });
+        Platform.OS === 'ios'
+          ? showMessage({
+              animationDuration: 500,
+              message: typeMsg,
+              backgroundColor: Colors.income,
+              autoHide: true,
+              position: 'top',
+            })
+          : showToast({
+              message: typeMsg,
+            });
       })
       .catch(error => {
         console.error('Error adding document: ', error);
@@ -164,7 +173,10 @@ export default function AddTransactions({ navigation, route }) {
           }}
         >
           <ViewButton>
-            <FormButtonTransactions title={onType} />
+            <FormButtonTransactions
+              title={buttonLoading ? 'Salvando...' : onType}
+              disabled={buttonLoading}
+            />
           </ViewButton>
         </KeyboardAccessoryView>
       </ContainerKeyboard>

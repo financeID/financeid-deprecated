@@ -2,11 +2,15 @@ import React from 'react';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { useFormikContext } from 'formik';
 
-export default function FormButtonTransactions({ title }) {
+export default function FormButtonTransactions({ title, disabled }) {
   const { handleSubmit } = useFormikContext();
 
   return (
-    <TouchableOpacity style={[styles.button]} onPress={handleSubmit}>
+    <TouchableOpacity
+      style={[styles.button]}
+      onPress={handleSubmit}
+      disabled={disabled}
+    >
       <Text style={styles.buttonText}>{title}</Text>
     </TouchableOpacity>
   );

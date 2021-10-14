@@ -28,7 +28,7 @@
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-40.0.0.tar.gz",
     "react-native-action-button": "^2.8.5",
-    "react-native-flash-message": "^0.1.23",
+    "react-native-flash-message": "0.1.24",
     "react-native-gesture-handler": "~1.8.0",
     "react-native-masked-text": "^1.13.0",
     "react-native-modal": "^11.10.0",

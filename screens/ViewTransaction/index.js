@@ -3,6 +3,7 @@ import * as firebase from 'firebase';
 import 'firebase/firestore';
 import * as Yup from 'yup';
 import { showMessage } from 'react-native-flash-message';
+import showToast from '../../utils/toastAndroid';
 import { KeyboardAccessoryView } from '@flyerhq/react-native-keyboard-accessory-view';
 import FormButtonTransactions from '../../components/Forms/FormButtonTransactions';
 import { ActivityIndicator, ScrollView, Alert, Platform } from 'react-native';
@@ -52,6 +53,7 @@ const renderScrollable = GestureResponderHandlers => (
 
 export default function ViewTransaction({ navigation, route }) {
   const [loading, setLoading] = useState(false);
+  const [buttonLoading, setButtonLoading] = useState(false);
   const { uid } = auth.currentUser;
   const [type, setType] = useState(0);
   const { Tag } = route.params;
@@ -77,6 +79,8 @@ export default function ViewTransaction({ navigation, route }) {
   }, [uid, route]);
 
   const handleTransactions = values => {
+    setButtonLoading(true);
+
     const { description, value, date, tag } = values;
 
     const dateTranformed = formatedDatePtBR(date);
@@ -99,13 +103,19 @@ export default function ViewTransaction({ navigation, route }) {
       .then(() => {
         navigation.navigate('Transações');
 
-        showMessage({
-          animationDuration: 500,
-          message: 'Editado com sucesso',
-          backgroundColor: Colors.income,
-          autoHide: true,
-          position: 'top',
-        });
+        setButtonLoading(false);
+
+        Platform.OS === 'ios'
+          ? showMessage({
+              animationDuration: 500,
+              message: 'Editado com sucesso',
+              backgroundColor: Colors.income,
+              autoHide: true,
+              position: 'top',
+            })
+          : showToast({
+              message: 'Editado com sucesso',
+            });
       })
       .catch(error => {
         console.log('Error getting documents: ', error);
@@ -120,7 +130,7 @@ export default function ViewTransaction({ navigation, route }) {
           onPress={() => createTwoButtonAlert()}
           style={{ padding: 10 }}
         >
-          <Feather name="trash" size={22} color={Colors.primary} />
+          <Feather name="trash" size={21} color={Colors.primary} />
         </TouchableOpacity>
       ),
     });
@@ -136,7 +146,7 @@ export default function ViewTransaction({ navigation, route }) {
     const createTwoButtonAlert = () => {
       Alert.alert(
         'Tem certeza?',
-        '',
+        'Se sim, clique em exluir',
         [
           {
             text: 'Cancelar',
@@ -193,7 +203,6 @@ export default function ViewTransaction({ navigation, route }) {
                 placeholder="Descrição"
                 name="description"
                 autoCapitalize="sentences"
-                autoFocus={true}
               />
               <FormField
                 placeholder="Valor"
@@ -229,7 +238,10 @@ export default function ViewTransaction({ navigation, route }) {
               }}
             >
               <ViewButton>
-                <FormButtonTransactions title={'Editar'} />
+                <FormButtonTransactions
+                  disabled={buttonLoading}
+                  title={buttonLoading ? 'Salvando...' : 'Editar'}
+                />
               </ViewButton>
             </KeyboardAccessoryView>
           </ContainerKeyboard>
