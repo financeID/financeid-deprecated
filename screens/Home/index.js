@@ -75,19 +75,15 @@ export default function HomeScreen({ navigation }) {
       .firestore()
       .collection('transactions')
       .where('userReference', '==', uid)
-      .where('date', '<=', endDate)
       .where('date', '>=', startDate)
+      .where('date', '<=', endDate)
       .onSnapshot(querySnapshot => {
-        let returnArr = [];
+        const data = querySnapshot.docs.map(doc => ({
+          key: doc.id,
+          ...doc.data(),
+        }));
 
-        querySnapshot.forEach(doc => {
-          let item = doc.data();
-          item.key = doc.id;
-
-          returnArr.push(item);
-        });
-
-        setTransactions(returnArr);
+        setTransactions(data);
         setLoading(false);
       });
   }, [uid, date, rangeDate]);

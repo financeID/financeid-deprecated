@@ -1,8 +1,8 @@
 export const sort = (snapshot, date, filter) => {
   var filterObj = {
     reverse: true,
-    fromDate: null,
-    toDate: null,
+    fromDate: '2021-10-01',
+    toDate: '2021-10-01',
     type: filter.type,
     tag: filter.tag,
   };

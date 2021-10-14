@@ -34,20 +34,25 @@ export default function TagManager({ navigation, route }) {
       .firestore()
       .collection('tags')
       .where('userReference', '==', uid)
-      .onSnapshot(querySnapshot => {
-        let returnArr = [];
+      .onSnapshot(
+        querySnapshot => {
+          let returnArr = [];
 
-        querySnapshot.forEach(doc => {
-          let item = doc.data();
-          item.key = doc.id;
+          querySnapshot.forEach(doc => {
+            let item = doc.data();
+            item.key = doc.id;
 
-          returnArr.push(item);
-        });
+            returnArr.push(item);
+          });
 
-        setTags(returnArr);
-        setData(returnArr);
-        setLoading(false);
-      });
+          setTags(returnArr);
+          setData(returnArr);
+          setLoading(false);
+        },
+        error => {
+          console.log('Error getting documents: ', error);
+        },
+      );
   }, [uid]);
 
   useLayoutEffect(() => {

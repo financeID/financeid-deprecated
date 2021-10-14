@@ -84,6 +84,9 @@ export default function AddTransactions({ navigation, route }) {
           autoHide: true,
           position: 'top',
         });
+      })
+      .catch(error => {
+        console.error('Error adding document: ', error);
       });
   };
 

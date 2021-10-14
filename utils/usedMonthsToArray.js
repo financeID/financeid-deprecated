@@ -20,11 +20,14 @@ const usedMonthsToArray = function (snapshot) {
   const minDate = min(filterObj);
   const maxDate = max(filterObj);
 
-  const todayMinDate = minDate > new Date() ? new Date() : addDays(minDate, 1);
+  const todayMinDate =
+    minDate > new Date()
+      ? new Date()
+      : format(addDays(minDate, 1), 'yyyy-MM-dd');
   const minDateNaN =
     isNaN(todayMinDate) !== isNaN() ? todayMinDate : new Date();
 
-  const todayMaxDate = maxDate < new Date() ? new Date() : addDays(maxDate, 1);
+  const todayMaxDate = maxDate < new Date() ? new Date() : maxDate;
   const maxDateNaN =
     isNaN(todayMaxDate) !== isNaN() ? todayMaxDate : new Date();
 

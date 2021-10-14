@@ -37,7 +37,7 @@ export default function ConfigScreen({ navigation }) {
 
   const { uid } = auth.currentUser;
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [transactions, setTransactions] = useState([]);
   const [date, setDate] = useState(dateTransformed);
   const [typeFilter, setTypeFilter] = useState(null);
@@ -53,16 +53,18 @@ export default function ConfigScreen({ navigation }) {
 
   const rangeDate = date + '-02';
 
+  const startDate = dateISO8601(startOfMonth(new Date(rangeDate)));
+  const endDate = dateISO8601(endOfMonth(new Date(rangeDate)));
+
   useEffect(() => {
-    const startDate = dateISO8601(startOfMonth(new Date(rangeDate)));
-    const endDate = dateISO8601(endOfMonth(new Date(rangeDate)));
+    setLoading(true);
 
     let query = firebase
       .firestore()
       .collection('transactions')
       .where('userReference', '==', uid)
-      .where('date', '<=', endDate)
-      .where('date', '>=', startDate);
+      .where('date', '>=', startDate)
+      .where('date', '<=', endDate);
 
     switch (typeFilter) {
       case 'income':
@@ -80,19 +82,15 @@ export default function ConfigScreen({ navigation }) {
     }
 
     query.onSnapshot(querySnapshot => {
-      let returnArr = [];
+      const data = querySnapshot.docs.map(doc => ({
+        key: doc.id,
+        ...doc.data(),
+      }));
 
-      querySnapshot.forEach(doc => {
-        let item = doc.data();
-        item.key = doc.id;
-
-        returnArr.push(item);
-      });
-
-      setTransactions(returnArr);
+      setTransactions(data);
       setLoading(false);
     });
-  }, [uid, date, rangeDate, typeFilter, tagFilter]);
+  }, [uid, date, rangeDate, typeFilter, tagFilter, startDate, endDate]);
 
   return (
     <>

@@ -44,16 +44,12 @@ function FilterTransactions({
       .collection('tags')
       .where('userReference', '==', uid)
       .onSnapshot(querySnapshot => {
-        let returnArr = [];
+        const data = querySnapshot.docs.map(doc => ({
+          key: doc.id,
+          ...doc.data(),
+        }));
 
-        querySnapshot.forEach(doc => {
-          let item = doc.data();
-          item.key = doc.id;
-
-          returnArr.push(item);
-        });
-
-        setTags(returnArr);
+        setTags(data);
       });
   }, [uid]);
 

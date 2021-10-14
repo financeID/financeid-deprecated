@@ -67,18 +67,13 @@ export default function ViewTransaction({ navigation, route }) {
       .where(firebase.firestore.FieldPath.documentId(), '==', route.params.key)
       .get()
       .then(querySnapshot => {
-        querySnapshot.forEach(doc => {
+        querySnapshot.docs.map(doc => {
           const changeType = doc.data().type === 'income' ? 0 : 1;
-
           setTransaction(doc.data());
           setType(changeType);
+          setLoading(false);
         });
-      })
-      .catch(error => {
-        console.log('Error getting documents: ', error);
       });
-
-    setLoading(false);
   }, [uid, route]);
 
   const handleTransactions = values => {
@@ -102,7 +97,7 @@ export default function ViewTransaction({ navigation, route }) {
         type: typeTransformed.trim(),
       })
       .then(() => {
-        navigation.goBack();
+        navigation.navigate('Transações');
 
         showMessage({
           animationDuration: 500,
@@ -111,6 +106,9 @@ export default function ViewTransaction({ navigation, route }) {
           autoHide: true,
           position: 'top',
         });
+      })
+      .catch(error => {
+        console.log('Error getting documents: ', error);
       });
   };
 
