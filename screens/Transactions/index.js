@@ -6,7 +6,7 @@ import { format, startOfMonth, endOfMonth } from 'date-fns';
 import pt from 'date-fns/locale/pt-BR';
 import { auth } from '../../components/Firebase/firebase';
 import formatedValue from '../../utils/formatValue';
-import { dateISO8601, formatedDate } from '../../utils/formatedDate';
+import { formatedDate } from '../../utils/formatedDate';
 import MyStatusBar from '../../hooks/statusBar';
 import { Ionicons } from '@expo/vector-icons';
 import MonthPicker from '../../components/MonthPicker';
@@ -28,12 +28,16 @@ import {
   InfoView,
   TransactionPrice,
   RightContentButton,
+  NoTransactions,
+  ArrowIcon,
+  NoTransactionsText,
 } from './styles';
 
+import UpArrowIcon from '../../assets/up-arrow.svg';
+import DownArrowIcon from '../../assets/down-arrow.svg';
+
 export default function ConfigScreen({ navigation }) {
-  const dateTransformed = format(new Date(), 'yyyy-MM', {
-    locale: pt,
-  }).toString();
+  const dateTransformed = format(new Date(), 'yyyy-MM').toString();
 
   const { uid } = auth.currentUser;
 
@@ -53,52 +57,35 @@ export default function ConfigScreen({ navigation }) {
 
   const rangeDate = date + '-02';
 
-  const startDate = dateISO8601(startOfMonth(new Date(rangeDate)));
-  const endDate = dateISO8601(endOfMonth(new Date(rangeDate)));
-
   useEffect(() => {
     setLoading(true);
 
-    let unsubscribe = firebase
+    const startDate = startOfMonth(new Date(rangeDate));
+    const endDate = endOfMonth(new Date(rangeDate));
+
+    const unsubscribe = firebase
       .firestore()
       .collection('transactions')
       .where('userReference', '==', uid)
       .where('date', '>=', startDate)
       .where('date', '<=', endDate)
+      .onSnapshot(querySnapshot => {
+        let returnArr = [];
 
-      /*switch (typeFilter) {
-      case 'income':
-        unsubscribe = unsubscribe.where('type', '==', 'income');
-        break;
-      case 'outcome':
-        unsubscribe = unsubscribe.where('type', '==', 'outcome');
-        break;
-      default:
-        break;
-    }
+        querySnapshot.forEach(doc => {
+          let item = doc.data();
+          item.key = doc.id;
 
-    if (tagFilter) {
-      unsubscribe = unsubscribe.where('tag', '==', tagFilter);
-    }
+          returnArr.push(item);
+        });
 
-    unsubscribe*/ .onSnapshot(
-        querySnapshot => {
-          let returnArr = [];
+        setTransactions(returnArr);
+      });
 
-          querySnapshot.forEach(doc => {
-            let item = doc.data();
-            item.key = doc.id;
-
-            returnArr.push(item);
-          });
-
-          setTransactions(returnArr);
-          setLoading(false);
-        },
-      );
+    setLoading(false);
 
     return () => unsubscribe();
-  }, [uid, date, rangeDate, startDate, endDate]);
+  }, [uid, date, rangeDate]);
 
   return (
     <>
@@ -148,49 +135,77 @@ export default function ConfigScreen({ navigation }) {
             <ActivityIndicator size="large" color={Colors.secondary} />
           </LoadingContainer>
         ) : (
-          <TransactionScrollView>
-            {transactions.map(
-              ({ key, description, tag, date, type, price }) => {
-                return (
-                  <TransactionContainer key={key}>
-                    <TransactionInfo>
-                      <TransactionText>{description}</TransactionText>
-                      <InfoView>
-                        <TransactionDate>
-                          {formatedDate(new Date(date))}
-                          {' - '}
-                        </TransactionDate>
-                        <TransactionTag>{tag}</TransactionTag>
-                      </InfoView>
-                    </TransactionInfo>
+          <View
+            style={{
+              flexDirection: 'row',
+              flex: 1,
+              backgroundColor: '#f8f8ff',
+            }}
+          >
+            {transactions.length ? (
+              <TransactionScrollView>
+                {transactions.map(
+                  ({ key, description, tag, date, type, price }) => {
+                    return (
+                      <TransactionContainer key={key}>
+                        <TransactionInfo>
+                          <TransactionText>{description}</TransactionText>
+                          <InfoView>
+                            <TransactionDate>
+                              {formatedDate(date.toDate())}
+                              {' - '}
+                            </TransactionDate>
+                            <TransactionTag>{tag}</TransactionTag>
+                          </InfoView>
+                        </TransactionInfo>
 
-                    <View
-                      style={{ flexDirection: 'row', alignItems: 'center' }}
-                    >
-                      <TransactionPrice type={type}>
-                        {type === 'outcome' && ' - '}
-                        {formatedValue(Number(price))}
-                      </TransactionPrice>
-                      <RightContentButton
-                        onPress={() =>
-                          navigation.navigate('ViewTransaction', {
-                            key: key,
-                            description: description,
-                          })
-                        }
-                      >
-                        <Ionicons
-                          name="chevron-forward"
-                          size={24}
-                          color="#dedede"
-                        />
-                      </RightContentButton>
-                    </View>
-                  </TransactionContainer>
-                );
-              },
+                        <View
+                          style={{ flexDirection: 'row', alignItems: 'center' }}
+                        >
+                          <TransactionPrice type={type}>
+                            {type === 'outcome' && ' - '}
+                            {formatedValue(Number(price))}
+                          </TransactionPrice>
+                          <RightContentButton
+                            onPress={() =>
+                              navigation.navigate('ViewTransaction', {
+                                key: key,
+                                description: description,
+                              })
+                            }
+                          >
+                            <Ionicons
+                              name="chevron-forward"
+                              size={24}
+                              color="#dedede"
+                            />
+                          </RightContentButton>
+                        </View>
+                      </TransactionContainer>
+                    );
+                  },
+                )}
+              </TransactionScrollView>
+            ) : (
+              <NoTransactions>
+                <ArrowIcon>
+                  <UpArrowIcon
+                    height={30}
+                    width={30}
+                    style={{ paddingLeft: 35 }}
+                  />
+                  <DownArrowIcon
+                    height={30}
+                    width={30}
+                    style={{ paddingLeft: 35 }}
+                  />
+                </ArrowIcon>
+                <NoTransactionsText>
+                  Não há transações {'\n'}nesse mês
+                </NoTransactionsText>
+              </NoTransactions>
             )}
-          </TransactionScrollView>
+          </View>
         )}
       </SafeArea>
     </>

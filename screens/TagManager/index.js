@@ -32,30 +32,27 @@ export default function TagManager({ navigation, route }) {
   const { uid } = auth.currentUser;
 
   useEffect(() => {
-    firebase
+    const unsubscribe = firebase
       .firestore()
       .collection('tags')
       .where('userReference', '==', uid)
       .orderBy('name')
-      .onSnapshot(
-        querySnapshot => {
-          let returnArr = [];
+      .onSnapshot(querySnapshot => {
+        let returnArr = [];
 
-          querySnapshot.forEach(doc => {
-            let item = doc.data();
-            item.key = doc.id;
+        querySnapshot.forEach(doc => {
+          let item = doc.data();
+          item.key = doc.id;
 
-            returnArr.push(item);
-          });
+          returnArr.push(item);
+        });
 
-          setTags(returnArr);
-          setData(returnArr);
-          setLoading(false);
-        },
-        error => {
-          console.log('Error getting documents: ', error);
-        },
-      );
+        setTags(returnArr);
+        setData(returnArr);
+        setLoading(false);
+      });
+
+    return () => unsubscribe();
   }, [uid]);
 
   useLayoutEffect(() => {

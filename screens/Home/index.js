@@ -13,7 +13,6 @@ import { auth } from '../../components/Firebase/firebase';
 import { Ionicons } from '@expo/vector-icons';
 import MyStatusBar from '../../hooks/statusBar';
 import formatValue from '../../utils/formatValue';
-import { dateISO8601 } from '../../utils/formatedDate';
 import { StackedBarChart } from 'react-native-svg-charts';
 import Colors from '../../utils/colors';
 import ProgressIncome from '../../components/ProgressIncome';
@@ -68,8 +67,8 @@ export default function HomeScreen({ navigation }) {
   useEffect(() => {
     setLoading(true);
 
-    const startDate = dateISO8601(startOfMonth(new Date(rangeDate)));
-    const endDate = dateISO8601(endOfMonth(new Date(rangeDate)));
+    const startDate = startOfMonth(new Date(rangeDate));
+    const endDate = endOfMonth(new Date(rangeDate));
 
     const unsubscribe = firebase
       .firestore()
@@ -88,8 +87,9 @@ export default function HomeScreen({ navigation }) {
         });
 
         setTransactions(returnArr);
-        setLoading(false);
       });
+
+    setLoading(false);
 
     return () => unsubscribe();
   }, [uid, date, rangeDate]);
@@ -196,7 +196,6 @@ export default function HomeScreen({ navigation }) {
                       <DataSubText>{formatValue(balance.total)}</DataSubText>
                     </View>
                   </DataView>
-
                   <DataView>
                     <UpArrowIcon
                       height={20}

@@ -32,7 +32,7 @@ export const HeaderContainer = styled.View`
 `;
 
 export const TransactionScrollView = styled.ScrollView`
-  height: 100%;
+  flex: 1;
   background-color: #f8f8ff;
   border-top-right-radius: 20px;
   border-top-left-radius: 20px;
@@ -83,4 +83,21 @@ export const RightContentButton = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
   padding: 5px;
+`;
+
+export const NoTransactions = styled.View`
+  justify-content: center;
+  margin: 0 30px 70px;
+`;
+
+export const ArrowIcon = styled.View`
+  flex-direction: row;
+  margin: 10px 0px;
+`;
+
+export const NoTransactionsText = styled.Text`
+  color: ${Colors.mediumGrey};
+  padding: 5px 10px;
+  font-size: 23px;
+  font-weight: 600;
 `;

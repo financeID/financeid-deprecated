@@ -14,6 +14,7 @@ import FormField from '../../components/Forms/FormField';
 import FormButtonTransactions from '../../components/Forms/FormButtonTransactions';
 import TagPicker from '../../components/TagPicker';
 import Calendar from '../../components/Calendar';
+import StatusSwitch from '../../components/StatusSwitch';
 import { formatedDatePtBR } from '../../utils/formatedDate';
 
 import { Container, ContainerKeyboard, ViewButton } from './styles';
@@ -53,7 +54,8 @@ export default function AddTransactions({ navigation, route }) {
 
   const handleTransactions = values => {
     setButtonLoading(true);
-    const { description, value, date, tag } = values;
+
+    const { description, value, date, tag, status } = values;
 
     const dateTranformed = formatedDatePtBR(date);
 
@@ -66,9 +68,11 @@ export default function AddTransactions({ navigation, route }) {
       .doc()
       .set({
         userReference: uid,
+        status: status,
         description: description.trim(),
         price: valueTransformed,
         date: dateTranformed,
+        createdAt: new Date(),
         tag: tag,
         type: typeTransformed.trim(),
       })
@@ -133,6 +137,7 @@ export default function AddTransactions({ navigation, route }) {
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="always"
         >
+          <StatusSwitch name="status" />
           <FormField
             placeholder="Descrição"
             name="description"

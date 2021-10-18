@@ -1,4 +1,4 @@
-import { min, max, eachMonthOfInterval, format, addDays } from 'date-fns';
+import { min, max, eachMonthOfInterval, format } from 'date-fns';
 import pt from 'date-fns/locale/pt-BR';
 
 const usedMonthsToArray = function (snapshot) {
@@ -12,7 +12,7 @@ const usedMonthsToArray = function (snapshot) {
   });
 
   const filterObj = returnArr.map(x => {
-    const date = new Date(x.date);
+    const date = x.date.toDate();
 
     return date;
   });
@@ -20,10 +20,7 @@ const usedMonthsToArray = function (snapshot) {
   const minDate = min(filterObj);
   const maxDate = max(filterObj);
 
-  const todayMinDate =
-    minDate > new Date()
-      ? new Date()
-      : format(addDays(minDate, 1), 'yyyy-MM-dd');
+  const todayMinDate = minDate > new Date() ? new Date() : minDate;
   const minDateNaN =
     isNaN(todayMinDate) !== isNaN() ? todayMinDate : new Date();
 

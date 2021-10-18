@@ -39,7 +39,7 @@ function FilterTransactions({
   const { uid } = auth.currentUser;
 
   useEffect(() => {
-    firebase
+    const unsubscribe = firebase
       .firestore()
       .collection('tags')
       .where('userReference', '==', uid)
@@ -51,6 +51,8 @@ function FilterTransactions({
 
         setTags(data);
       });
+
+    return () => unsubscribe();
   }, [uid]);
 
   const toggleModal = () => {

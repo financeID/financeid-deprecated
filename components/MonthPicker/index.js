@@ -15,13 +15,15 @@ function MonthPicker({ date, setDate }) {
   const [usedMonths, setUsedMonths] = useState([]);
 
   useEffect(() => {
-    firebase
+    const unsubscribe = firebase
       .firestore()
       .collection('transactions')
       .where('userReference', '==', uid)
       .onSnapshot(querySnapshot => {
         setUsedMonths(usedMonthsToArray(querySnapshot));
       });
+
+    return () => unsubscribe();
   }, [uid]);
   return (
     <Picker>

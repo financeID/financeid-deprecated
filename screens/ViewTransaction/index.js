@@ -14,6 +14,7 @@ import FormField from '../../components/Forms/FormField';
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
 import TagPicker from '../../components/TagPicker';
 import Calendar from '../../components/Calendar';
+import StatusSwitch from '../../components/StatusSwitch';
 import Colors from '../../utils/colors';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { formatedDatePtBR } from '../../utils/formatedDate';
@@ -59,6 +60,7 @@ export default function ViewTransaction({ navigation, route }) {
   const { Tag } = route.params;
 
   const [transaction, setTransaction] = useState({});
+  const [transformedDate, setTransformedDate] = useState();
 
   useEffect(() => {
     setLoading(true);
@@ -71,17 +73,24 @@ export default function ViewTransaction({ navigation, route }) {
       .then(querySnapshot => {
         querySnapshot.docs.map(doc => {
           const changeType = doc.data().type === 'income' ? 0 : 1;
+          const { date } = doc.data();
+          const transformToDate = date.toDate();
+          setTransformedDate(transformToDate);
+
           setTransaction(doc.data());
           setType(changeType);
           setLoading(false);
         });
+      })
+      .catch(error => {
+        console.error('Error adding document: ', error);
       });
   }, [uid, route]);
 
   const handleTransactions = values => {
     setButtonLoading(true);
 
-    const { description, value, date, tag } = values;
+    const { description, value, date, tag, status } = values;
 
     const dateTranformed = formatedDatePtBR(date);
 
@@ -94,6 +103,7 @@ export default function ViewTransaction({ navigation, route }) {
       .doc(route.params.key)
       .update({
         userReference: uid,
+        status: status,
         description: description.trim(),
         price: valueTransformed,
         date: dateTranformed,
@@ -194,11 +204,13 @@ export default function ViewTransaction({ navigation, route }) {
                 setType(event.nativeEvent.selectedSegmentIndex);
               }}
             />
+
             <ScrollView
               showsHorizontalScrollIndicator={false}
               showsVerticalScrollIndicator={false}
               keyboardShouldPersistTaps="always"
             >
+              <StatusSwitch name="status" status={transaction.status} />
               <FormField
                 placeholder="Descrição"
                 name="description"
@@ -225,7 +237,7 @@ export default function ViewTransaction({ navigation, route }) {
                 navigation={navigation}
                 goTo="ViewTransaction"
               />
-              <Calendar name="date" getDate={transaction.date} />
+              <Calendar name="date" getDate={transformedDate} />
             </ScrollView>
           </Container>
 

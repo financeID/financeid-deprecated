@@ -1,16 +1,9 @@
-import { format, addDays } from 'date-fns';
-import pt from 'date-fns/locale/pt-BR';
-
-export const dateISO8601 = date => {
-  return format(date, 'yyyy-MM-dd');
-};
+import { format, parseISO } from 'date-fns';
 
 export const formatedDate = date => {
-  const usedDate = date ? addDays(new Date(date), 1) : new Date();
+  const usedDate = date ? new Date(date) : new Date();
 
-  return format(usedDate, 'dd/MM/yyyy', {
-    locale: pt,
-  });
+  return format(usedDate, 'dd/MM/yyyy');
 };
 
 export const formatedDatePtBR = date => {
@@ -18,7 +11,9 @@ export const formatedDatePtBR = date => {
   const month = date.slice(3, 5) - 1;
   const year = date.slice(6, 11);
 
-  return format(new Date(year, month, day), 'yyyy-LL-dd', {
-    locale: pt,
-  });
+  const formatedDate = format(new Date(year, month, day), 'yyyy-MM-dd');
+
+  const parse = parseISO(formatedDate);
+
+  return parse;
 };
