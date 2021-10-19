@@ -150,7 +150,23 @@ export default function ViewTransaction({ navigation, route }) {
         .firestore()
         .collection('transactions')
         .doc(route.params.key)
-        .delete();
+        .delete()
+        .then(() => {
+          Platform.OS === 'ios'
+            ? showMessage({
+                animationDuration: 500,
+                message: 'Deletado com sucesso',
+                backgroundColor: Colors.income,
+                autoHide: true,
+                position: 'top',
+              })
+            : showToast({
+                message: 'Deletado com sucesso',
+              });
+        })
+        .catch(error => {
+          console.error('Error removing document: ', error);
+        });
     };
 
     const createTwoButtonAlert = () => {

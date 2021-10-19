@@ -153,7 +153,7 @@ export default function ConfigScreen({ navigation }) {
                           <InfoView>
                             <TransactionDate>
                               {formatedDate(date.toDate())}
-                              {' - '}
+                              {' | '}
                             </TransactionDate>
                             <TransactionTag>{tag}</TransactionTag>
                           </InfoView>

@@ -12,7 +12,10 @@ const usedMonthsToArray = function (snapshot) {
   });
 
   const filterObj = returnArr.map(x => {
-    const date = x.date.toDate();
+    let date = x.date.toDate();
+    if (x.fixedTansactions === true) {
+      date = new Date();
+    }
 
     return date;
   });

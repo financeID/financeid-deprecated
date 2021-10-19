@@ -14,6 +14,8 @@ import { Ionicons } from '@expo/vector-icons';
 import MyStatusBar from '../../hooks/statusBar';
 import formatValue from '../../utils/formatValue';
 import { StackedBarChart } from 'react-native-svg-charts';
+import formatedValue from '../../utils/formatValue';
+import { formatedDate } from '../../utils/formatedDate';
 import Colors from '../../utils/colors';
 import ProgressIncome from '../../components/ProgressIncome';
 import ProgressOutcome from '../../components/ProgressOutcome';
@@ -38,6 +40,15 @@ import {
   BoxTagPriceText,
   NoExpensesContainer,
   NoExpenses,
+  TransactionScrollView,
+  TransactionContainer,
+  TransactionInfo,
+  TransactionText,
+  TransactionDate,
+  TransactionTag,
+  InfoView,
+  TransactionPrice,
+  RightContentButton,
 } from './styles';
 
 import BagIcon from '../../assets/bag.svg';
@@ -94,6 +105,10 @@ export default function HomeScreen({ navigation }) {
     return () => unsubscribe();
   }, [uid, date, rangeDate]);
 
+  const filterStatus = transactions.filter(({ status }) => {
+    return status === false;
+  });
+
   const balance = transactions.reduce(
     (accumulator, transaction) => {
       switch (transaction.type) {
@@ -136,6 +151,7 @@ export default function HomeScreen({ navigation }) {
   return (
     <>
       <MyStatusBar backgroundColor="#f8f8ff" barStyle="dark-content" />
+
       {loading ? (
         <LoadingContainer>
           <ActivityIndicator size="large" color={Colors.secondary} />
@@ -227,7 +243,6 @@ export default function HomeScreen({ navigation }) {
               Para onde está indo {'\n'}seu dinheiro esse mês?
             </Header>
           </Container>
-
           {tagGroup.length ? (
             <BoxContainer>
               <ScrollView
@@ -276,6 +291,65 @@ export default function HomeScreen({ navigation }) {
                 style={{ marginLeft: 20 }}
               />
               <NoExpenses>Insira uma despesa</NoExpenses>
+            </NoExpensesContainer>
+          )}
+          <Container>
+            <Header subheader>Transações em aberto</Header>
+          </Container>
+
+          {filterStatus.length ? (
+            <TransactionScrollView>
+              {filterStatus.map(
+                ({ key, description, tag, date, type, price }) => {
+                  return (
+                    <TransactionContainer key={key}>
+                      <TransactionInfo>
+                        <TransactionText>{description}</TransactionText>
+                        <InfoView>
+                          <TransactionDate>
+                            {formatedDate(date.toDate())}
+                            {' | '}
+                          </TransactionDate>
+                          <TransactionTag>{tag}</TransactionTag>
+                        </InfoView>
+                      </TransactionInfo>
+
+                      <View
+                        style={{ flexDirection: 'row', alignItems: 'center' }}
+                      >
+                        <TransactionPrice type={type}>
+                          {type === 'outcome' && ' - '}
+                          {formatedValue(Number(price))}
+                        </TransactionPrice>
+                        <RightContentButton
+                          onPress={() =>
+                            navigation.navigate('ViewTransaction', {
+                              key: key,
+                              description: description,
+                            })
+                          }
+                        >
+                          <Ionicons
+                            name="chevron-forward"
+                            size={24}
+                            color="#dedede"
+                          />
+                        </RightContentButton>
+                      </View>
+                    </TransactionContainer>
+                  );
+                },
+              )}
+            </TransactionScrollView>
+          ) : (
+            <NoExpensesContainer>
+              <Ionicons
+                name="information-circle-outline"
+                size={24}
+                color="#a6a6a6"
+                style={{ marginLeft: 20 }}
+              />
+              <NoExpenses>Não há transações em aberto</NoExpenses>
             </NoExpensesContainer>
           )}
         </ScrollView>
